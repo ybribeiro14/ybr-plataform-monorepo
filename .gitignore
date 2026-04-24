@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Builds
+dist/
+.next/
+.turbo/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Misc
+*.log
+.DS_Store
+coverage/
+
+# Editor
+.vscode/
+.idea/

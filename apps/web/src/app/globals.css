@@ -1,0 +1,212 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN SYSTEM — Artisanal Sophistication
+   YBR Platform
+   ═══════════════════════════════════════════════════════════════ */
+
+@layer base {
+  :root {
+    /* ─── Cores Primárias (Terracotta) ─── */
+    --color-primary: #984207;
+    --color-primary-hover: #b85a21;
+    --color-primary-light: #fdeae2;
+    --color-on-primary: #ffffff;
+
+    /* ─── Cores Secundárias (Gold/Amber) ─── */
+    --color-secondary: #755b00;
+    --color-secondary-light: #fed977;
+    --color-secondary-container: #fdf3c5;
+    --color-on-secondary: #ffffff;
+
+    /* ─── Fundo e Superfície (Warm Cream) ─── */
+    --color-background: #fff8f6;
+    --color-surface: #fff8f6;
+    --color-surface-container: #fdeae2;
+    --color-surface-container-high: #f5ddd2;
+    --color-surface-variant: #f2e8e2;
+
+    /* ─── Texto (Deep Brown) ─── */
+    --color-on-surface: #231915;
+    --color-on-surface-variant: #52433e;
+    --color-outline: #897268;
+    --color-outline-variant: #d9c5bc;
+
+    /* ─── Terciárias (Ocean Blue) ─── */
+    --color-tertiary: #006480;
+    --color-tertiary-container: #b8eaff;
+    --color-on-tertiary: #ffffff;
+
+    /* ─── Estados ─── */
+    --color-error: #ba1a1a;
+    --color-error-container: #ffdad6;
+    --color-on-error: #ffffff;
+    --color-success: #2e7d32;
+    --color-success-container: #d4edda;
+    --color-warning: #f57c00;
+
+    /* ─── Tokens de referência (priscila-bravin-store) ─── */
+    --color-cherry-blossom-50: #fff0f3;
+    --color-cherry-blossom-100: #ffe0e7;
+    --color-cherry-blossom-200: #ffc2d0;
+    --color-cherry-blossom-300: #ff94af;
+    --color-cherry-blossom-400: #ff5c86;
+    --color-cherry-blossom-500: #f23068;
+    --color-cherry-blossom-600: #e01055;
+    --color-cherry-blossom-700: #bc0948;
+    --color-cherry-blossom-800: #9d0a3f;
+    --color-cherry-blossom-900: #860d3b;
+
+    --color-golden-bronze-50: #fffbeb;
+    --color-golden-bronze-100: #fef3c7;
+    --color-golden-bronze-200: #fde68a;
+    --color-golden-bronze-300: #fcd34d;
+    --color-golden-bronze-400: #fbbf24;
+    --color-golden-bronze-500: #f59e0b;
+    --color-golden-bronze-600: #d97706;
+    --color-golden-bronze-700: #b45309;
+    --color-golden-bronze-800: #92400e;
+    --color-golden-bronze-900: #78350f;
+
+    --color-toffee-brown-50: #fdf8f3;
+    --color-toffee-brown-100: #f9ede0;
+    --color-toffee-brown-200: #f2d9bc;
+    --color-toffee-brown-300: #e8bf8e;
+    --color-toffee-brown-400: #db9e5c;
+    --color-toffee-brown-500: #ce8337;
+    --color-toffee-brown-600: #b8692c;
+    --color-toffee-brown-700: #994e25;
+    --color-toffee-brown-800: #7d4125;
+    --color-toffee-brown-900: #673722;
+
+    --color-dark-walnut-50: #f7f4f2;
+    --color-dark-walnut-100: #ede7e2;
+    --color-dark-walnut-200: #ddd1c7;
+    --color-dark-walnut-300: #c5b0a1;
+    --color-dark-walnut-400: #aa8c79;
+    --color-dark-walnut-500: #97745e;
+    --color-dark-walnut-600: #896454;
+    --color-dark-walnut-700: #735247;
+    --color-dark-walnut-800: #5f443c;
+    --color-dark-walnut-900: #4f3a34;
+
+    --color-muted-teal-50: #f0fafb;
+    --color-muted-teal-100: #d9f2f5;
+    --color-muted-teal-200: #b8e5eb;
+    --color-muted-teal-300: #88d1dc;
+    --color-muted-teal-400: #52b5c5;
+    --color-muted-teal-500: #3799ab;
+    --color-muted-teal-600: #2f7d92;
+    --color-muted-teal-700: #2c6678;
+    --color-muted-teal-800: #2d5464;
+    --color-muted-teal-900: #294755;
+
+    /* ─── Sombras ─── */
+    --shadow-card: 0px 4px 20px rgba(196, 99, 42, 0.08);
+    --shadow-card-hover: 0px 8px 32px rgba(196, 99, 42, 0.14);
+    --shadow-button: 0px 2px 8px rgba(152, 66, 7, 0.25);
+    --shadow-modal: 0px 24px 64px rgba(35, 25, 21, 0.16);
+
+    /* ─── Border Radius ─── */
+    --radius-sm: 0.375rem; /* 6px */
+    --radius-md: 0.5rem; /* 8px */
+    --radius-lg: 1rem; /* 16px */
+    --radius-xl: 1.5rem; /* 24px */
+    --radius-full: 9999px;
+
+    /* ─── Espaçamento ─── */
+    --spacing-unit: 8px;
+    --container-max: 1280px;
+    --section-gap: 80px;
+  }
+
+  * {
+    border-color: var(--color-outline-variant);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-on-surface);
+    font-family: "Inter", "DM Serif Display", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ─── Tipografia ─── */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "DM Serif Display", Georgia, serif;
+    color: var(--color-on-surface);
+  }
+
+  /* ─── Scrollbar customizada ─── */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-surface-container);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-outline-variant);
+    border-radius: var(--radius-full);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-outline);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENTES GLOBAIS
+   ═══════════════════════════════════════════════════════════════ */
+
+@layer components {
+  /* ─── Botão primário padrão ─── */
+  .btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+    border-radius: var(--radius-full);
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    min-height: 48px;
+    transition:
+      background-color 0.2s,
+      box-shadow 0.2s;
+    box-shadow: var(--shadow-button);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-primary-hover);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  /* ─── Card padrão ─── */
+  .card-base {
+    background-color: #ffffff;
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* ─── Progress bar elegante ─── */
+  .progress-gold {
+    background-color: var(--color-secondary-container);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+
+  .progress-gold-fill {
+    background-color: var(--color-secondary-light);
+    height: 100%;
+    border-radius: var(--radius-full);
+    transition: width 0.4s ease;
+  }
+}

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#dcc1b5",
+                        "on-secondary-fixed-variant": "#584400",
+                        "secondary-fixed-dim": "#e6c364",
+                        "secondary-container": "#fed977",
+                        "inverse-on-surface": "#ffede6",
+                        "surface-container-highest": "#f1dfd7",
+                        "surface-variant": "#f1dfd7",
+                        "on-tertiary-container": "#fbfdff",
+                        "on-tertiary-fixed-variant": "#004d63",
+                        "secondary": "#755b00",
+                        "on-secondary": "#ffffff",
+                        "primary": "#984207",
+                        "on-error": "#ffffff",
+                        "tertiary": "#006480",
+                        "primary-fixed-dim": "#ffb691",
+                        "on-primary-container": "#fffbff",
+                        "tertiary-fixed": "#bce9ff",
+                        "on-primary-fixed-variant": "#793100",
+                        "on-primary-fixed": "#341100",
+                        "outline": "#897268",
+                        "on-tertiary-fixed": "#001f2a",
+                        "on-surface": "#231915",
+                        "surface-container": "#fdeae2",
+                        "on-surface-variant": "#56433a",
+                        "tertiary-container": "#007ea1",
+                        "surface-tint": "#9b450a",
+                        "tertiary-fixed-dim": "#70d2fa",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "background": "#fff8f6",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#ffe08f",
+                        "surface-container-high": "#f7e4dc",
+                        "surface": "#fff8f6",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#fff1eb",
+                        "surface-dim": "#e9d6cf",
+                        "surface-bright": "#fff8f6",
+                        "on-secondary-container": "#785d00",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#ffdbcb",
+                        "on-background": "#231915",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#392e29",
+                        "on-secondary-fixed": "#241a00",
+                        "inverse-primary": "#ffb691",
+                        "primary-container": "#b85a21"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "section-gap": "80px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "unit": "8px",
+                        "stack-lg": "32px",
+                        "stack-sm": "8px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["DM Serif Display"],
+                        "display-md": ["DM Serif Display"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "button": ["Inter"],
+                        "display-lg": ["DM Serif Display"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["28px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "display-md": ["36px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "button": ["16px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .soft-shadow {
+            box-shadow: 0px 4px 20px rgba(152, 66, 7, 0.08);
+        }
+        .glass-card {
+            background: rgba(255, 248, 246, 0.7);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- TopNavBar (Shell visibility rule: Hidden on Landing/Sales focus) -->
+<!-- Hero Section -->
+<section class="relative min-h-[921px] flex items-center pt-24 pb-16 px-gutter lg:px-section-gap overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-10 pointer-events-none">
+<div class="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-primary-fixed-dim blur-3xl"></div>
+<div class="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] rounded-full bg-secondary-fixed blur-3xl"></div>
+</div>
+<div class="max-w-container-max mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-stack-lg items-center z-10">
+<div class="flex flex-col gap-stack-md">
+<span class="font-label-md text-label-md text-primary tracking-widest uppercase">Especialização em Alta Confeitaria</span>
+<h1 class="font-display-lg text-display-lg text-on-background leading-tight">
+                    Aprenda a Fazer Doces Americanos e Comece a Vender Esta Semana
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                    Transforme sua paixão em um negócio lucrativo com as técnicas exclusivas da Chef Ana Lima. Receitas testadas para o mercado brasileiro.
+                </p>
+<div class="mt-stack-md flex flex-col sm:flex-row gap-stack-md items-center">
+<a class="w-full sm:w-auto px-8 py-6 bg-primary text-on-primary rounded-full font-button text-button hover:bg-surface-tint transition-all text-center soft-shadow active:scale-95 duration-150" href="#pricing">
+                        QUERO COMEÇAR AGORA
+                    </a>
+<div class="flex items-center gap-2">
+<div class="flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-background" data-alt="close-up portrait of a smiling woman with warm lighting and soft background bokeh" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2z_c1RUYWlPNUeUSoGL52EDsHpln9CY-FXVBBuaOjtJ-mv6JUjMA32ghlhgsxLIfMxUdyeCWb1r0Lq0Hlb4lgsfE5Dux6qq9gu2rzKhnYHevA4xH65KH3Tz2K1YHqa-niWXn52PIo7iikPEKp9lD9Mb4iHovN4PCIlzqEdKfGTJpNx0TWYxLQBhGzTwvvAGfizjNkucXXDga7bhA5z5mLVZNoOpzIsBAPsa80EW8RJJNZw2K46O7l5tEYQPum0sB6cw_RtNdRE1K6"/>
+<img class="w-8 h-8 rounded-full border-2 border-background" data-alt="portrait of a young man with a professional look against a neutral soft studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK8YsQWUlK9n-Y4kBwdUBZeoWmNlVi9SI0BKySwLNOFB0qQZL81o5NwkYNor42WHdxsSIlIx4NokkHBfc34GKci_pWUEaFxIesYC9TAh0wkT8XwwODHGu3FWEN7eVGD5if7AuEAWwHr0fvClPMmlDehg0D7Z_MMPImdZYv2PXMOwnGaHTT6eFOFxoZ8kIiHKBEviWR7ldgJmILEkLxEvoXhjlkf1Kf14kmXDGkqX66Kxc-quhGeOj7GpXdlJsi5QflO5noaGNAAJYs"/>
+<img class="w-8 h-8 rounded-full border-2 border-background" data-alt="confident professional woman looking at camera in a bright office setting with sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtSSLlgVlPQVPlQOLRXwm2dJt7v3JuNTCJMJuLejlDoQ8TSF0splrORshZ829jfmPEoBVYfX35F60NaGh75wCtvq86pTp2I4DWenytMAlRvUL5WpGWWpDP_tAMnuwL_iWHv2mJWvhua97k5XmGgECyHmYkMiNWDi92etTP92M2l-ORESuYH_9sQsz6CFCKqp3XT5xfNlMRRWmnqComWtTGegABG8XbWSazRqES5PxqeUEyozMHDjX_HQqulFic_-LPd6yHyHRPSqrx"/>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">+847 alunas faturando hoje</span>
+</div>
+</div>
+</div>
+<div class="relative group">
+<div class="relative rounded-2xl overflow-hidden soft-shadow border border-outline-variant">
+<img class="w-full h-auto object-cover" data-alt="elegant arrangement of gourmet cupcakes with pink frosting and gold leaf on a marble countertop in a high-end bakery" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7lqHABCZK7zwdIYbce5yIsF7bYc1e_i6U3F98Nh-KA5AEUQHvkVNzS_RotBVPEiMK0-yiGsMA2QE3Nq--geBnwCbTYLEygl--926Df2xg1Qe9tCGpgw2iMGAjRymQkYFlvXPTfpwflJY1NQlTOr8Ml1g-tlZ6bzQ1JPNaLzYB8WXIlizOP6Pmv6BjYwc2kNnJJzwiQbZP23Qdx-Ym7J8UUK_23KsO__7k3IYXERTHGhIjjEh5Ff6CijR0IRYC7wZWfExUSn6MK7E8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+</div>
+<div class="absolute -bottom-6 -left-6 glass-card p-6 rounded-xl border border-outline-variant soft-shadow hidden md:block">
+<p class="font-title-lg text-title-lg text-primary">R$ 197,00</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Ou 6x de R$ 37,00</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Proof Bar -->
+<section class="bg-surface-container py-stack-lg border-y border-outline-variant">
+<div class="max-w-container-max mx-auto px-gutter flex flex-wrap justify-around items-center gap-stack-lg opacity-80 grayscale hover:grayscale-0 transition-all">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">verified</span>
+<span class="font-label-md text-label-md uppercase tracking-tighter">Certificado Reconhecido</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">group</span>
+<span class="font-label-md text-label-md uppercase tracking-tighter">847 Alunas Ativas</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">workspace_premium</span>
+<span class="font-label-md text-label-md uppercase tracking-tighter">Alta Confeitaria Técnica</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">shopping_bag</span>
+<span class="font-label-md text-label-md uppercase tracking-tighter">Foco em Vendas</span>
+</div>
+</div>
+</section>
+<!-- For Whom Section -->
+<section class="py-section-gap px-gutter bg-surface-container-low">
+<div class="max-w-container-max mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-display-md text-display-md text-on-background mb-4">Este curso é para você que...</h2>
+<div class="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
+<div class="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant soft-shadow hover:translate-y-[-4px] transition-transform">
+<span class="material-symbols-outlined text-primary text-4xl mb-4" data-weight="fill">volunteer_activism</span>
+<h3 class="font-title-lg text-title-lg mb-2">Amante da Cozinha</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Quer aprender técnicas profissionais para impressionar amigos e família com doces autênticos.</p>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant soft-shadow hover:translate-y-[-4px] transition-transform">
+<span class="material-symbols-outlined text-primary text-4xl mb-4" data-weight="fill">storefront</span>
+<h3 class="font-title-lg text-title-lg mb-2">Futura Empreendedora</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Deseja criar uma renda extra vendendo cookies, brownies e cheesecakes direto da sua casa.</p>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant soft-shadow hover:translate-y-[-4px] transition-transform">
+<span class="material-symbols-outlined text-primary text-4xl mb-4" data-weight="fill">restaurant_menu</span>
+<h3 class="font-title-lg text-title-lg mb-2">Profissional</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Já trabalha com doces e quer elevar o nível do seu cardápio com receitas de alta confeitaria.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- What You'll Learn (Bento Grid) -->
+<section class="py-section-gap px-gutter">
+<div class="max-w-container-max mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-display-md text-display-md text-on-background mb-4">O que você vai dominar</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Técnicas manuais e precisão técnica para resultados perfeitos.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 grid-rows-2 gap-stack-md h-auto md:h-[600px]">
+<div class="md:col-span-8 md:row-span-1 relative rounded-2xl overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="close-up of freshly baked gooey chocolate brownies with crackly tops on a wooden board with cocoa powder dusting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzxBlYeZThon7QLbqbTpm5S1VTyJj0uLPEiAKmo4TCX9ae-bJ96UtDHqVVytUvqpAs6-ZZVAVt_jGyA2DqQoFvnRZhGvy8N_bgdcLPJforvv80JsurZzhqOf0lU0AxndsIqTb8DEfPtNNSpOwvXfiHMYFZbxdJRTDrMa3xvlU2rgS2LFJdBy1OV896_Pc9_I5t1I8JVgUU3MxgCSNwSVUr7ltl92nCIi6OBJ9baLfKHGxSkv7SWXBzu_aupHoHh1WYD336T-_q-9HY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent flex flex-col justify-end p-8">
+<h4 class="font-title-lg text-title-lg text-surface">Brownies Gourmet</h4>
+<p class="font-body-md text-body-md text-surface/80">O segredo da casquinha perfeita e o centro úmido irresistível.</p>
+</div>
+</div>
+<div class="md:col-span-4 md:row-span-2 relative rounded-2xl overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="New York style cheesecake with a thick graham cracker crust and vibrant red berry coulis dripping down the side" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVlgT_3DAwBWa97hVzZHQ-bNmnTMkJA7sb7NtJjGpC8ngmNrWqMm7i7V2wHKf8KJp-H2MxT4PIv5ZgfFYXQOr4zcC1QXoKMIPjd96joHQXGfoAsomO7kVYe45oEEZxNKHz5Sre4eKl2KgHdUSHJ-cOGwinvkgs18YsZS7by6EgIc4532KtOmlPEtH7thV4ab7Au0QneYp6UKMXwzuTAbLsQKXDORGpylNLPkH13qQm4yOohvZ81B0-CjFapWNCggUX0EqMMkZ7f3I1"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent flex flex-col justify-end p-8">
+<h4 class="font-title-lg text-title-lg text-surface">Cheesecakes</h4>
+<p class="font-body-md text-body-md text-surface/80">As variações do NY Style até as coberturas artesanais.</p>
+</div>
+</div>
+<div class="md:col-span-4 md:row-span-1 relative rounded-2xl overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="batch of giant chocolate chip cookies with sea salt sprinkles and melted chocolate chunks on a baking sheet" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2zmME0eOh43tHhfdinoWEGsOrsrKLB2hmy5orGrINNHeBm6fF3Lh3tW26OkpHFIPuwP_efYCMuure-EMIUe0hJu2mOr6jc0fD0T9inFp1jw7p3Jutu3VmykuZA0-2uMTf8PMKMynANZFSWfiU4XmMWHnj7_EHbCzyK9YotIftF1IteLETw-8OcyXzD2v0iDTRwsj4B9tqjufgw4_SumPjn3svBNjRSS8ZQ2OzD8Si95sM9uxGi9X5vbLhUOV1FF9ynoGCpwbCPM-M"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent flex flex-col justify-end p-8">
+<h4 class="font-title-lg text-title-lg text-surface">Cookies Americanos</h4>
+<p class="font-body-md text-body-md text-surface/80">Massa amanteigada com gotas de chocolate belga.</p>
+</div>
+</div>
+<div class="md:col-span-4 md:row-span-1 relative rounded-2xl overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="professional baker decorating a tall cake with smooth buttercream and elegant floral elements in a bright kitchen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzeOpr6H3hWzNsIa3TVjP7XZKmcyRLTB_jaJ2xhfdILo7l4XN5NDuMfiMK6m8p-Rb3jP7h8-Fvj06Yc3mHGrGQOLhQGdc3HFb64aLIuKU5x-mh_AlOubqSlbZRPWqnc4FLnMEqgOLb8W1cpkU15i7ycmOc79Pn_Wiz6_rH9rujNX_CmMbv7o-W2tFjWo-dR80tXdmKsxEPmXhW6p-HO_3tsooyl_EiTUpKWsmZrwBISAG1BIKJ1In1Q5XSa_VoEnurlwgjrnFrhAfI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent flex flex-col justify-end p-8">
+<h4 class="font-title-lg text-title-lg text-surface">Gestão e Vendas</h4>
+<p class="font-body-md text-body-md text-surface/80">Precificação, embalagem e como vender no Instagram.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Course Content Accordion -->
+<section class="py-section-gap px-gutter bg-surface-container-high">
+<div class="max-w-3xl mx-auto">
+<h2 class="font-display-md text-display-md text-center mb-12">Conteúdo do Curso</h2>
+<div class="space-y-4">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden soft-shadow">
+<button class="w-full flex justify-between items-center p-6 text-left hover:bg-orange-50 transition-colors">
+<span class="font-title-lg text-title-lg text-on-surface">Módulo 1: Introdução e Insumos</span>
+<span class="material-symbols-outlined text-primary">expand_more</span>
+</button>
+<div class="px-6 pb-6 pt-2 border-t border-outline-variant/30">
+<ul class="space-y-3 font-body-md text-on-surface-variant">
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary text-sm">play_circle</span> A cozinha profissional em casa</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary text-sm">play_circle</span> Guia de ingredientes premium</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary text-sm">play_circle</span> Utensílios essenciais</li>
+</ul>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden soft-shadow">
+<button class="w-full flex justify-between items-center p-6 text-left hover:bg-orange-50 transition-colors">
+<span class="font-title-lg text-title-lg text-on-surface">Módulo 2: Técnicas de Base</span>
+<span class="material-symbols-outlined text-primary">expand_more</span>
+</button>
+</div>
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden soft-shadow">
+<button class="w-full flex justify-between items-center p-6 text-left hover:bg-orange-50 transition-colors">
+<span class="font-title-lg text-title-lg text-on-surface">Módulo 3: Receitas de Assinatura</span>
+<span class="material-symbols-outlined text-primary">expand_more</span>
+</button>
+</div>
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden soft-shadow">
+<button class="w-full flex justify-between items-center p-6 text-left hover:bg-orange-50 transition-colors">
+<span class="font-title-lg text-title-lg text-on-surface">Módulo 4: Empreendedorismo</span>
+<span class="material-symbols-outlined text-primary">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Instructor Bio -->
+<section class="py-section-gap px-gutter">
+<div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-stack-lg items-center">
+<div class="relative order-2 md:order-1">
+<div class="aspect-[4/5] rounded-3xl overflow-hidden border-8 border-surface-container-high soft-shadow">
+<img class="w-full h-full object-cover" data-alt="Chef Ana Lima in a clean white chef coat in her pastry studio, holding a delicate dessert, warm natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBp6pFzPt3lP5C9I2P7tsDnSgSDXIy7kbM2tXXoPeGaCrll4WsWWLhUPAVkwgkj6FlYCo1gOdn_t3th1co6_XYRaoA2TGg6CJafPUFnJihabxj3kC7dmgpaXuru4AU8bMi-MpPjFGiN16ELlw55vMQ3g9cbsTs5ebJjbnANtPSqHMKqxJJ-e7NwwdxUP_D3rB4UcCHW1jby5QVeIaaAOLmC1FAXHHBjU_1hQ7X0zrr_1yGQBMt0Zwu9MET_2PRlf-wO7ePk14aRLGJ8"/>
+</div>
+<div class="absolute -bottom-8 -right-8 bg-primary p-8 rounded-2xl text-on-primary soft-shadow">
+<p class="font-display-md text-display-md">15+</p>
+<p class="font-label-md text-label-md uppercase">Anos de Experiência</p>
+</div>
+</div>
+<div class="order-1 md:order-2">
+<span class="font-label-md text-label-md text-primary tracking-widest uppercase">Sua Mentora</span>
+<h2 class="font-display-md text-display-md text-on-background mt-2 mb-6">Chef Ana Lima</h2>
+<div class="space-y-4 font-body-lg text-on-surface-variant">
+<p>Formada nas melhores escolas de Paris e com passagens por grandes confeitarias em Nova York, Ana Lima fundou o Ateliê YBR com uma missão: democratizar a alta confeitaria.</p>
+<p>Ela acredita que a precisão técnica não precisa ser complicada, e que qualquer pessoa pode criar doces de nível profissional em sua própria cozinha.</p>
+<p>Hoje, Ana já treinou mais de 800 alunas que transformaram suas casas em verdadeiros ateliês de luxo.</p>
+</div>
+<div class="mt-8">
+<img class="h-12 w-auto grayscale" data-alt="subtle hand-drawn signature of Chef Ana Lima in a fluid dark brown ink style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvO1nATqhH9CVnjWiwpKG6WC_d2HDwaU8ShxMcfeZGebAWBnb5XWW3cSFTmIibDqqLuz5NjNyvSl3yTSV5BFcb6AyU0MpS46aT4Lwjrf4VIprwjuE0HJxK-6YV35ssDxwqyiWCcjgoTril9SdaS5-ei-S2ExenSh1vSLhlLMjTzCUxAYnPiRJt7NVbt1t__2KI3zS1xqQOEtRuFACEwDV4s3YcyNBK6g3_1pUghvR4NKihEAF_aCtaA1dVfZEuUUy976AqKA25YX4Y"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing Section -->
+<section class="py-section-gap px-gutter bg-surface" id="pricing">
+<div class="max-w-4xl mx-auto bg-surface-container-lowest rounded-[40px] border-2 border-primary/20 p-8 md:p-16 text-center soft-shadow relative overflow-hidden">
+<div class="absolute top-0 right-0 bg-primary text-on-primary px-8 py-2 rounded-bl-3xl font-label-md text-label-md">VAGAS LIMITADAS</div>
+<h2 class="font-display-md text-display-md mb-4">Invista no seu Futuro Doce</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-12">Tenha acesso vitalício ao método YBR Platform e suporte direto da Chef.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-lg items-center text-left border-t border-b border-outline-variant py-12 mb-12">
+<div class="space-y-4">
+<div class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" data-weight="fill">check_circle</span> <span class="font-body-md">Vídeo aulas em 4K</span></div>
+<div class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" data-weight="fill">check_circle</span> <span class="font-body-md">Apostila Completa em PDF</span></div>
+<div class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" data-weight="fill">check_circle</span> <span class="font-body-md">Bônus: Fotos para Cardápio</span></div>
+<div class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" data-weight="fill">check_circle</span> <span class="font-body-md">Suporte Individual (1 ano)</span></div>
+</div>
+<div class="flex flex-col items-center md:items-end">
+<p class="font-label-md text-label-md text-on-surface-variant line-through">De R$ 497,00</p>
+<p class="font-label-md text-label-md text-primary mt-2">POR APENAS</p>
+<div class="flex items-baseline gap-2">
+<span class="font-label-md text-label-md">6x</span>
+<span class="font-display-lg text-display-lg text-primary">R$ 37,00</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">ou R$ 197,00 à vista</p>
+</div>
+</div>
+<a class="inline-block w-full px-8 py-6 bg-primary text-on-primary rounded-full font-button text-button hover:bg-surface-tint transition-all soft-shadow active:scale-95 duration-150" href="#">
+                QUERO ME MATRICULAR AGORA
+            </a>
+<p class="mt-6 font-label-md text-label-md text-on-surface-variant flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-green-600">lock</span> Pagamento 100% Seguro e Garantia de 7 Dias
+            </p>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="py-section-gap px-gutter bg-surface-container-low overflow-hidden">
+<div class="max-w-container-max mx-auto">
+<h2 class="font-display-md text-display-md text-center mb-16">O que dizem nossas confeiteiras</h2>
+<div class="flex flex-wrap md:flex-nowrap gap-stack-lg overflow-x-auto pb-8 snap-x">
+<div class="min-w-[300px] md:min-w-[400px] bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant snap-center soft-shadow">
+<div class="flex text-secondary mb-4">
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+</div>
+<p class="font-body-md text-on-surface-variant italic mb-6">"Nunca imaginei que poderia fazer cookies tão perfeitos. Já recuperei o investimento do curso na primeira semana de vendas!"</p>
+<div class="flex items-center gap-4">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="smiling face of a young woman with curly hair, natural light, joyful expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqbcO6u9kFL68q52AEOaV1ZDlNCp6KWZkVkAs3MfUxCGWvxvKYEBr-pLhdamH0BpT3gyuz2UpnvjHi3VLyV9XQuXw7rRX64sFgGU637RH2p5TxiO-rjCI6CRzoX6JLu_yWLuOzCnimGBmuyXcFl5OlYT8ijxop26uZackTBWjGCEVJg1NZvW4Avw-6I_M_a_jrlvMdPkbA-sh0qeDUYRwM680OLebRCQFE9bnlWGt91PjMQyS5mI-kOjrnVT6sxNTRIhz4MPS76CvS"/>
+<div>
+<p class="font-label-md text-label-md">Mariana Silva</p>
+<p class="text-xs text-on-surface-variant">São Paulo, SP</p>
+</div>
+</div>
+</div>
+<div class="min-w-[300px] md:min-w-[400px] bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant snap-center soft-shadow">
+<div class="flex text-secondary mb-4">
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+</div>
+<p class="font-body-md text-on-surface-variant italic mb-6">"A didática da Chef Ana é maravilhosa. O módulo de precificação mudou a forma como vejo meu negócio. Recomendo muito!"</p>
+<div class="flex items-center gap-4">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="close-up portrait of a woman with a kind smile, neutral professional background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvgY3Ht23-zUjnGZAD4iYuN3zfRVN6dzJLJLkHE-wZ-W1JkYWqGQwrP7l_m61MzjfcMUjXY4vIygoHS0qZcl2bxJMJci-2IF-JB8eXQ2oGzhji7ekx4IYFdc7P6xYNPL95wNqHLzRELAzLuPfb_9Ws3G-hB2t7YCZVdyjtRZrZHHEG1l60wgp79-xTPqqecEbL5arZEohcpT5W7LQbosNNIsKYxkLEKpVkZorffBL_7Mibtm3jXdq1CkhP3t8OdLzI_tPYhUBTJ1Id"/>
+<div>
+<p class="font-label-md text-label-md">Carla Mendes</p>
+<p class="text-xs text-on-surface-variant">Curitiba, PR</p>
+</div>
+</div>
+</div>
+<div class="min-w-[300px] md:min-w-[400px] bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant snap-center soft-shadow">
+<div class="flex text-secondary mb-4">
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+</div>
+<p class="font-body-md text-on-surface-variant italic mb-6">"Os cheesecakes são o maior sucesso aqui no meu café. O curso é completo e muito direto ao ponto. Vale cada centavo."</p>
+<div class="flex items-center gap-4">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="smiling mature woman in a bright kitchen setting, looking directly at camera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsvrHTVNbsHsNzaEqbRFga-kDwIioUPIDFvjYU0Dvn9ofVy63O0enSaJCHcTq15KzrLfUbHQ5Ad0DZMrABP2pGYfu30vGXFfZpY7gbjDObag23iCFZwbFexoYwQYIXOWFbNwi2BpfwZDZOYaJVkPxUIDMol26F_-THr3scBd7ht7P6FyMxxKveXU3Sc8NReUjaD9svp_mag0jBKbpGa_P4CHkLQbdFn-9cVlj_-8ENmO3nL1nYeWuNCcryBZ2iZizq7-mprg3Uewa_"/>
+<div>
+<p class="font-label-md text-label-md">Beatriz Oliveira</p>
+<p class="text-xs text-on-surface-variant">Salvador, BA</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FAQ -->
+<section class="py-section-gap px-gutter">
+<div class="max-w-3xl mx-auto">
+<h2 class="font-display-md text-display-md text-center mb-12">Perguntas Frequentes</h2>
+<div class="divide-y divide-outline-variant">
+<div class="py-6">
+<button class="w-full flex justify-between items-center text-left group">
+<span class="font-title-lg text-on-surface">Preciso ter experiência na cozinha?</span>
+<span class="material-symbols-outlined text-primary">add</span>
+</button>
+<div class="mt-4 hidden group-active:block font-body-md text-on-surface-variant">
+                        Não! O curso foi desenhado do zero ao avançado. Ensinamos desde a escolha dos ingredientes até as técnicas mais refinadas.
+                    </div>
+</div>
+<div class="py-6">
+<button class="w-full flex justify-between items-center text-left group">
+<span class="font-title-lg text-on-surface">Por quanto tempo terei acesso ao curso?</span>
+<span class="material-symbols-outlined text-primary">add</span>
+</button>
+</div>
+<div class="py-6">
+<button class="w-full flex justify-between items-center text-left group">
+<span class="font-title-lg text-on-surface">Como funciona o suporte para dúvidas?</span>
+<span class="material-symbols-outlined text-primary">add</span>
+</button>
+</div>
+<div class="py-6">
+<button class="w-full flex justify-between items-center text-left group">
+<span class="font-title-lg text-on-surface">Recebo certificado ao final?</span>
+<span class="material-symbols-outlined text-primary">add</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-stone-100 dark:bg-stone-900 w-full mt-auto py-8 border-t border-stone-200 dark:border-stone-800">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 max-w-container-max mx-auto">
+<div class="flex flex-col items-center md:items-start mb-6 md:mb-0">
+<p class="text-xs uppercase tracking-widest font-sans text-orange-800 dark:text-orange-400">© 2024 YBR Platform. Excelência em Confeitaria.</p>
+</div>
+<div class="flex gap-8">
+<a class="text-xs uppercase tracking-widest font-sans text-stone-500 hover:text-orange-600 underline underline-offset-4 opacity-100 hover:opacity-80 transition-opacity" href="#">Termos</a>
+<a class="text-xs uppercase tracking-widest font-sans text-stone-500 hover:text-orange-600 underline underline-offset-4 opacity-100 hover:opacity-80 transition-opacity" href="#">Privacidade</a>
+<a class="text-xs uppercase tracking-widest font-sans text-stone-500 hover:text-orange-600 underline underline-offset-4 opacity-100 hover:opacity-80 transition-opacity" href="#">Ajuda</a>
+</div>
+</div>
+</footer>
+</body></html>

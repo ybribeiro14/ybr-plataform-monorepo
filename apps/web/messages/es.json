@@ -1,0 +1,201 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Algo salió mal. Por favor, inténtalo de nuevo.",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "close": "Cerrar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "noResults": "No se encontraron resultados.",
+    "required": "Este campo es obligatorio."
+  },
+  "nav": {
+    "dashboard": "Panel",
+    "myCourses": "Mis Cursos",
+    "profile": "Perfil",
+    "logout": "Cerrar sesión",
+    "login": "Iniciar sesión",
+    "register": "Crear cuenta"
+  },
+  "auth": {
+    "login": {
+      "title": "Bienvenido de nuevo",
+      "subtitle": "Inicia sesión en tu cuenta para continuar",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "tu@correo.com",
+      "passwordLabel": "Contraseña",
+      "passwordPlaceholder": "Tu contraseña",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "submitButton": "Iniciar sesión",
+      "noAccount": "¿No tienes cuenta?",
+      "registerLink": "Crear cuenta",
+      "error": {
+        "invalidCredentials": "Correo o contraseña incorrectos.",
+        "tooManyAttempts": "Demasiados intentos. Por favor, inténtalo en unos minutos."
+      }
+    },
+    "register": {
+      "title": "Crea tu cuenta",
+      "subtitle": "Comienza tu viaje de aprendizaje hoy",
+      "nameLabel": "Nombre completo",
+      "namePlaceholder": "Tu nombre completo",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "tu@correo.com",
+      "passwordLabel": "Contraseña",
+      "passwordPlaceholder": "Mínimo 8 caracteres",
+      "confirmPasswordLabel": "Confirmar contraseña",
+      "confirmPasswordPlaceholder": "Repite tu contraseña",
+      "submitButton": "Crear cuenta",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "loginLink": "Iniciar sesión",
+      "error": {
+        "emailTaken": "Este correo ya está en uso.",
+        "passwordMismatch": "Las contraseñas no coinciden.",
+        "weakPassword": "La contraseña debe tener al menos 8 caracteres."
+      }
+    },
+    "forgotPassword": {
+      "title": "¿Olvidaste tu contraseña?",
+      "subtitle": "Ingresa tu correo y te enviaremos un enlace de recuperación",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "tu@correo.com",
+      "submitButton": "Enviar correo de recuperación",
+      "success": "Revisa tu correo para el enlace de recuperación.",
+      "backToLogin": "Volver al inicio de sesión"
+    },
+    "resetPassword": {
+      "title": "Restablecer contraseña",
+      "subtitle": "Ingresa tu nueva contraseña",
+      "passwordLabel": "Nueva contraseña",
+      "passwordPlaceholder": "Mínimo 8 caracteres",
+      "confirmPasswordLabel": "Confirmar nueva contraseña",
+      "confirmPasswordPlaceholder": "Repite tu nueva contraseña",
+      "submitButton": "Restablecer contraseña",
+      "success": "Contraseña restablecida con éxito. Ya puedes iniciar sesión.",
+      "error": {
+        "invalidToken": "Enlace de recuperación inválido o expirado. Solicita uno nuevo.",
+        "passwordMismatch": "Las contraseñas no coinciden."
+      }
+    }
+  },
+  "dashboard": {
+    "title": "¡Bienvenido de nuevo, {name}!",
+    "subtitle": "Continúa donde lo dejaste",
+    "continueWatching": "Continuar viendo",
+    "noCourses": "Aún no estás inscrito en ningún curso.",
+    "browseCourses": "Ver cursos",
+    "progress": "{completed} de {total} lecciones completadas",
+    "nextLesson": "Próxima lección: {title}"
+  },
+  "myCourses": {
+    "title": "Mis Cursos",
+    "subtitle": "Todos los cursos a los que tienes acceso",
+    "noCourses": "Aún no has comprado ningún curso.",
+    "browseCourses": "Ver cursos disponibles",
+    "progress": "{percent}% completado",
+    "lastWatched": "Última lección: {date}",
+    "continue": "Continuar",
+    "start": "Comenzar"
+  },
+  "course": {
+    "overview": {
+      "modules": "Módulos",
+      "lessons": "Lecciones",
+      "duration": "Duración total",
+      "progress": "Tu progreso",
+      "startCourse": "Comenzar curso",
+      "continueCourse": "Continuar curso",
+      "completedCourse": "Curso completado"
+    },
+    "lesson": {
+      "tabs": {
+        "lesson": "Lección",
+        "materials": "Materiales",
+        "notes": "Mis Notas"
+      },
+      "materials": {
+        "title": "Materiales de la lección",
+        "noMaterials": "No hay materiales para esta lección.",
+        "download": "Descargar"
+      },
+      "notes": {
+        "placeholder": "Toma notas sobre esta lección...",
+        "save": "Guardar notas",
+        "saved": "Notas guardadas"
+      },
+      "nextLesson": "Próxima lección",
+      "previousLesson": "Lección anterior",
+      "markComplete": "Marcar como completada",
+      "completed": "Completada"
+    }
+  },
+  "checkout": {
+    "title": "Completa tu compra",
+    "orderSummary": "Resumen del pedido",
+    "course": "Curso",
+    "originalPrice": "Precio original",
+    "discount": "Descuento",
+    "total": "Total",
+    "coupon": {
+      "label": "¿Tienes un cupón?",
+      "placeholder": "Ingresa el código del cupón",
+      "apply": "Aplicar",
+      "applied": "Cupón aplicado: {discount} de descuento",
+      "invalid": "Cupón inválido o expirado."
+    },
+    "payment": {
+      "title": "Pago",
+      "cardLabel": "Datos de la tarjeta",
+      "submitButton": "Pagar {amount}",
+      "installments": "{count} cuotas de {amount} sin interés",
+      "secure": "Pago seguro con Stripe"
+    },
+    "confirmation": {
+      "title": "¡Compra confirmada!",
+      "subtitle": "Ahora tienes acceso completo al curso.",
+      "accessCourse": "Acceder al curso",
+      "emailSent": "Se envió un correo de confirmación a {email}"
+    }
+  },
+  "salesPage": {
+    "enroll": "Inscribirme ahora",
+    "price": "{amount}",
+    "originalPrice": "desde {amount}",
+    "moneyBackGuarantee": "Garantía de 7 días",
+    "studentsEnrolled": "{count} estudiantes inscritos",
+    "sections": {
+      "about": "Acerca de este curso",
+      "curriculum": "Contenido del curso",
+      "instructor": "Instructor",
+      "testimonials": "Lo que dicen los estudiantes",
+      "faq": "Preguntas frecuentes",
+      "pricing": "Precios"
+    }
+  },
+  "certificate": {
+    "title": "Certificado de Finalización",
+    "downloadPdf": "Descargar PDF",
+    "shareLinkedIn": "Compartir en LinkedIn",
+    "verify": "Verificar certificado",
+    "verifiedMessage": "Este es un certificado válido emitido por YBR Platform."
+  },
+  "locale": {
+    "en": "English",
+    "pt-BR": "Português",
+    "es": "Español",
+    "switchLanguage": "Idioma"
+  },
+  "errors": {
+    "notFound": "Página no encontrada",
+    "notFoundDescription": "La página que buscas no existe.",
+    "unauthorized": "No tienes autorización para acceder a esta página.",
+    "goHome": "Ir al inicio"
+  }
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#dcc1b5",
+                    "on-secondary-fixed-variant": "#584400",
+                    "secondary-fixed-dim": "#e6c364",
+                    "secondary-container": "#fed977",
+                    "inverse-on-surface": "#ffede6",
+                    "surface-container-highest": "#f1dfd7",
+                    "surface-variant": "#f1dfd7",
+                    "on-tertiary-container": "#fbfdff",
+                    "on-tertiary-fixed-variant": "#004d63",
+                    "secondary": "#755b00",
+                    "on-secondary": "#ffffff",
+                    "primary": "#984207",
+                    "on-error": "#ffffff",
+                    "tertiary": "#006480",
+                    "primary-fixed-dim": "#ffb691",
+                    "on-primary-container": "#fffbff",
+                    "tertiary-fixed": "#bce9ff",
+                    "on-primary-fixed-variant": "#793100",
+                    "on-primary-fixed": "#341100",
+                    "outline": "#897268",
+                    "on-tertiary-fixed": "#001f2a",
+                    "on-surface": "#231915",
+                    "surface-container": "#fdeae2",
+                    "on-surface-variant": "#56433a",
+                    "tertiary-container": "#007ea1",
+                    "surface-tint": "#9b450a",
+                    "tertiary-fixed-dim": "#70d2fa",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "background": "#fff8f6",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed": "#ffe08f",
+                    "surface-container-high": "#f7e4dc",
+                    "surface": "#fff8f6",
+                    "on-error-container": "#93000a",
+                    "surface-container-low": "#fff1eb",
+                    "surface-dim": "#e9d6cf",
+                    "surface-bright": "#fff8f6",
+                    "on-secondary-container": "#785d00",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#ffdbcb",
+                    "on-background": "#231915",
+                    "error": "#ba1a1a",
+                    "inverse-surface": "#392e29",
+                    "on-secondary-fixed": "#241a00",
+                    "inverse-primary": "#ffb691",
+                    "primary-container": "#b85a21"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "1rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "section-gap": "80px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "unit": "8px",
+                    "stack-lg": "32px",
+                    "stack-sm": "8px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "title-lg": ["DM Serif Display"],
+                    "display-md": ["DM Serif Display"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "button": ["Inter"],
+                    "display-lg": ["DM Serif Display"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "title-lg": ["28px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                    "display-md": ["36px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "button": ["16px", {"lineHeight": "1", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background selection:bg-secondary-container">
+<main class="min-h-screen flex flex-col items-center justify-center px-margin-mobile py-section-gap">
+<div class="max-w-2xl w-full text-center flex flex-col items-center">
+<div class="w-20 h-20 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center mb-stack-lg shadow-lg">
+<span class="material-symbols-outlined text-4xl" data-weight="fill">check_circle</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-primary mb-stack-sm">Compra confirmada!</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md mx-auto mb-section-gap">
+                Sua jornada rumo à alta confeitaria começa agora. Preparamos o melhor conteúdo técnico para sua evolução.
+            </p>
+<div class="w-full bg-surface-container-lowest border border-outline-variant rounded-xl p-8 mb-section-gap shadow-[0px_4px_20px_rgba(196,99,42,0.08)] flex flex-col md:flex-row gap-gutter text-left items-center md:items-start">
+<div class="w-full md:w-48 aspect-square rounded-lg overflow-hidden shrink-0">
+<img alt="Resumo do Curso" class="w-full h-full object-cover" data-alt="Close-up of a perfectly glazed chocolate mousse dome cake with gold leaf garnish on a marble surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlHLCBPpaclgBG8WqhUtZ-LdUIJAkvBBdsZoP0qtJ_eSy67xgxdST6xTffJY2D0nuDDIEbNFQmcUYLdChi7euHow48959RBiJ67bjo4Ijeu-715smESw_MibcOoufHzhjVgI9loloMz4Pty-mprpCFoD4T_D2woiaahO1zfkcnokA1MPSSwVrqU1VjYMrQvn0gIxuR61ak0nYb7rVkIX49Owg6ZDB71GV8C87L1z2WUTRX1DVm5fvjuDwmyKbzQVDkpGz137zERiqM"/>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-stack-sm">
+<span class="font-label-md text-label-md text-primary bg-primary-fixed px-3 py-1 rounded-full">INTERMEDIÁRIO</span>
+<span class="font-label-md text-label-md text-outline">PEDIDO #YBR-9284</span>
+</div>
+<h2 class="font-title-lg text-title-lg text-on-surface mb-stack-sm">Técnicas Avançadas: Entremets e Mousses Francesas</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-stack-md line-clamp-2">
+                        Domine a arte das camadas, texturas e glaçagens espelhadas com precisão técnica.
+                    </p>
+<div class="mt-auto pt-stack-md border-t border-outline-variant flex justify-between items-center w-full">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-weight="fill">workspace_premium</span>
+<span class="font-label-md text-label-md text-on-surface">Certificado Digital</span>
+</div>
+<span class="font-title-lg text-title-lg text-on-surface">R$ 297,00</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 w-full sm:w-auto">
+<a class="inline-flex items-center justify-center bg-primary text-on-primary font-button text-button h-[48px] px-10 rounded-full hover:bg-surface-tint transition-all active:scale-95 shadow-md" href="#">
+                    Acessar o curso agora
+                </a>
+<a class="inline-flex items-center justify-center text-primary font-button text-button h-[48px] px-10 rounded-full hover:bg-primary-fixed transition-colors" href="#">
+                    Ver recibo da compra
+                </a>
+</div>
+</div>
+</main>
+<footer class="w-full py-8 px-12 border-t border-stone-200 dark:border-stone-800 bg-stone-100 dark:bg-stone-900 mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center max-w-container-max mx-auto gap-stack-md">
+<span class="text-xs uppercase tracking-widest font-sans text-orange-800 dark:text-orange-400">
+                © 2024 YBR Platform. Excelência em Confeitaria.
+            </span>
+<div class="flex gap-gutter">
+<a class="text-xs uppercase tracking-widest font-sans text-stone-500 hover:text-orange-600 underline underline-offset-4 transition-all" href="#">Termos</a>
+<a class="text-xs uppercase tracking-widest font-sans text-stone-500 hover:text-orange-600 underline underline-offset-4 transition-all" href="#">Privacidade</a>
+<a class="text-xs uppercase tracking-widest font-sans text-stone-500 hover:text-orange-600 underline underline-offset-4 transition-all" href="#">Ajuda</a>
+</div>
+</div>
+</footer>
+</body></html>

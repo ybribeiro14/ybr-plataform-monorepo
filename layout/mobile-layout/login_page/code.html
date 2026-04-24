@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | YBR Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed": "#241a00",
+                    "on-primary": "#ffffff",
+                    "primary": "#984207",
+                    "secondary-fixed-dim": "#e6c364",
+                    "on-tertiary": "#ffffff",
+                    "surface-dim": "#e9d6cf",
+                    "primary-fixed-dim": "#ffb691",
+                    "secondary": "#755b00",
+                    "outline": "#897268",
+                    "surface-container-high": "#f7e4dc",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed-variant": "#004d63",
+                    "on-surface": "#231915",
+                    "surface-tint": "#9b450a",
+                    "primary-fixed": "#ffdbcb",
+                    "on-tertiary-container": "#fbfdff",
+                    "surface-bright": "#fff8f6",
+                    "surface-variant": "#f1dfd7",
+                    "error-container": "#ffdad6",
+                    "on-secondary": "#ffffff",
+                    "inverse-on-surface": "#ffede6",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#793100",
+                    "tertiary-container": "#007ea1",
+                    "surface-container-highest": "#f1dfd7",
+                    "surface": "#fff8f6",
+                    "surface-container": "#fdeae2",
+                    "on-tertiary-fixed": "#001f2a",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed": "#ffe08f",
+                    "on-surface-variant": "#56433a",
+                    "surface-container-low": "#fff1eb",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed-dim": "#70d2fa",
+                    "on-background": "#231915",
+                    "outline-variant": "#dcc1b5",
+                    "background": "#fff8f6",
+                    "on-primary-container": "#fffbff",
+                    "secondary-container": "#fed977",
+                    "on-primary-fixed": "#341100",
+                    "tertiary-fixed": "#bce9ff",
+                    "on-secondary-container": "#785d00",
+                    "inverse-primary": "#ffb691",
+                    "on-secondary-fixed-variant": "#584400",
+                    "inverse-surface": "#392e29",
+                    "primary-container": "#b85a21",
+                    "tertiary": "#006480"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "1rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "gutter": "24px",
+                    "stack-md": "16px",
+                    "stack-sm": "8px",
+                    "unit": "8px",
+                    "margin-mobile": "16px",
+                    "stack-lg": "32px",
+                    "section-gap": "80px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["DM Serif Display"],
+                    "title-lg": ["DM Serif Display"],
+                    "button": ["Inter"],
+                    "display-md": ["DM Serif Display"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                    "title-lg": ["28px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                    "button": ["16px", {"lineHeight": "1", "fontWeight": "600"}],
+                    "display-md": ["36px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #fff8f6; /* Warm Cream background */
+        }
+        .login-card {
+            box-shadow: 0px 4px 20px rgba(196, 99, 42, 0.08);
+            border: 1px solid #E8E0D9;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="h-full flex items-center justify-center p-margin-mobile md:p-0">
+<main class="w-full max-w-[440px] flex flex-col items-center">
+<!-- Logo Section -->
+<div class="mb-stack-lg flex flex-col items-center">
+<div class="w-16 h-16 rounded-full bg-primary-container flex items-center justify-center mb-stack-sm shadow-sm overflow-hidden">
+<img class="w-10 h-10 object-contain" data-alt="minimalist golden circular icon representing an artisan pastry whisk with elegant swirls on a terracotta background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAF51UpTmN8QDYaj-BB7M8GeaRw1kmuWxFrQPvlbGUWeKoBurYHYhAHR4xZccPaQSq1lenYiBgA4WX4To9N0oZXkKAQtzWkFE3bA7cR9mZxgw6aibwaJZf_i2rMM9MF2jg6h62vgWIzwpaT1SknfsOYC50KfvsZ9TSLzOiaEnlG8m5uDeH5S9EBSeM9VaKYa5BPRJOjA-MqEwEh5rWQ6Q1hpuiwmR66C01b1ZcPqwg_HZOYf9ljv00s3bJqQ84ik9sjiYdBOSLD3nc"/>
+</div>
+<span class="font-display-md text-display-md text-primary italic">YBR</span>
+</div>
+<!-- Login Card -->
+<div class="login-card w-full bg-white rounded-xl p-stack-lg md:p-10 flex flex-col">
+<div class="text-center mb-stack-lg">
+<h1 class="font-title-lg text-title-lg text-on-surface mb-2">Bem-vinda de volta</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Entre na sua conta para continuar aprendendo</p>
+</div>
+<form class="space-y-stack-md">
+<!-- Email Field -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant" for="email">E-mail</label>
+<input class="w-full h-12 px-4 rounded-lg border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary bg-surface-bright font-body-md text-on-surface transition-all" id="email" placeholder="seu@email.com" type="email"/>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<label class="font-label-md text-label-md text-on-surface-variant" for="password">Senha</label>
+<a class="font-label-md text-label-md text-primary hover:text-primary-container transition-colors" href="#">Esqueceu sua senha?</a>
+</div>
+<div class="relative">
+<input class="w-full h-12 px-4 rounded-lg border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary bg-surface-bright font-body-md text-on-surface transition-all" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary" type="button">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<!-- Primary Action -->
+<button class="w-full h-[48px] bg-primary text-on-primary font-button text-button rounded-full hover:bg-primary-container active:scale-[0.98] transition-all shadow-md mt-stack-sm" type="submit">
+                    Entrar
+                </button>
+</form>
+<!-- Divider -->
+<div class="relative my-stack-lg">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant"></div>
+</div>
+<div class="relative flex justify-center text-label-md">
+<span class="px-4 bg-white text-on-surface-variant font-label-md">ou continue com</span>
+</div>
+</div>
+<!-- Social Login -->
+<button class="w-full h-[48px] border border-outline-variant bg-white text-on-surface font-button text-button rounded-full flex items-center justify-center gap-3 hover:bg-surface-container-low transition-all active:scale-[0.98]" type="button">
+<img alt="Google" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGNHP7DPci1Ccy4Wanb86ToB6f5qpjqcESUzBiFcm2MOotClydOl033dhezz_BVE3iu_ytBepXFCoBQm1oG_7avkpavZLwaMIBJrvt-khRTta4eIBUVF-YADsFqi5pE5QbL0f--OssPVo7PmcRBYSgl2v0xNwrNBSBygOTZVGz3ILm4xP-IZwnYHBVY--JSC6FfNq5pPIwWZ-x6c7S9K5TDu0waQDyAneRnOb00mMt49rq0W-UzjzaG6r9kmD1vYF3pxS2FY70ZWuN"/>
+                Google
+            </button>
+</div>
+<!-- Secondary Actions -->
+<div class="mt-stack-lg text-center space-y-stack-md">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors block" href="#">
+                Não tem conta? <span class="text-primary font-semibold">Crie gratuitamente →</span>
+</a>
+<!-- Trust Indicator -->
+<div class="flex items-center justify-center gap-2 text-on-surface-variant/60">
+<span class="material-symbols-outlined text-[18px]" data-icon="lock" style="font-variation-settings: 'FILL' 1;">lock</span>
+<span class="font-label-md text-[12px] uppercase tracking-widest">Conexão segura SSL</span>
+</div>
+</div>
+</main>
+<!-- Visual Decorative Element (Optional refinement for a High-End feel) -->
+<div class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary-container opacity-50"></div>
+</body></html>

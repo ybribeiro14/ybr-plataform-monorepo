@@ -1,0 +1,201 @@
+{
+  "common": {
+    "loading": "Carregando...",
+    "error": "Algo deu errado. Por favor, tente novamente.",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "previous": "Anterior",
+    "close": "Fechar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "noResults": "Nenhum resultado encontrado.",
+    "required": "Este campo é obrigatório."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "myCourses": "Meus Cursos",
+    "profile": "Perfil",
+    "logout": "Sair",
+    "login": "Entrar",
+    "register": "Criar conta"
+  },
+  "auth": {
+    "login": {
+      "title": "Bem-vindo de volta",
+      "subtitle": "Entre na sua conta para continuar",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "seu@email.com",
+      "passwordLabel": "Senha",
+      "passwordPlaceholder": "Sua senha",
+      "forgotPassword": "Esqueceu a senha?",
+      "submitButton": "Entrar",
+      "noAccount": "Não tem uma conta?",
+      "registerLink": "Criar conta",
+      "error": {
+        "invalidCredentials": "E-mail ou senha inválidos.",
+        "tooManyAttempts": "Muitas tentativas. Por favor, tente novamente em alguns minutos."
+      }
+    },
+    "register": {
+      "title": "Crie sua conta",
+      "subtitle": "Comece sua jornada de aprendizado hoje",
+      "nameLabel": "Nome completo",
+      "namePlaceholder": "Seu nome completo",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "seu@email.com",
+      "passwordLabel": "Senha",
+      "passwordPlaceholder": "Mínimo 8 caracteres",
+      "confirmPasswordLabel": "Confirmar senha",
+      "confirmPasswordPlaceholder": "Repita sua senha",
+      "submitButton": "Criar conta",
+      "hasAccount": "Já tem uma conta?",
+      "loginLink": "Entrar",
+      "error": {
+        "emailTaken": "Este e-mail já está em uso.",
+        "passwordMismatch": "As senhas não coincidem.",
+        "weakPassword": "A senha deve ter pelo menos 8 caracteres."
+      }
+    },
+    "forgotPassword": {
+      "title": "Esqueceu sua senha?",
+      "subtitle": "Informe seu e-mail e enviaremos um link de recuperação",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "seu@email.com",
+      "submitButton": "Enviar e-mail de recuperação",
+      "success": "Verifique seu e-mail para o link de recuperação.",
+      "backToLogin": "Voltar para o login"
+    },
+    "resetPassword": {
+      "title": "Redefinir senha",
+      "subtitle": "Digite sua nova senha",
+      "passwordLabel": "Nova senha",
+      "passwordPlaceholder": "Mínimo 8 caracteres",
+      "confirmPasswordLabel": "Confirmar nova senha",
+      "confirmPasswordPlaceholder": "Repita sua nova senha",
+      "submitButton": "Redefinir senha",
+      "success": "Senha redefinida com sucesso. Você já pode entrar.",
+      "error": {
+        "invalidToken": "Link de recuperação inválido ou expirado. Solicite um novo.",
+        "passwordMismatch": "As senhas não coincidem."
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Bem-vindo de volta, {name}!",
+    "subtitle": "Continue de onde parou",
+    "continueWatching": "Continuar assistindo",
+    "noCourses": "Você ainda não está matriculado em nenhum curso.",
+    "browseCourses": "Ver cursos",
+    "progress": "{completed} de {total} aulas concluídas",
+    "nextLesson": "Próxima aula: {title}"
+  },
+  "myCourses": {
+    "title": "Meus Cursos",
+    "subtitle": "Todos os cursos aos quais você tem acesso",
+    "noCourses": "Você ainda não comprou nenhum curso.",
+    "browseCourses": "Ver cursos disponíveis",
+    "progress": "{percent}% concluído",
+    "lastWatched": "Última aula: {date}",
+    "continue": "Continuar",
+    "start": "Começar"
+  },
+  "course": {
+    "overview": {
+      "modules": "Módulos",
+      "lessons": "Aulas",
+      "duration": "Duração total",
+      "progress": "Seu progresso",
+      "startCourse": "Começar curso",
+      "continueCourse": "Continuar curso",
+      "completedCourse": "Curso concluído"
+    },
+    "lesson": {
+      "tabs": {
+        "lesson": "Aula",
+        "materials": "Materiais",
+        "notes": "Minhas Notas"
+      },
+      "materials": {
+        "title": "Materiais da aula",
+        "noMaterials": "Nenhum material para esta aula.",
+        "download": "Baixar"
+      },
+      "notes": {
+        "placeholder": "Faça anotações sobre esta aula...",
+        "save": "Salvar anotações",
+        "saved": "Anotações salvas"
+      },
+      "nextLesson": "Próxima aula",
+      "previousLesson": "Aula anterior",
+      "markComplete": "Marcar como concluída",
+      "completed": "Concluída"
+    }
+  },
+  "checkout": {
+    "title": "Complete sua compra",
+    "orderSummary": "Resumo do pedido",
+    "course": "Curso",
+    "originalPrice": "Preço original",
+    "discount": "Desconto",
+    "total": "Total",
+    "coupon": {
+      "label": "Tem um cupom?",
+      "placeholder": "Digite o código do cupom",
+      "apply": "Aplicar",
+      "applied": "Cupom aplicado: {discount} de desconto",
+      "invalid": "Cupom inválido ou expirado."
+    },
+    "payment": {
+      "title": "Pagamento",
+      "cardLabel": "Dados do cartão",
+      "submitButton": "Pagar {amount}",
+      "installments": "{count}x de {amount} sem juros",
+      "secure": "Pagamento seguro via Stripe"
+    },
+    "confirmation": {
+      "title": "Compra confirmada!",
+      "subtitle": "Você agora tem acesso completo ao curso.",
+      "accessCourse": "Acessar curso",
+      "emailSent": "Um e-mail de confirmação foi enviado para {email}"
+    }
+  },
+  "salesPage": {
+    "enroll": "Matricular agora",
+    "price": "{amount}",
+    "originalPrice": "de {amount}",
+    "moneyBackGuarantee": "Garantia de 7 dias",
+    "studentsEnrolled": "{count} alunos matriculados",
+    "sections": {
+      "about": "Sobre este curso",
+      "curriculum": "Conteúdo do curso",
+      "instructor": "Instrutor",
+      "testimonials": "O que dizem os alunos",
+      "faq": "Perguntas frequentes",
+      "pricing": "Preços"
+    }
+  },
+  "certificate": {
+    "title": "Certificado de Conclusão",
+    "downloadPdf": "Baixar PDF",
+    "shareLinkedIn": "Compartilhar no LinkedIn",
+    "verify": "Verificar certificado",
+    "verifiedMessage": "Este é um certificado válido emitido pela YBR Platform."
+  },
+  "locale": {
+    "en": "English",
+    "pt-BR": "Português",
+    "es": "Español",
+    "switchLanguage": "Idioma"
+  },
+  "errors": {
+    "notFound": "Página não encontrada",
+    "notFoundDescription": "A página que você está procurando não existe.",
+    "unauthorized": "Você não tem autorização para acessar esta página.",
+    "goHome": "Ir para o início"
+  }
+}

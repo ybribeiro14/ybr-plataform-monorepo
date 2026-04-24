@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | Ateliê YBR</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#dcc1b5",
+                        "on-secondary-fixed-variant": "#584400",
+                        "secondary-fixed-dim": "#e6c364",
+                        "secondary-container": "#fed977",
+                        "inverse-on-surface": "#ffede6",
+                        "surface-container-highest": "#f1dfd7",
+                        "surface-variant": "#f1dfd7",
+                        "on-tertiary-container": "#fbfdff",
+                        "on-tertiary-fixed-variant": "#004d63",
+                        "secondary": "#755b00",
+                        "on-secondary": "#ffffff",
+                        "primary": "#984207",
+                        "on-error": "#ffffff",
+                        "tertiary": "#006480",
+                        "primary-fixed-dim": "#ffb691",
+                        "on-primary-container": "#fffbff",
+                        "tertiary-fixed": "#bce9ff",
+                        "on-primary-fixed-variant": "#793100",
+                        "on-primary-fixed": "#341100",
+                        "outline": "#897268",
+                        "on-tertiary-fixed": "#001f2a",
+                        "on-surface": "#231915",
+                        "surface-container": "#fdeae2",
+                        "on-surface-variant": "#56433a",
+                        "tertiary-container": "#007ea1",
+                        "surface-tint": "#9b450a",
+                        "tertiary-fixed-dim": "#70d2fa",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "background": "#fff8f6",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#ffe08f",
+                        "surface-container-high": "#f7e4dc",
+                        "surface": "#fff8f6",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#fff1eb",
+                        "surface-dim": "#e9d6cf",
+                        "surface-bright": "#fff8f6",
+                        "on-secondary-container": "#785d00",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#ffdbcb",
+                        "on-background": "#231915",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#392e29",
+                        "on-secondary-fixed": "#241a00",
+                        "inverse-primary": "#ffb691",
+                        "primary-container": "#b85a21"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "section-gap": "80px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "unit": "8px",
+                        "stack-lg": "32px",
+                        "stack-sm": "8px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["DM Serif Display"],
+                        "display-md": ["DM Serif Display"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "button": ["Inter"],
+                        "display-lg": ["DM Serif Display"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["28px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "display-md": ["36px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "button": ["16px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+        }
+        body {
+            background-color: #fff8f6;
+            background-image: radial-gradient(#fdeae2 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-md text-on-surface">
+<main class="flex-grow flex items-center justify-center p-gutter">
+<div class="w-full max-w-[480px]">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg shadow-[0px_4px_20px_rgba(152,66,7,0.06)] flex flex-col items-center">
+<div class="mb-stack-lg text-center">
+<div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-stack-md mx-auto shadow-sm">
+<span class="material-symbols-outlined text-on-primary text-3xl" data-icon="restaurant_menu">restaurant_menu</span>
+</div>
+<span class="font-title-lg text-title-lg text-primary block mb-unit">Ateliê YBR</span>
+<h1 class="font-display-md text-display-md text-on-surface">Bem-vinda de volta</h1>
+<p class="font-body-md text-on-surface-variant mt-2">A perfeição da alta confeitaria te espera.</p>
+</div>
+<form class="w-full space-y-stack-md">
+<div class="space-y-unit">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1" for="email">E-mail</label>
+<input class="w-full h-12 px-stack-md rounded-lg border border-outline-variant bg-surface-container-low focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-outline outline-none" id="email" placeholder="seu@email.com" type="email"/>
+</div>
+<div class="space-y-unit">
+<div class="flex justify-between items-center">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1" for="password">Senha</label>
+<a class="font-label-md text-label-md text-primary hover:underline" href="#">Esqueceu a senha?</a>
+</div>
+<div class="relative">
+<input class="w-full h-12 px-stack-md rounded-lg border border-outline-variant bg-surface-container-low focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-outline outline-none" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline-variant hover:text-primary" type="button">
+<span class="material-symbols-outlined text-xl" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<div class="pt-unit">
+<button class="w-full h-12 bg-primary text-on-primary rounded-full font-button text-button hover:bg-surface-tint active:scale-95 transition-all shadow-md" type="submit">
+                            Entrar
+                        </button>
+</div>
+<div class="relative py-unit">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant"></div>
+</div>
+<div class="relative flex justify-center text-xs uppercase tracking-widest">
+<span class="bg-surface-container-lowest px-4 text-outline font-medium">Ou continue com</span>
+</div>
+</div>
+<button class="w-full h-12 border border-outline-variant bg-surface-container-lowest text-on-surface-variant rounded-full font-button text-button hover:bg-surface-container-low active:scale-95 transition-all flex items-center justify-center gap-2" type="button">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+                        Entrar com Google
+                    </button>
+</form>
+<div class="mt-stack-lg text-center">
+<p class="font-body-md text-on-surface-variant">
+                        Não tem conta? 
+                        <a class="text-primary font-semibold hover:underline" href="#">Crie gratuitamente</a>
+</p>
+</div>
+</div>
+</div>
+</main>
+<footer class="w-full mt-auto py-8 bg-stone-100 border-t border-stone-200">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 max-w-container-max mx-auto gap-stack-md">
+<span class="text-xs uppercase tracking-widest font-sans text-stone-500">© 2024 YBR Platform. Excelência em Confeitaria.</span>
+<div class="flex gap-stack-md">
+<a class="text-xs uppercase tracking-widest font-sans text-stone-500 hover:text-orange-800 underline underline-offset-4 transition-all" href="#">Termos</a>
+<a class="text-xs uppercase tracking-widest font-sans text-stone-500 hover:text-orange-800 underline underline-offset-4 transition-all" href="#">Privacidade</a>
+<a class="text-xs uppercase tracking-widest font-sans text-stone-500 hover:text-orange-800 underline underline-offset-4 transition-all" href="#">Ajuda</a>
+</div>
+</div>
+</footer>
+</body></html>

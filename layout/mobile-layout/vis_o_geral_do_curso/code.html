@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#fdeae2",
+                    "on-error-container": "#93000a",
+                    "tertiary": "#006480",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed-dim": "#70d2fa",
+                    "outline-variant": "#dcc1b5",
+                    "surface-dim": "#e9d6cf",
+                    "error-container": "#ffdad6",
+                    "secondary-container": "#fed977",
+                    "surface-variant": "#f1dfd7",
+                    "on-secondary-fixed-variant": "#584400",
+                    "on-background": "#231915",
+                    "primary-container": "#b85a21",
+                    "surface": "#fff8f6",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed-variant": "#793100",
+                    "on-secondary-container": "#785d00",
+                    "inverse-surface": "#392e29",
+                    "on-primary-container": "#fffbff",
+                    "on-tertiary-fixed": "#001f2a",
+                    "surface-container-low": "#fff1eb",
+                    "on-tertiary-container": "#fbfdff",
+                    "primary-fixed-dim": "#ffb691",
+                    "tertiary-container": "#007ea1",
+                    "inverse-on-surface": "#ffede6",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed": "#bce9ff",
+                    "on-primary": "#ffffff",
+                    "surface-container-high": "#f7e4dc",
+                    "secondary-fixed-dim": "#e6c364",
+                    "on-surface": "#231915",
+                    "primary-fixed": "#ffdbcb",
+                    "surface-tint": "#9b450a",
+                    "primary": "#984207",
+                    "error": "#ba1a1a",
+                    "secondary-fixed": "#ffe08f",
+                    "surface-container-highest": "#f1dfd7",
+                    "on-surface-variant": "#56433a",
+                    "background": "#fff8f6",
+                    "secondary": "#755b00",
+                    "on-secondary-fixed": "#241a00",
+                    "surface-bright": "#fff8f6",
+                    "on-primary-fixed": "#341100",
+                    "on-tertiary-fixed-variant": "#004d63",
+                    "outline": "#897268",
+                    "inverse-primary": "#ffb691"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "unit": "8px",
+                    "section-gap": "80px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "stack-sm": "8px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "button": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "title-lg": ["DM Serif Display"],
+                    "display-md": ["DM Serif Display"],
+                    "display-lg": ["DM Serif Display"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "button": ["16px", {"lineHeight": "1", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "title-lg": ["28px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                    "display-md": ["36px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        .lesson-checkbox:checked + label {
+            background-color: #984207;
+            border-color: #984207;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-[#FDFBF9] dark:bg-stone-950 border-b border-[#E8E0D9] dark:border-stone-800 shadow-sm shadow-[#C4632A]/5 sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-6 py-3 max-w-7xl mx-auto">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-[#E8E0D9]">
+<img alt="Foto de Perfil da Aluna" data-alt="Close-up portrait of a professional female pastry chef smiling, wearing a clean white chef coat in a bright studio environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcpbac6ZCcB3ilMdOTZcQvrXkF7ZoJuOGbkqVyZpfPRkllvdZSecuiemHPXLnSJLPhV8pgpaVN4-2VXmuVnmQrKntWgC_LSZlx4frvy7AmXS4oXkr-O7lTYjBak6Yz1a2tOuLNr0vSo_YBMrAOGenI0do7d8TqIjP_VwV9SAQfDL_Fg8EhrILzqTpJERJKrgByqn0VW5uCvJ7iOYQkJnNDcZiZ9REpkLm_m2AvL9UhSgH0fBNGEBVJICUeuVdSwdFlQJttenX1p5VX"/>
+</div>
+<h1 class="font-serif italic text-2xl text-[#C4632A] dark:text-orange-300">YBR Platform</h1>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex gap-8">
+<a class="text-[#C4632A] font-bold font-serif italic text-lg tracking-wide" href="#">Home</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#A35223] transition-colors font-serif italic text-lg tracking-wide" href="#">Cursos</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#A35223] transition-colors font-serif italic text-lg tracking-wide" href="#">Comunidade</a>
+</nav>
+<button class="text-[#C4632A] dark:text-orange-400 scale-95 active:opacity-80 transition-transform">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-margin-mobile md:px-gutter py-stack-lg space-y-stack-lg">
+<!-- Hero Section -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+<div class="lg:col-span-7 space-y-stack-sm">
+<div class="flex items-center gap-2 text-primary font-label-md">
+<span class="material-symbols-outlined text-[18px]" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="uppercase">Premium Masterclass</span>
+</div>
+<h2 class="font-display-lg text-display-lg text-on-background">Doces Americanos para Vender</h2>
+<div class="flex items-center gap-4 py-2">
+<div class="flex items-center gap-2">
+<span class="text-on-surface-variant font-body-md">Instrutor:</span>
+<span class="font-semibold text-primary">Chef Ana Lima</span>
+</div>
+<div class="w-1 h-1 rounded-full bg-outline-variant"></div>
+<span class="text-on-surface-variant text-label-md">Matriculada em 15 Jan 2026</span>
+</div>
+</div>
+<!-- Progress Card -->
+<div class="lg:col-span-5 bg-white border border-outline-variant rounded-xl p-6 shadow-[0_4px_20px_rgba(196,99,42,0.08)] flex items-center gap-6">
+<div class="relative w-24 h-24 flex-shrink-0">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<circle class="text-surface-container-high stroke-current" cx="50" cy="50" fill="transparent" r="40" stroke-width="8"></circle>
+<circle class="text-primary stroke-current progress-ring-circle" cx="50" cy="50" fill="transparent" r="40" stroke-linecap="round" stroke-width="8" style="stroke-dasharray: 251.2; stroke-dashoffset: 145.7;"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center font-title-lg text-primary">42%</div>
+</div>
+<div class="flex-grow space-y-1">
+<p class="font-label-md text-on-surface">24/57 aulas concluídas</p>
+<p class="text-label-md text-on-surface-variant italic">Conclusão estimada: 3 semanas</p>
+<button class="mt-2 flex items-center gap-2 text-outline font-button py-2 opacity-60 cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[18px]" data-icon="lock">lock</span>
+                        Ver certificado
+                    </button>
+</div>
+</div>
+</section>
+<!-- Tabs Navigation -->
+<nav class="flex border-b border-outline-variant overflow-x-auto no-scrollbar">
+<button class="px-8 py-4 border-b-2 border-primary text-primary font-semibold whitespace-nowrap">Conteúdo</button>
+<button class="px-8 py-4 text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">Materiais</button>
+<button class="px-8 py-4 text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">Comunidade</button>
+</nav>
+<!-- Content Area: Accordion Modules -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<div class="lg:col-span-8 space-y-4">
+<!-- Module 1 -->
+<div class="border border-outline-variant rounded-xl overflow-hidden bg-white shadow-sm">
+<div class="flex items-center justify-between p-6 bg-surface-container-low cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold">1</div>
+<div>
+<h3 class="font-title-lg text-xl">Bases da Confeitaria</h3>
+<p class="text-label-md text-on-surface-variant">4/6 aulas concluídas</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary group-hover:translate-y-1 transition-transform" data-icon="keyboard_arrow_down">keyboard_arrow_down</span>
+</div>
+<div class="divide-y divide-outline-variant">
+<!-- Lesson 1: Completed -->
+<div class="flex items-center gap-4 p-4 hover:bg-surface-container-lowest transition-colors">
+<div class="flex-shrink-0 w-6 h-6 border-2 border-primary rounded bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[16px] font-bold" data-icon="check">check</span>
+</div>
+<div class="flex-grow">
+<p class="text-on-surface font-medium">Equipamentos Essenciais</p>
+<p class="text-label-md text-on-surface-variant">12:45</p>
+</div>
+<span class="material-symbols-outlined text-primary" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<!-- Lesson 2: Current -->
+<div class="flex items-center gap-4 p-4 bg-primary/5 border-l-4 border-primary transition-colors">
+<div class="flex-shrink-0 w-6 h-6 border-2 border-primary rounded flex items-center justify-center"></div>
+<div class="flex-grow">
+<p class="text-primary font-bold">Tipos de Farinha nos EUA</p>
+<p class="text-label-md text-primary/70">08:20</p>
+</div>
+<span class="material-symbols-outlined text-primary" data-icon="play_circle" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+</div>
+<!-- Lesson 3: Locked -->
+<div class="flex items-center gap-4 p-4 opacity-50 grayscale cursor-not-allowed">
+<div class="flex-shrink-0 w-6 h-6 border-2 border-outline-variant rounded flex items-center justify-center"></div>
+<div class="flex-grow">
+<p class="text-on-surface font-medium">A Ciência do Açúcar Mascavo</p>
+<p class="text-label-md text-on-surface-variant">15:10</p>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="lock">lock</span>
+</div>
+</div>
+</div>
+<!-- Module 2: Locked -->
+<div class="border border-outline-variant rounded-xl overflow-hidden bg-white shadow-sm opacity-70 grayscale">
+<div class="flex items-center justify-between p-6 bg-surface-container-low">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-outline-variant flex items-center justify-center text-on-surface-variant font-bold">2</div>
+<div>
+<h3 class="font-title-lg text-xl">The Perfect Cookie</h3>
+<p class="text-label-md text-on-surface-variant">0/12 aulas concluídas</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="lock">lock</span>
+</div>
+</div>
+</div>
+<!-- Sidebar / Info Grid -->
+<div class="lg:col-span-4 space-y-gutter">
+<div class="bg-surface-container rounded-xl p-6 border border-outline-variant/30">
+<h4 class="font-title-lg text-lg mb-4">Próximo Passo</h4>
+<div class="aspect-video rounded-lg overflow-hidden relative mb-4">
+<img class="w-full h-full object-cover" data-alt="Close-up of golden brown chocolate chip cookies being stacked on a rustic wooden board, soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAit0VhdIrTT7-QHSkH-irs2OKZzwgAxOBweTV5Rb2ZEtLtkx8MDpeb0o9iWWo8By8US6x8aVuPlydlQfU5lPuhMSh9gad-wfdR83cS0BIEfk6dle2JDZoZpQtjY8FthVGt8R-tZk3-xn67IMKkrdIfge8FJ5B-e0Uc6EWC6XAN_pgiqRT458tIeGbeVVSWS0DIKdozpGuBunA3b6oxVh33l1tBPiTvPP_ZHUX3zUCN5JiXmanCrOIa4C6myR855Qg33IYlEwIuFb3Y"/>
+<div class="absolute inset-0 bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-5xl" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+<p class="font-semibold text-on-background">Continuar: Tipos de Farinha nos EUA</p>
+<p class="text-label-md text-on-surface-variant mb-4">Módulo 1 • Aula 4</p>
+<button class="w-full bg-primary text-white rounded-full py-3 font-button hover:bg-primary-container transition-colors">
+                        Retomar Aula
+                    </button>
+</div>
+<div class="bg-white rounded-xl p-6 border border-outline-variant shadow-sm">
+<h4 class="font-title-lg text-lg mb-4">Material de Apoio</h4>
+<ul class="space-y-3">
+<li class="flex items-center gap-3 p-3 rounded-lg hover:bg-surface-container-low transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-primary" data-icon="description">description</span>
+<span class="flex-grow text-body-md font-medium">Guia de Conversão (Oz para Gramas)</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary" data-icon="download">download</span>
+</li>
+<li class="flex items-center gap-3 p-3 rounded-lg hover:bg-surface-container-low transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-primary" data-icon="shopping_basket">shopping_basket</span>
+<span class="flex-grow text-body-md font-medium">Lista de Fornecedores Prata</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary" data-icon="download">download</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-[#FDFBF9]/95 backdrop-blur-lg border-t border-[#E8E0D9] shadow-[0_-4px_20px_rgba(196,99,42,0.08)] z-50 flex justify-around items-center px-4 pt-2 pb-6">
+<a class="flex flex-col items-center justify-center text-stone-400" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-[11px] font-medium uppercase tracking-tighter">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#C4632A] bg-[#C4632A]/10 rounded-2xl px-3 py-1.5" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="text-[11px] font-medium uppercase tracking-tighter">Cursos</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-400" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="text-[11px] font-medium uppercase tracking-tighter">Comunidade</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-400" href="#">
+<span class="material-symbols-outlined" data-icon="workspace_premium">workspace_premium</span>
+<span class="text-[11px] font-medium uppercase tracking-tighter">Certificados</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-400" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-[11px] font-medium uppercase tracking-tighter">Perfil</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
+  "extends": ["../../biome.json"],
+  "files": {
+    "include": ["src/**/*.ts", "src/**/*.tsx"]
+  },
+  "linter": {
+    "rules": {
+      "style": {
+        "noDefaultExport": "off"
+      }
+    }
+  }
+}

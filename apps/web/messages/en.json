@@ -1,0 +1,201 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong. Please try again.",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "noResults": "No results found.",
+    "required": "This field is required."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "myCourses": "My Courses",
+    "profile": "Profile",
+    "logout": "Sign out",
+    "login": "Sign in",
+    "register": "Create account"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your account to continue",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "your@email.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Your password",
+      "forgotPassword": "Forgot password?",
+      "submitButton": "Sign in",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Create account",
+      "error": {
+        "invalidCredentials": "Invalid email or password.",
+        "tooManyAttempts": "Too many attempts. Please try again in a few minutes."
+      }
+    },
+    "register": {
+      "title": "Create your account",
+      "subtitle": "Start your learning journey today",
+      "nameLabel": "Full name",
+      "namePlaceholder": "Your full name",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "your@email.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Minimum 8 characters",
+      "confirmPasswordLabel": "Confirm password",
+      "confirmPasswordPlaceholder": "Repeat your password",
+      "submitButton": "Create account",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Sign in",
+      "error": {
+        "emailTaken": "This email is already in use.",
+        "passwordMismatch": "Passwords do not match.",
+        "weakPassword": "Password must be at least 8 characters."
+      }
+    },
+    "forgotPassword": {
+      "title": "Forgot your password?",
+      "subtitle": "Enter your email and we'll send you a recovery link",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "your@email.com",
+      "submitButton": "Send recovery email",
+      "success": "Check your email for the recovery link.",
+      "backToLogin": "Back to sign in"
+    },
+    "resetPassword": {
+      "title": "Reset your password",
+      "subtitle": "Enter your new password",
+      "passwordLabel": "New password",
+      "passwordPlaceholder": "Minimum 8 characters",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Repeat your new password",
+      "submitButton": "Reset password",
+      "success": "Password reset successfully. You can now sign in.",
+      "error": {
+        "invalidToken": "Invalid or expired recovery link. Please request a new one.",
+        "passwordMismatch": "Passwords do not match."
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Welcome back, {name}!",
+    "subtitle": "Continue where you left off",
+    "continueWatching": "Continue watching",
+    "noCourses": "You haven't enrolled in any courses yet.",
+    "browseCourses": "Browse courses",
+    "progress": "{completed} of {total} lessons completed",
+    "nextLesson": "Next lesson: {title}"
+  },
+  "myCourses": {
+    "title": "My Courses",
+    "subtitle": "All courses you have access to",
+    "noCourses": "You haven't purchased any courses yet.",
+    "browseCourses": "Browse available courses",
+    "progress": "{percent}% complete",
+    "lastWatched": "Last watched: {date}",
+    "continue": "Continue",
+    "start": "Start"
+  },
+  "course": {
+    "overview": {
+      "modules": "Modules",
+      "lessons": "Lessons",
+      "duration": "Total duration",
+      "progress": "Your progress",
+      "startCourse": "Start course",
+      "continueCourse": "Continue course",
+      "completedCourse": "Course completed"
+    },
+    "lesson": {
+      "tabs": {
+        "lesson": "Lesson",
+        "materials": "Materials",
+        "notes": "My Notes"
+      },
+      "materials": {
+        "title": "Lesson materials",
+        "noMaterials": "No materials for this lesson.",
+        "download": "Download"
+      },
+      "notes": {
+        "placeholder": "Take notes for this lesson...",
+        "save": "Save notes",
+        "saved": "Notes saved"
+      },
+      "nextLesson": "Next lesson",
+      "previousLesson": "Previous lesson",
+      "markComplete": "Mark as complete",
+      "completed": "Completed"
+    }
+  },
+  "checkout": {
+    "title": "Complete your purchase",
+    "orderSummary": "Order summary",
+    "course": "Course",
+    "originalPrice": "Original price",
+    "discount": "Discount",
+    "total": "Total",
+    "coupon": {
+      "label": "Have a coupon?",
+      "placeholder": "Enter coupon code",
+      "apply": "Apply",
+      "applied": "Coupon applied: {discount} off",
+      "invalid": "Invalid or expired coupon."
+    },
+    "payment": {
+      "title": "Payment",
+      "cardLabel": "Card details",
+      "submitButton": "Pay {amount}",
+      "installments": "{count}x of {amount} (no interest)",
+      "secure": "Secure payment powered by Stripe"
+    },
+    "confirmation": {
+      "title": "Purchase confirmed!",
+      "subtitle": "You now have full access to the course.",
+      "accessCourse": "Access course",
+      "emailSent": "A confirmation email was sent to {email}"
+    }
+  },
+  "salesPage": {
+    "enroll": "Enroll now",
+    "price": "{amount}",
+    "originalPrice": "from {amount}",
+    "moneyBackGuarantee": "7-day money-back guarantee",
+    "studentsEnrolled": "{count} students enrolled",
+    "sections": {
+      "about": "About this course",
+      "curriculum": "Curriculum",
+      "instructor": "Instructor",
+      "testimonials": "What students say",
+      "faq": "Frequently asked questions",
+      "pricing": "Pricing"
+    }
+  },
+  "certificate": {
+    "title": "Certificate of Completion",
+    "downloadPdf": "Download PDF",
+    "shareLinkedIn": "Share on LinkedIn",
+    "verify": "Verify certificate",
+    "verifiedMessage": "This is a valid certificate issued by YBR Platform."
+  },
+  "locale": {
+    "en": "English",
+    "pt-BR": "Português",
+    "es": "Español",
+    "switchLanguage": "Language"
+  },
+  "errors": {
+    "notFound": "Page not found",
+    "notFoundDescription": "The page you are looking for does not exist.",
+    "unauthorized": "You are not authorized to access this page.",
+    "goHome": "Go to home"
+  }
+}

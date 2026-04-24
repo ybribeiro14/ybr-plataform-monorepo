@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=Inter:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed": "#241a00",
+                    "on-primary": "#ffffff",
+                    "primary": "#984207",
+                    "secondary-fixed-dim": "#e6c364",
+                    "on-tertiary": "#ffffff",
+                    "surface-dim": "#e9d6cf",
+                    "primary-fixed-dim": "#ffb691",
+                    "secondary": "#755b00",
+                    "outline": "#897268",
+                    "surface-container-high": "#f7e4dc",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed-variant": "#004d63",
+                    "on-surface": "#231915",
+                    "surface-tint": "#9b450a",
+                    "primary-fixed": "#ffdbcb",
+                    "on-tertiary-container": "#fbfdff",
+                    "surface-bright": "#fff8f6",
+                    "surface-variant": "#f1dfd7",
+                    "error-container": "#ffdad6",
+                    "on-secondary": "#ffffff",
+                    "inverse-on-surface": "#ffede6",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#793100",
+                    "tertiary-container": "#007ea1",
+                    "surface-container-highest": "#f1dfd7",
+                    "surface": "#fff8f6",
+                    "surface-container": "#fdeae2",
+                    "on-tertiary-fixed": "#001f2a",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed": "#ffe08f",
+                    "on-surface-variant": "#56433a",
+                    "surface-container-low": "#fff1eb",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed-dim": "#70d2fa",
+                    "on-background": "#231915",
+                    "outline-variant": "#dcc1b5",
+                    "background": "#fff8f6",
+                    "on-primary-container": "#fffbff",
+                    "secondary-container": "#fed977",
+                    "on-primary-fixed": "#341100",
+                    "tertiary-fixed": "#bce9ff",
+                    "on-secondary-container": "#785d00",
+                    "inverse-primary": "#ffb691",
+                    "on-secondary-fixed-variant": "#584400",
+                    "inverse-surface": "#392e29",
+                    "primary-container": "#b85a21",
+                    "tertiary": "#006480"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "gutter": "24px",
+                    "stack-md": "16px",
+                    "stack-sm": "8px",
+                    "unit": "8px",
+                    "margin-mobile": "16px",
+                    "stack-lg": "32px",
+                    "section-gap": "80px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["DM Serif Display"],
+                    "title-lg": ["DM Serif Display"],
+                    "button": ["Inter"],
+                    "display-md": ["DM Serif Display"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                    "title-lg": ["28px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                    "button": ["16px", {"lineHeight": "1", "fontWeight": "600"}],
+                    "display-md": ["36px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .strength-bar {
+            height: 4px;
+            transition: width 0.3s ease;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md">
+<!-- Top Navigation Bar (Contextual: Reset is a sub-page, but Branding is kept as per shell logic) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 max-w-7xl mx-auto bg-[#FDFBF9] border-b border-[#E8E0D9] shadow-[0_4px_20px_rgba(196,99,42,0.04)]">
+<div class="font-serif italic text-2xl text-[#C4632A]">YBR Platform</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#C4632A]">language</span>
+<span class="font-label-md text-label-md text-stone-500">PT-BR</span>
+</div>
+</header>
+<main class="flex-grow flex items-center justify-center px-4 pt-24 pb-12">
+<div class="max-w-md w-full">
+<!-- Glassmorphism Background Pattern (Aesthetic element) -->
+<div class="absolute inset-0 -z-10 overflow-hidden">
+<div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-fixed/20 blur-[100px] rounded-full"></div>
+<div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary-container/20 blur-[100px] rounded-full"></div>
+</div>
+<!-- Content Card -->
+<div class="bg-surface-container-lowest border border-outline-variant p-8 md:p-12 rounded-[2rem] shadow-[0_4px_20px_rgba(196,99,42,0.08)]">
+<!-- Lock Icon Header -->
+<div class="flex flex-col items-center mb-8">
+<div class="w-16 h-16 bg-primary-fixed flex items-center justify-center rounded-full mb-6">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="lock" data-weight="fill" style="font-variation-settings: 'FILL' 1;">lock</span>
+</div>
+<h1 class="font-title-lg text-display-md text-on-surface text-center mb-2">Crie uma nova senha</h1>
+<p class="text-on-surface-variant text-center font-body-md text-body-md opacity-80">
+                        Sua nova senha deve ser diferente das anteriores para garantir a segurança da sua conta no Ateliê.
+                    </p>
+</div>
+<form class="space-y-6">
+<!-- New Password Input -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface-variant px-1" for="new_password">Nova senha</label>
+<div class="relative">
+<input class="w-full h-14 px-4 bg-surface-bright border border-outline-variant rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all outline-none" id="new_password" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+<!-- Strength Meter -->
+<div class="pt-2 px-1">
+<div class="flex justify-between items-center mb-1.5">
+<span class="text-[10px] font-semibold uppercase tracking-wider text-stone-400">Força da senha</span>
+<span class="text-[10px] font-semibold uppercase tracking-wider text-primary">Média</span>
+</div>
+<div class="flex gap-1.5 h-1.5">
+<div class="flex-1 bg-primary rounded-full"></div>
+<div class="flex-1 bg-primary rounded-full"></div>
+<div class="flex-1 bg-outline-variant rounded-full opacity-30"></div>
+<div class="flex-1 bg-outline-variant rounded-full opacity-30"></div>
+</div>
+</div>
+</div>
+<!-- Confirm Password Input -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface-variant px-1" for="confirm_password">Confirmar nova senha</label>
+<div class="relative">
+<input class="w-full h-14 px-4 bg-surface-bright border border-outline-variant rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all outline-none" id="confirm_password" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<!-- Requirements Checklist -->
+<div class="bg-surface-container-low p-5 rounded-2xl border border-outline-variant/30 space-y-3">
+<p class="font-label-md text-[12px] text-on-surface-variant opacity-60 uppercase tracking-widest mb-1">Requisitos</p>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface">Mínimo de 8 caracteres</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface">Pelo menos uma letra maiúscula</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline-variant text-[20px]">radio_button_unchecked</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Pelo menos um número</span>
+</div>
+</div>
+<!-- Primary Action -->
+<button class="w-full h-14 bg-primary text-on-primary font-button text-button rounded-full shadow-[0_4px_20px_rgba(152,66,7,0.2)] hover:bg-primary-container transition-all active:scale-[0.98]" type="submit">
+                        Salvar nova senha
+                    </button>
+<!-- Secondary Action -->
+<div class="text-center pt-2">
+<a class="text-primary font-label-md text-label-md hover:underline underline-offset-4" href="#">Voltar para o login</a>
+</div>
+</form>
+</div>
+<!-- Footer Decorative/Branding -->
+<footer class="mt-12 text-center">
+<div class="flex justify-center gap-6 mb-4">
+<img class="w-24 h-12 object-contain grayscale opacity-30 hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer" data-alt="minimalist logo of an artisan pastry association in elegant gold and white colors on a clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOTvAcJkceyvwcBdodnezClQY3P100zmCNKC_dySEZCH5pvywsqKH5DuGQSur0SL17MTALz5Rbaky96UkVH_tuLQF6c-RJQhhXiCFdsCAlO14Q_z7ZyTBLICPbetMFS-h528DRgc3VLzhW_gz8vPMCBnDheR_v5W3-bqSxbdnu_r99BqnWqN0wwikwcVlJnBqWtOPlYCRv_XOz0CIHCFIqDD0whekPHCIY36edu-pNhMOeILrhVBa4_JkAQIJ9PnuJ0pA_6YevbVPU"/>
+<img class="w-24 h-12 object-contain grayscale opacity-30 hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer" data-alt="professional chef equipment certification badge logo with sophisticated lines and premium typography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEh7BQplcXcf4ccvQ2fZDZ_BD07DPLuV4bqILntyR3F34GBZr8cm2DiqyAY7Drg4g6UNpGJH9cwW_mZozJwYtKuKlkhUl8MftudzmfSOsN1nJGCfFWFW_33g1QeMwfhJOzXsdG1iin3ZA4LRjn3Bv7VKGI3Sav-cd-Hu4oUxPKHoyP_Vmu_EyKKsh4_8WypKy1f-0LYb6Qj-oH89fg8MJa8N0LsQBmhd0F3_ySp5kVRJL4EGZLXUHFyvkxybRlNFxtoiWirDggZY58"/>
+</div>
+<p class="font-label-md text-xs text-stone-400 tracking-wide uppercase">YBR Platform © 2024 • Excelência em Confeitaria</p>
+</footer>
+</div>
+</main>
+<!-- Bottom Navigation Suppressed for Login/Security Flow as per Rules -->
+</body></html>

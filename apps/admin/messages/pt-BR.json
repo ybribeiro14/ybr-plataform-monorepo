@@ -1,0 +1,185 @@
+{
+  "common": {
+    "loading": "Carregando...",
+    "error": "Algo deu errado. Por favor, tente novamente.",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "previous": "Anterior",
+    "close": "Fechar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "noResults": "Nenhum resultado encontrado.",
+    "required": "Este campo é obrigatório.",
+    "publish": "Publicar",
+    "unpublish": "Despublicar",
+    "draft": "Rascunho",
+    "published": "Publicado",
+    "actions": "Ações",
+    "status": "Status",
+    "createdAt": "Criado em",
+    "updatedAt": "Atualizado em"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "courses": "Cursos",
+    "students": "Alunos",
+    "analytics": "Análises",
+    "settings": "Configurações",
+    "logout": "Sair",
+    "profile": "Meu Perfil"
+  },
+  "auth": {
+    "login": {
+      "title": "Painel do Criador",
+      "subtitle": "Entre para gerenciar seus cursos",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "seu@email.com",
+      "passwordLabel": "Senha",
+      "passwordPlaceholder": "Sua senha",
+      "submitButton": "Entrar",
+      "forgotPassword": "Esqueceu a senha?",
+      "error": {
+        "invalidCredentials": "E-mail ou senha inválidos.",
+        "unauthorized": "Você não tem permissão para acessar o painel admin."
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Visão geral do desempenho da sua plataforma",
+    "stats": {
+      "totalStudents": "Total de Alunos",
+      "totalRevenue": "Receita Total",
+      "activeCourses": "Cursos Ativos",
+      "completionRate": "Taxa de Conclusão Média"
+    },
+    "recentEnrollments": "Matrículas Recentes",
+    "topCourses": "Cursos em Destaque"
+  },
+  "courses": {
+    "title": "Cursos",
+    "subtitle": "Gerencie seu catálogo de cursos",
+    "createCourse": "Novo Curso",
+    "noCourses": "Você ainda não criou nenhum curso.",
+    "table": {
+      "title": "Título",
+      "status": "Status",
+      "students": "Alunos",
+      "revenue": "Receita",
+      "createdAt": "Criado em"
+    },
+    "form": {
+      "titleLabel": "Título do curso",
+      "titlePlaceholder": "Ex: Técnicas Avançadas de Panificação",
+      "descriptionLabel": "Descrição",
+      "descriptionPlaceholder": "Descreva o que os alunos vão aprender...",
+      "priceLabel": "Preço (BRL)",
+      "thumbnailLabel": "Thumbnail",
+      "thumbnailHint": "Recomendado: 1280x720px, máx. 2MB",
+      "slugLabel": "Slug da URL",
+      "slugPlaceholder": "tecnicas-avancadas-panificacao",
+      "submitCreate": "Criar curso",
+      "submitUpdate": "Salvar alterações"
+    },
+    "deleteConfirm": "Tem certeza que deseja excluir este curso? Esta ação não pode ser desfeita.",
+    "publishConfirm": "Isso tornará o curso visível para os alunos. Continuar?",
+    "unpublishConfirm": "Isso ocultará o curso dos alunos. Continuar?"
+  },
+  "modules": {
+    "title": "Módulos",
+    "addModule": "Adicionar módulo",
+    "noModules": "Este curso ainda não tem módulos.",
+    "form": {
+      "titleLabel": "Título do módulo",
+      "titlePlaceholder": "Ex: Introdução",
+      "submit": "Salvar módulo"
+    }
+  },
+  "lessons": {
+    "title": "Aulas",
+    "addLesson": "Adicionar aula",
+    "noLessons": "Este módulo ainda não tem aulas.",
+    "form": {
+      "titleLabel": "Título da aula",
+      "titlePlaceholder": "Ex: Boas-vindas e visão geral",
+      "videoLabel": "Vídeo",
+      "videoHint": "Envie um arquivo de vídeo (MP4, MOV)",
+      "descriptionLabel": "Descrição",
+      "descriptionPlaceholder": "Descreva esta aula...",
+      "durationLabel": "Duração (minutos)",
+      "submit": "Salvar aula"
+    }
+  },
+  "students": {
+    "title": "Alunos",
+    "subtitle": "Gerencie os alunos matriculados",
+    "noStudents": "Nenhum aluno matriculado ainda.",
+    "table": {
+      "name": "Nome",
+      "email": "E-mail",
+      "course": "Curso",
+      "enrolledAt": "Matriculado em",
+      "progress": "Progresso",
+      "status": "Status"
+    },
+    "status": {
+      "active": "Ativo",
+      "completed": "Concluído",
+      "inactive": "Inativo"
+    }
+  },
+  "analytics": {
+    "title": "Análises",
+    "subtitle": "Acompanhe o desempenho da sua plataforma",
+    "revenue": {
+      "title": "Receita",
+      "total": "Receita total",
+      "thisMonth": "Este mês",
+      "lastMonth": "Mês passado"
+    },
+    "enrollments": {
+      "title": "Matrículas",
+      "total": "Total de matrículas",
+      "thisMonth": "Este mês"
+    },
+    "completions": {
+      "title": "Conclusões de cursos",
+      "rate": "Taxa de conclusão"
+    }
+  },
+  "settings": {
+    "title": "Configurações",
+    "profile": {
+      "title": "Perfil",
+      "nameLabel": "Nome completo",
+      "emailLabel": "E-mail",
+      "bioLabel": "Bio",
+      "bioPlaceholder": "Conte aos alunos sobre você...",
+      "avatarLabel": "Foto de perfil",
+      "submitButton": "Salvar perfil"
+    },
+    "notifications": {
+      "title": "Notificações",
+      "emailOnEnrollment": "E-mail quando um aluno se matricular",
+      "emailOnCompletion": "E-mail quando um aluno concluir um curso",
+      "emailOnReview": "E-mail quando um aluno deixar uma avaliação"
+    }
+  },
+  "locale": {
+    "en": "English",
+    "pt-BR": "Português",
+    "es": "Español",
+    "switchLanguage": "Idioma"
+  },
+  "errors": {
+    "notFound": "Página não encontrada",
+    "notFoundDescription": "A página que você está procurando não existe.",
+    "unauthorized": "Você não tem autorização para acessar esta página.",
+    "goHome": "Ir para o dashboard"
+  }
+}

@@ -1,0 +1,50 @@
+# YBR Platform — Desenvolvimento Local
+# Apenas serviços de infra: PostgreSQL + Redis
+# Os apps rodam com `pnpm dev`
+#
+# Uso:
+#   docker compose up -d
+#   docker compose down
+#   docker compose down -v  (remove volumes)
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ybr_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ybr_platform_dev
+      POSTGRES_USER: ybr_user
+      POSTGRES_PASSWORD: ybr_local_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ybr_user -d ybr_platform_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  redis:
+    image: redis:7-alpine
+    container_name: ybr_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local

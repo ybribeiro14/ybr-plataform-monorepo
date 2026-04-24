@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-low": "#fff1eb",
+                    "surface-container-high": "#f7e4dc",
+                    "on-secondary-fixed-variant": "#584400",
+                    "tertiary-container": "#007ea1",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#bce9ff",
+                    "surface-tint": "#9b450a",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#ffdbcb",
+                    "tertiary": "#006480",
+                    "primary": "#984207",
+                    "on-tertiary-fixed-variant": "#004d63",
+                    "surface-container": "#fdeae2",
+                    "primary-fixed-dim": "#ffb691",
+                    "on-tertiary-fixed": "#001f2a",
+                    "secondary": "#755b00",
+                    "on-secondary-container": "#785d00",
+                    "on-background": "#231915",
+                    "secondary-fixed": "#ffe08f",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#fffbff",
+                    "outline": "#897268",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#e9d6cf",
+                    "surface-variant": "#f1dfd7",
+                    "error": "#ba1a1a",
+                    "on-surface": "#231915",
+                    "inverse-on-surface": "#ffede6",
+                    "outline-variant": "#dcc1b5",
+                    "on-secondary-fixed": "#241a00",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#e6c364",
+                    "inverse-surface": "#392e29",
+                    "on-primary-fixed-variant": "#793100",
+                    "background": "#fff8f6",
+                    "on-error-container": "#93000a",
+                    "surface": "#fff8f6",
+                    "secondary-container": "#fed977",
+                    "on-surface-variant": "#56433a",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#ffb691",
+                    "surface-container-highest": "#f1dfd7",
+                    "surface-bright": "#fff8f6",
+                    "tertiary-fixed-dim": "#70d2fa",
+                    "primary-container": "#b85a21",
+                    "on-tertiary-container": "#fbfdff",
+                    "on-primary-fixed": "#341100"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "margin-mobile": "16px",
+                    "container-max": "1280px",
+                    "unit": "8px",
+                    "gutter": "24px",
+                    "stack-sm": "8px",
+                    "section-gap": "80px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "display-md": ["DM Serif Display"],
+                    "body-lg": ["Inter"],
+                    "display-lg": ["DM Serif Display"],
+                    "title-lg": ["DM Serif Display"],
+                    "label-md": ["Inter"],
+                    "button": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-md": ["36px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                    "title-lg": ["28px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "button": ["16px", {"lineHeight": "1", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #fff8f6; }
+        .lesson-scroll::-webkit-scrollbar { width: 6px; }
+        .lesson-scroll::-webkit-scrollbar-track { background: transparent; }
+        .lesson-scroll::-webkit-scrollbar-thumb { background: #E8E0D9; border-radius: 10px; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- TopAppBar from JSON -->
+<header class="w-full sticky top-0 z-40 bg-[#FDFBF9] dark:bg-stone-950 border-b border-[#E8E0D9] dark:border-stone-800 shadow-sm flex justify-between items-center px-8 py-4 h-20">
+<div class="flex items-center gap-8">
+<h1 class="text-2xl font-bold tracking-tight text-[#C4632A]">YBR Platform</h1>
+<nav class="hidden md:flex gap-6 items-center">
+<span class="text-[#C4632A] font-semibold font-serif cursor-pointer active:opacity-80">Meus Cursos</span>
+<span class="text-stone-600 dark:text-stone-400 font-serif hover:text-[#C4632A] transition-colors duration-200 cursor-pointer active:opacity-80">Receitas</span>
+<span class="text-stone-600 dark:text-stone-400 font-serif hover:text-[#C4632A] transition-colors duration-200 cursor-pointer active:opacity-80">Comunidade</span>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-full text-label-md focus:ring-2 focus:ring-primary focus:border-primary outline-none w-64" placeholder="Buscar técnicas..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">shopping_cart</span>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-fixed">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="professional portrait of a smiling female pastry chef in a clean white uniform against a soft cream background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyFDr4kYyLWW8AxjLMmjenhWVuMH8rozV7nAOwPGjRxDaHpXD3l3rKx_dRmb-thPKBzcqTQ4PIKkTllbZBfFS4kF110i0ahkAPOvudy7SyMWimmCMdM8I4lWGrJBTyyQULB0sVrOxsXKbtPawt4NneLA1RNfF-DfyCsjK9YVLQjzr9-W_JDhlKxgElYsotNNQFhFP42qrVBytnKQqG_br3VOzr4BFToSai35Bz8xF6_ZReJUl93-JIgSsnNf3jkCyPQp6KOihoFI0v"/>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-[1440px] mx-auto px-8 py-8 flex flex-col md:flex-row gap-gutter">
+<!-- Left Column: Video & Tabs (70%) -->
+<div class="w-full md:w-[70%] flex flex-col gap-stack-md">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 text-label-md text-on-surface-variant mb-2">
+<span class="hover:text-primary cursor-pointer transition-colors">Meus Cursos</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="hover:text-primary cursor-pointer transition-colors">Dominando Macarons</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-primary font-bold">A Têmpera Perfeita</span>
+</nav>
+<!-- Video Player Component -->
+<div class="relative aspect-video bg-inverse-surface rounded-xl overflow-hidden shadow-lg border border-outline-variant group">
+<img alt="Video cover" class="w-full h-full object-cover opacity-90" data-alt="extreme close-up of a pastry chef piping perfectly round pink macaron shells onto a silicon mat, professional studio lighting, warm aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZ-pxlmFPSI95zHIdhsKK8_1U_Vbb9ihHeiKzOwE5ln1seGnX0AHvcFTr6IXP1reJWSb4blXE6xjA-NrEwwtDZP_guEnr8IBdBDQAx2Ilczu05Yp46WVOQcY5dcdPYK-CTX_M_Jny2EQBOzyBBT1ybum8ZjWlRaIaItgONmFbc1qnEZjteG2Cla3rs0m_o6WovDI7troX_-lGtqPUpUXQsUOy7qMKMYBTzmCDNmRKoES8AWujVGRCCJMVrt-zUzPM-hKfgX_utJX51"/>
+<!-- Video Controls Overlay -->
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="w-20 h-20 bg-primary/90 text-on-primary rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-5xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+<!-- Bottom Progress Bar -->
+<div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
+<div class="w-full h-1 bg-white/30 rounded-full mb-3">
+<div class="w-1/3 h-full bg-secondary-container rounded-full relative">
+<div class="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-md"></div>
+</div>
+</div>
+<div class="flex justify-between items-center text-white">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary-container">pause</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary-container">volume_up</span>
+<span class="text-label-md">12:45 / 45:00</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary-container">settings</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary-container">fullscreen</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Content Tabs -->
+<div class="mt-6 border-b border-outline-variant">
+<div class="flex gap-8">
+<button class="pb-4 text-primary border-b-2 border-primary font-button flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">video_library</span>
+                        Aula
+                    </button>
+<button class="pb-4 text-on-surface-variant hover:text-primary transition-colors font-button flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">description</span>
+                        Material
+                    </button>
+<button class="pb-4 text-on-surface-variant hover:text-primary transition-colors font-button flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">forum</span>
+                        Dúvidas
+                    </button>
+</div>
+</div>
+<!-- Tab Content: Aula Info -->
+<div class="py-stack-md flex flex-col gap-stack-sm">
+<h2 class="font-display-md text-display-md text-on-surface">A Têmpera Perfeita: Segredos do Merengue</h2>
+<div class="flex items-center gap-4 mb-4">
+<span class="px-3 py-1 bg-surface-container-high text-primary text-label-md rounded-full">Módulo 02</span>
+<span class="flex items-center gap-1 text-on-surface-variant text-label-md">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                        45 min
+                    </span>
+<span class="flex items-center gap-1 text-on-surface-variant text-label-md">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                        4.9 (234 avaliações)
+                    </span>
+</div>
+<p class="font-body-md text-on-surface-variant leading-relaxed max-w-3xl">
+                    Nesta aula avançada, mergulharemos na ciência por trás do merengue italiano. Você aprenderá o ponto exato da calda de açúcar e como atingir a estabilidade necessária para macarons que não racham e mantêm o pé perfeito.
+                </p>
+<!-- Instructor Mini Card -->
+<div class="flex items-center gap-4 mt-8 p-4 bg-surface-container-low rounded-xl border border-outline-variant">
+<img alt="Chef image" class="w-12 h-12 rounded-full object-cover" data-alt="close-up of a professional pastry chef with a focused expression, wearing a black chef jacket, soft bokeh studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6oiefGABsuktTnijXTtdiUdnNNB_4Co01pvkGTTiZ0A_HUJVSS9Q94HnRFVPgfDgJl-IXcVaMAloqRwpZCrNrtiKv61jdW7Jfu006SxhsNZaTEqxQImenIvOAkPxJD3WEu9njC_u7DwKqNtkzn66ManOC5Unuu51FUNRqKyobG58MgxyTbUvoBEoVqe3YeW54c8QtC9y_Zzhu_no3xY6zpUuqm0yB3tR9FPwH4EVM5xCwyRj0MYJeHDou9q0iZy6VHUuPD-5Xpm5M"/>
+<div>
+<h4 class="font-button text-on-surface">Chef Amanda Rodrigues</h4>
+<p class="text-label-md text-on-surface-variant">Especialista em Confeitaria Francesa</p>
+</div>
+<button class="ml-auto px-6 py-2 border border-primary text-primary rounded-full font-button hover:bg-primary/5 transition-colors">Seguir</button>
+</div>
+</div>
+</div>
+<!-- Right Column: Lesson List (30%) -->
+<aside class="w-full md:w-[30%] h-fit bg-surface-container-lowest rounded-2xl border border-outline-variant shadow-sm overflow-hidden flex flex-col">
+<div class="p-6 border-b border-outline-variant bg-[#FDFBF9]">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-1">Módulo 2: O Merengue</h3>
+<div class="flex items-center justify-between">
+<span class="text-label-md text-on-surface-variant">Progresso: 4/12 aulas</span>
+<span class="text-label-md font-bold text-primary">33%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full mt-2">
+<div class="w-1/3 h-full bg-secondary-container rounded-full"></div>
+</div>
+</div>
+<!-- Scrollable Lesson List -->
+<div class="lesson-scroll overflow-y-auto max-h-[calc(100vh-320px)]">
+<!-- Lesson Item (Completed) -->
+<div class="flex items-center gap-4 p-4 hover:bg-surface-container-low cursor-pointer transition-colors border-b border-surface-variant">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<div class="flex-grow">
+<p class="text-label-md text-on-surface-variant mb-0.5">Aula 01</p>
+<h4 class="font-button text-on-surface">Introdução aos Ingredientes</h4>
+</div>
+<span class="text-label-md text-outline">12:00</span>
+</div>
+<!-- Lesson Item (Active) -->
+<div class="flex items-center gap-4 p-4 bg-primary/5 border-l-4 border-primary border-b border-surface-variant">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+<div class="flex-grow">
+<p class="text-label-md text-primary font-bold mb-0.5">Aula 02</p>
+<h4 class="font-button text-primary">A Têmpera Perfeita</h4>
+</div>
+<span class="text-label-md text-primary">45:00</span>
+</div>
+<!-- Lesson Item (Next) -->
+<div class="flex items-center gap-4 p-4 hover:bg-surface-container-low cursor-pointer transition-colors border-b border-surface-variant">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center border border-outline-variant">
+<span class="text-xs font-bold">03</span>
+</div>
+<div class="flex-grow">
+<p class="text-label-md text-on-surface-variant mb-0.5">Aula 03</p>
+<h4 class="font-button text-on-surface">A Macaronage Manual</h4>
+</div>
+<span class="text-label-md text-outline">28:00</span>
+</div>
+<!-- Lesson Item (Locked) -->
+<div class="flex items-center gap-4 p-4 bg-surface-bright/50 opacity-60 border-b border-surface-variant grayscale">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">lock</span>
+</div>
+<div class="flex-grow">
+<p class="text-label-md text-on-surface-variant mb-0.5">Aula 04</p>
+<h4 class="font-button text-on-surface">Colorimetria e Pigmentos</h4>
+</div>
+<span class="text-label-md text-outline">35:00</span>
+</div>
+<!-- Repeat Lesson Items for scroll demonstration -->
+<div class="flex items-center gap-4 p-4 hover:bg-surface-container-low cursor-pointer transition-colors border-b border-surface-variant">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center border border-outline-variant">
+<span class="text-xs font-bold">05</span>
+</div>
+<div class="flex-grow">
+<p class="text-label-md text-on-surface-variant mb-0.5">Aula 05</p>
+<h4 class="font-button text-on-surface">Assamento e Circulação de Ar</h4>
+</div>
+<span class="text-label-md text-outline">40:00</span>
+</div>
+<div class="flex items-center gap-4 p-4 hover:bg-surface-container-low cursor-pointer transition-colors border-b border-surface-variant">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center border border-outline-variant">
+<span class="text-xs font-bold">06</span>
+</div>
+<div class="flex-grow">
+<p class="text-label-md text-on-surface-variant mb-0.5">Aula 06</p>
+<h4 class="font-button text-on-surface">Resfriamento e Cura</h4>
+</div>
+<span class="text-label-md text-outline">15:00</span>
+</div>
+</div>
+<!-- Footer CTA -->
+<div class="p-4 bg-[#FDFBF9]">
+<button class="w-full bg-primary text-on-primary rounded-full py-4 font-button shadow-md hover:bg-primary/90 active:scale-95 transition-all">
+                    Finalizar Módulo
+                </button>
+</div>
+</aside>
+</main>
+<!-- SideNavBar (Mobile Toggle Placeholder Logic) -->
+<div class="md:hidden fixed bottom-6 right-6 z-50">
+<button class="w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</body></html>

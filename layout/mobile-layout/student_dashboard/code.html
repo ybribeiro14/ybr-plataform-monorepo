@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=Inter:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#241a00",
+                        "on-primary": "#ffffff",
+                        "primary": "#984207",
+                        "secondary-fixed-dim": "#e6c364",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#e9d6cf",
+                        "primary-fixed-dim": "#ffb691",
+                        "secondary": "#755b00",
+                        "outline": "#897268",
+                        "surface-container-high": "#f7e4dc",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#004d63",
+                        "on-surface": "#231915",
+                        "surface-tint": "#9b450a",
+                        "primary-fixed": "#ffdbcb",
+                        "on-tertiary-container": "#fbfdff",
+                        "surface-bright": "#fff8f6",
+                        "surface-variant": "#f1dfd7",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#ffede6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#793100",
+                        "tertiary-container": "#007ea1",
+                        "surface-container-highest": "#f1dfd7",
+                        "surface": "#fff8f6",
+                        "surface-container": "#fdeae2",
+                        "on-tertiary-fixed": "#001f2a",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#ffe08f",
+                        "on-surface-variant": "#56433a",
+                        "surface-container-low": "#fff1eb",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#70d2fa",
+                        "on-background": "#231915",
+                        "outline-variant": "#dcc1b5",
+                        "background": "#fff8f6",
+                        "on-primary-container": "#fffbff",
+                        "secondary-container": "#fed977",
+                        "on-primary-fixed": "#341100",
+                        "tertiary-fixed": "#bce9ff",
+                        "on-secondary-container": "#785d00",
+                        "inverse-primary": "#ffb691",
+                        "on-secondary-fixed-variant": "#584400",
+                        "inverse-surface": "#392e29",
+                        "primary-container": "#b85a21",
+                        "tertiary": "#006480"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "stack-md": "16px",
+                        "stack-sm": "8px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "stack-lg": "32px",
+                        "section-gap": "80px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["DM Serif Display"],
+                        "title-lg": ["DM Serif Display"],
+                        "button": ["Inter"],
+                        "display-md": ["DM Serif Display"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                        "title-lg": ["28px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "button": ["16px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "display-md": ["36px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-24">
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 max-w-7xl mx-auto bg-[#FDFBF9] dark:bg-stone-950 border-b border-[#E8E0D9] dark:border-stone-800 shadow-[0_4px_20px_rgba(196,99,42,0.04)]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="close-up portrait of a smiling young woman with warm natural lighting and soft blurred outdoor background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnZCeA5pUkw-4R5hsnF-rGHLG_F8xJzk3ZnVoMdv-HcMEks7BY-_shdspLmLgXsvWt5YcA27DIUUgrnTBDCPzFuhXtE1PGwKtcXUmwnPr5Js64lQ0nc6Mgl9b9HlmPfWmDWP_tMktUO4hn21fvu5kZ3OeRD6-2uNxK5S7H3OhVOxIEEd86pU-NYVYzKxuFS2r8V_siMHKMm4BWF1PishcPh1FtQS-7gsuOd1ryghZSR0VG41DGaNMNaU27T7FCzHyih4MvgK-quS22"/>
+</div>
+</div>
+<h1 class="font-title-lg text-title-lg text-primary text-center">Olá, Ana! 👋</h1>
+<button class="w-10 h-10 flex items-center justify-center text-primary hover:bg-[#F5EFEA] rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<main class="pt-24 px-4 max-w-4xl mx-auto space-y-10">
+<!-- Search Section -->
+<section class="relative">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full h-14 pl-12 pr-4 bg-surface-container-lowest border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-on-surface" placeholder="Buscar aulas..." type="text"/>
+</div>
+</section>
+<!-- Continue Section -->
+<section>
+<h2 class="font-title-lg text-title-lg text-on-surface mb-6">Continue de onde parou</h2>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-3xl overflow-hidden shadow-[0_4px_20px_rgba(196,99,42,0.08)] flex flex-col md:flex-row">
+<div class="md:w-1/3 aspect-video md:aspect-auto relative group">
+<img alt="Brigadeiro Gourmet" class="w-full h-full object-cover" data-alt="Close-up of premium chocolate brigadeiros rolled in high-quality cocoa nibs on a clean cream-colored plate, professional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcjuB2dFSJhtKyPvOzoHpAJljZ58UVivC0dDUxAJKVB3_FOjZYQtzuzDhcnK5-Jo6ZkfiRkgqWAIFAa2Mo6yMJnDBUNYe_q42klZHQphiPQx8kaIft79EwDbgnJxpY5D0Snq70aVsi9j5O_4ia4Bh0rsX6u3eUoCfNgl32UAd1wriuQL2FchQaHs9s_GW4OC9cyZidN7ZvPrCrwlAOTBVmFObpObynxo3A4CO3Fct2b0h2fKsDZZf9QtYx2Eo-PXO6Xp9wUhYtR7il"/>
+<div class="absolute inset-0 bg-primary/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="bg-primary text-on-primary w-14 h-14 rounded-full flex items-center justify-center shadow-lg transform scale-90 group-hover:scale-100 transition-transform">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+</div>
+<div class="p-6 md:w-2/3 flex flex-col justify-between">
+<div>
+<span class="inline-block px-3 py-1 bg-surface-container-high text-primary font-label-md text-label-md rounded-full mb-3 uppercase tracking-widest">Doces Americanos para Vender</span>
+<h3 class="font-display-md text-display-md text-on-surface-variant leading-tight mb-2">Aula 7 — Brigadeiro Gourmet</h3>
+</div>
+<div class="mt-6 space-y-2">
+<div class="flex justify-between font-label-md text-label-md text-on-surface-variant">
+<span>Progresso atual</span>
+<span class="text-primary">67%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 67%"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Meus Cursos Section -->
+<section>
+<div class="flex justify-between items-end mb-6">
+<h2 class="font-title-lg text-title-lg text-on-surface">Meus Cursos</h2>
+<button class="text-primary font-label-md text-label-md uppercase tracking-wider hover:underline">Ver todos</button>
+</div>
+<div class="flex gap-6 overflow-x-auto pb-4 hide-scrollbar -mx-4 px-4">
+<!-- Course Card 1 -->
+<div class="flex-shrink-0 w-72 bg-surface-container-lowest border border-outline-variant rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+<div class="h-40 relative">
+<img alt="Macarons" class="w-full h-full object-cover" data-alt="Stunning stack of pastel-colored French macarons on a light linen surface with soft cinematic depth of field" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD61rlaiglSHucDPEdM9DuwoYjdt_PEUCQ8JsvYBv05IoPrKYIom8brigIzhFYnSk3FqvgBtnC13bvpy-4sJaSGs0n-tUCfm3_goe3gY7saqylzkprLaAald5JgvlOHMd_foB71ZSDoWfOCninDyhXi941Q9U0DLI-IfUiTMBCpE6O-tkft95JspX88mofjBLKlnOVjVQBoWDfnRiMWW13aJFI5t5ipNhLYUfL3C5BAzuAuAM29N6KbLLz2iZlsierCFDdonmg_Rj9Y"/>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded-lg flex items-center gap-1.5 border border-outline-variant/30">
+<svg class="w-8 h-8 -rotate-90">
+<circle class="text-surface-container" cx="16" cy="16" fill="transparent" r="14" stroke="currentColor" stroke-width="3"></circle>
+<circle class="text-primary" cx="16" cy="16" fill="transparent" r="14" stroke="currentColor" stroke-dasharray="87.96" stroke-dashoffset="17.59" stroke-width="3"></circle>
+</svg>
+<span class="text-[10px] font-bold text-primary">80%</span>
+</div>
+</div>
+<div class="p-4">
+<h4 class="font-label-md text-on-surface-variant line-clamp-2">Macarons Franceses: A Técnica Perfeita</h4>
+<p class="text-[12px] text-outline mt-1">12 de 15 aulas concluídas</p>
+</div>
+</div>
+<!-- Course Card 2 -->
+<div class="flex-shrink-0 w-72 bg-surface-container-lowest border border-outline-variant rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+<div class="h-40 relative">
+<img alt="Entremets" class="w-full h-full object-cover" data-alt="Elegant entremet cake with shiny chocolate mirror glaze and gold leaf decoration on a dark pedestal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZrvHP2vAHzyTz4BpK1DdSH6hqIA6VM8d1tLIDZYD90BwvBCDynp-5z8NaGQedAa10JShmFMwWf3CwnSOCZ9TrdlBPwnqGCeA3KNIlg6CbYrAxtLmpe2IUt0Dy8t_ftcOsy5fRzm2r0KKFDuyhnWQ_idVaK2xHouggFtKKogORa8HBxJH4FuW0fU6hiqT_3-6-EImtxTSxGbYG1GwPxldxiiT4yzjpZc7Z14en74MHtfGaYmb206UEDez8CzSiVoS1HzOfiYVj792o"/>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded-lg flex items-center gap-1.5 border border-outline-variant/30">
+<svg class="w-8 h-8 -rotate-90">
+<circle class="text-surface-container" cx="16" cy="16" fill="transparent" r="14" stroke="currentColor" stroke-width="3"></circle>
+<circle class="text-primary" cx="16" cy="16" fill="transparent" r="14" stroke="currentColor" stroke-dasharray="87.96" stroke-dashoffset="61.57" stroke-width="3"></circle>
+</svg>
+<span class="text-[10px] font-bold text-primary">30%</span>
+</div>
+</div>
+<div class="p-4">
+<h4 class="font-label-md text-on-surface-variant line-clamp-2">Entremets de Vitrine: Brilho e Textura</h4>
+<p class="text-[12px] text-outline mt-1">4 de 12 aulas concluídas</p>
+</div>
+</div>
+<!-- Course Card 3 -->
+<div class="flex-shrink-0 w-72 bg-surface-container-lowest border border-outline-variant rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+<div class="h-40 relative">
+<img alt="Cupcakes" class="w-full h-full object-cover" data-alt="Delicate cupcakes with piped buttercream roses in cream and peach tones, soft window lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtLGGeRmrxX2qrGBnGu2hWjdUzt-tLSVBxs-I522LNHgg7jSv8oOt0CHs3KWeBPmdBXlntyEp3doSl2wVriAEzt3OWZ77RSJIswGpkb3CYep_X9ZegUOK6fq9voPeajxpexPkJQDh9VtXyUOIfcv7u6GzIB20pBdVvEWba6fBjQPdqGBRjce7dWwabkWoSd74ZqmfkqHy8RSy5z5VLsTcCBVYD6x6uc7o85UwNi8tsGkvgldQVDlCZKCOm-6dHsT5vPPKvqfiUjMWV"/>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded-lg flex items-center gap-1.5 border border-outline-variant/30">
+<svg class="w-8 h-8 -rotate-90">
+<circle class="text-surface-container" cx="16" cy="16" fill="transparent" r="14" stroke="currentColor" stroke-width="3"></circle>
+<circle class="text-primary" cx="16" cy="16" fill="transparent" r="14" stroke="currentColor" stroke-dasharray="87.96" stroke-dashoffset="0" stroke-width="3"></circle>
+</svg>
+<span class="text-[10px] font-bold text-primary">100%</span>
+</div>
+</div>
+<div class="p-4">
+<h4 class="font-label-md text-on-surface-variant line-clamp-2">Confeitaria Criativa: Decoração com Bicos</h4>
+<p class="text-[12px] text-outline mt-1">Concluído</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats & Achievements (Asymmetric Layout) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Sua Jornada Stats -->
+<section class="md:col-span-2 space-y-6">
+<h2 class="font-title-lg text-title-lg text-on-surface">Sua jornada</h2>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+<div class="bg-surface-container-low p-6 rounded-3xl border border-outline-variant/50">
+<span class="material-symbols-outlined text-primary mb-3">auto_stories</span>
+<p class="text-3xl font-display-md text-primary">48</p>
+<p class="text-[12px] font-label-md text-outline uppercase tracking-tight">Aulas assistidas</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-3xl border border-outline-variant/50">
+<span class="material-symbols-outlined text-primary mb-3">schedule</span>
+<p class="text-3xl font-display-md text-primary">12h</p>
+<p class="text-[12px] font-label-md text-outline uppercase tracking-tight">Horas de estudo</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-3xl border border-outline-variant/50 col-span-2 md:col-span-1">
+<span class="material-symbols-outlined text-primary mb-3">verified</span>
+<p class="text-3xl font-display-md text-primary">03</p>
+<p class="text-[12px] font-label-md text-outline uppercase tracking-tight">Certificados</p>
+</div>
+</div>
+</section>
+<!-- Próximas Conquistas Section -->
+<section class="space-y-6">
+<h2 class="font-title-lg text-title-lg text-on-surface">Próximas Conquistas</h2>
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-4 bg-surface-container-lowest p-4 rounded-2xl border border-outline-variant/30">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container opacity-50 grayscale">
+<span class="material-symbols-outlined">star</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface-variant">Mestre do Chocolate</p>
+<p class="text-[10px] text-outline">Assista mais 5 aulas</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-surface-container-lowest p-4 rounded-2xl border border-outline-variant/30">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary-fixed-dim opacity-50 grayscale">
+<span class="material-symbols-outlined">local_fire_department</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface-variant">Fogo Constante</p>
+<p class="text-[10px] text-outline">7 dias de acesso seguidos</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe pt-2 bg-[#FDFBF9]/90 backdrop-blur-md dark:bg-stone-950/90 border-t border-[#E8E0D9] dark:border-stone-800 shadow-[0_-4px_20px_rgba(196,99,42,0.06)] h-18">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center text-[#C4632A] bg-[#F5EFEA] dark:bg-stone-900 rounded-2xl px-3 py-1 scale-95 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest mt-1">Home</span>
+</a>
+<!-- Cursos -->
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 hover:text-[#C4632A] transition-all" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest mt-1">Cursos</span>
+</a>
+<!-- Comunidade -->
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 hover:text-[#C4632A] transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest mt-1">Comunidade</span>
+</a>
+<!-- Certificados -->
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 hover:text-[#C4632A] transition-all" href="#">
+<span class="material-symbols-outlined">workspace_premium</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest mt-1">Certificados</span>
+</a>
+<!-- Perfil -->
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 hover:text-[#C4632A] transition-all" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest mt-1">Perfil</span>
+</a>
+</nav>
+</body></html>

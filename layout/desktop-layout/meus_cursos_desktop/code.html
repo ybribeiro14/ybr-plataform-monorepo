@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#dcc1b5",
+                        "on-secondary-fixed-variant": "#584400",
+                        "secondary-fixed-dim": "#e6c364",
+                        "secondary-container": "#fed977",
+                        "inverse-on-surface": "#ffede6",
+                        "surface-container-highest": "#f1dfd7",
+                        "surface-variant": "#f1dfd7",
+                        "on-tertiary-container": "#fbfdff",
+                        "on-tertiary-fixed-variant": "#004d63",
+                        "secondary": "#755b00",
+                        "on-secondary": "#ffffff",
+                        "primary": "#984207",
+                        "on-error": "#ffffff",
+                        "tertiary": "#006480",
+                        "primary-fixed-dim": "#ffb691",
+                        "on-primary-container": "#fffbff",
+                        "tertiary-fixed": "#bce9ff",
+                        "on-primary-fixed-variant": "#793100",
+                        "on-primary-fixed": "#341100",
+                        "outline": "#897268",
+                        "on-tertiary-fixed": "#001f2a",
+                        "on-surface": "#231915",
+                        "surface-container": "#fdeae2",
+                        "on-surface-variant": "#56433a",
+                        "tertiary-container": "#007ea1",
+                        "surface-tint": "#9b450a",
+                        "tertiary-fixed-dim": "#70d2fa",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "background": "#fff8f6",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#ffe08f",
+                        "surface-container-high": "#f7e4dc",
+                        "surface": "#fff8f6",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#fff1eb",
+                        "surface-dim": "#e9d6cf",
+                        "surface-bright": "#fff8f6",
+                        "on-secondary-container": "#785d00",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#ffdbcb",
+                        "on-background": "#231915",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#392e29",
+                        "on-secondary-fixed": "#241a00",
+                        "inverse-primary": "#ffb691",
+                        "primary-container": "#b85a21"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "section-gap": "80px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "unit": "8px",
+                        "stack-lg": "32px",
+                        "stack-sm": "8px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["DM Serif Display"],
+                        "display-md": ["DM Serif Display"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "button": ["Inter"],
+                        "display-lg": ["DM Serif Display"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["28px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "display-md": ["36px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "button": ["16px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .course-card-shadow {
+            box-shadow: 0px 4px 20px rgba(196, 99, 42, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 bottom-0 w-64 border-r border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950 flex flex-col h-screen py-6 px-4">
+<div class="mb-10 px-4">
+<h1 class="text-lg font-serif text-orange-900 dark:text-stone-50 leading-tight">Ateliê YBR</h1>
+<p class="text-xs uppercase tracking-widest text-stone-500 font-sans mt-1">Alta Confeitaria</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-900 hover:translate-x-1 transition-transform duration-200 rounded-lg font-sans text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+                Explorar
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-orange-800 dark:text-orange-300 bg-orange-50 dark:bg-orange-900/20 font-bold border-r-4 border-orange-700 font-sans text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="school" style="font-variation-settings: 'FILL' 1;">school</span>
+                Meus Cursos
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-900 hover:translate-x-1 transition-transform duration-200 rounded-lg font-sans text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+                Favoritos
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-900 hover:translate-x-1 transition-transform duration-200 rounded-lg font-sans text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="workspace_premium">workspace_premium</span>
+                Certificados
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-900 hover:translate-x-1 transition-transform duration-200 rounded-lg font-sans text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="help_center">help_center</span>
+                Suporte
+            </a>
+</nav>
+<div class="mt-auto px-4 pt-6 border-t border-stone-200">
+<button class="w-full bg-primary text-on-primary py-3 rounded-full font-button text-button hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                Novo Curso
+            </button>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 left-64 h-16 bg-stone-50/80 dark:bg-stone-950/80 backdrop-blur-md border-b border-stone-200 dark:border-stone-800 shadow-sm z-10 flex justify-between items-center px-8 w-full">
+<div class="flex items-center gap-4">
+<span class="font-title-lg text-stone-900">YBR Platform</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-stone-400" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-stone-100 dark:bg-stone-900 border-none rounded-full text-sm focus:ring-2 focus:ring-primary w-64" placeholder="Buscar em meus cursos..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-900 rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-900 rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden ml-2 border border-stone-200">
+<img alt="User profile" class="h-full w-full object-cover" data-alt="Close-up portrait of a professional chef smiling in a bright kitchen setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_Z9eqU0UnJIjMtayDxITbEh33UTxf25Tkvab07vgZiDgkEZR_fuuM_vrtpGMrGtksbIbJ9Vs9sRWbmVVzpAS-Y_jZyNaVwCeuLh6E0TopMHLY8MT6xhgRBcpOwTrVD8BPxUViH61P1XRb2mI6SBk9yGfQgyGNfHlaHXlurEFIBhh96xjlXaYMMafsv83YPysaxcA_JEqlOLE-OvjT5eWcOZALadhWpGO_g5fxNLb6oXaqkdVvXjIWgg_IvHXG0rvFI5nnZCuvKdjH"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 pt-24 pb-20 px-12">
+<div class="max-w-container-max mx-auto">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-stack-lg gap-6">
+<div>
+<h2 class="font-display-md text-display-md text-primary mb-2">Meus Cursos</h2>
+<p class="font-body-md text-on-surface-variant max-w-2xl">Continue sua jornada de excelência na alta confeitaria de onde parou.</p>
+</div>
+<div class="flex gap-2 p-1 bg-stone-100 rounded-full self-start">
+<button class="px-6 py-2 rounded-full font-label-md text-label-md bg-white text-primary shadow-sm">Todos</button>
+<button class="px-6 py-2 rounded-full font-label-md text-label-md text-stone-600 hover:text-primary transition-colors">Em andamento</button>
+<button class="px-6 py-2 rounded-full font-label-md text-label-md text-stone-600 hover:text-primary transition-colors">Concluídos</button>
+</div>
+</div>
+<!-- Courses Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
+<!-- Course Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden course-card-shadow flex flex-col group transition-all hover:-translate-y-1">
+<div class="aspect-video relative overflow-hidden">
+<img alt="Curso de Macarons" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Close-up of pastel colored French macarons neatly arranged on a white plate with soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_MWD8RyDgnOowQK8NONDYs6tNeZmontT4Wku1KqboNi5s1KXURll-CtLuhKjGTHfl5IFzegXHmbUMKQtfGz73WRatrl0iy-HZMoafZ6C5eYljB-NJTVB20PPt-o3lcrUNc6ZkdM9oqRQSE0srKy4G8HCh38oFSiddimeFOmpDM8lYS4_jCq-1ZrIf_T_U3CK8QzAJf-sj8erC81go-Z4d6Cjp4uxb2sUJxer7GaDh95X9JhhBgSVc9_W_WWOIO5PxBk2o7e7Sc8Ve"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-5xl" data-icon="play_circle">play_circle</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<span class="inline-block px-3 py-1 rounded-full bg-orange-50 text-orange-800 text-[10px] font-bold uppercase tracking-wider mb-3 w-fit">Intermediário</span>
+<h3 class="font-title-lg text-xl text-on-surface mb-1 leading-snug">Macarons Franceses: A Técnica Perfeita</h3>
+<p class="font-body-md text-sm text-stone-500 mb-4">Chef Isabella Rocha</p>
+<div class="mt-auto">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-semibold text-primary">42% concluído</span>
+<span class="text-xs text-stone-400">12/28 aulas</span>
+</div>
+<div class="w-full bg-stone-100 h-1.5 rounded-full mb-5">
+<div class="bg-secondary h-full rounded-full" style="width: 42%"></div>
+</div>
+<button class="w-full py-3 bg-primary text-on-primary rounded-full font-button text-sm hover:opacity-90 transition-opacity">Continuar</button>
+</div>
+</div>
+</div>
+<!-- Course Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden course-card-shadow flex flex-col group transition-all hover:-translate-y-1">
+<div class="aspect-video relative overflow-hidden">
+<img alt="Curso de Chocolate" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Macro shot of shiny tempered chocolate truffles being decorated with gold leaf in a professional workshop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGh4h4-s81p7XUHJR5NV-_modh_m1SnMBXFzuPwAHMHkB4RqBGorI6_WpWZk2RdmDH5uqZnCGSKCm4FXDM4_LpcCNu3MenZOwMMv0Cl_RhXjZfseCxRILfyJXtr68C4Yv81fPMBlITzjOM1r0PMqJjTykS-rGhjvTuNeTJ0dGg_N96v01etNu-ohzcAll6G0ElF2IvaK9gw0azKfOpmJN_SXIqMmLBCMd4tGh5RmKJVfgh9N_tx1FSy49FW90e96bRJVMLpY28FUhH"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-5xl" data-icon="play_circle">play_circle</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<span class="inline-block px-3 py-1 rounded-full bg-orange-50 text-orange-800 text-[10px] font-bold uppercase tracking-wider mb-3 w-fit">Avançado</span>
+<h3 class="font-title-lg text-xl text-on-surface mb-1 leading-snug">Temperagem e Esculturas em Chocolate</h3>
+<p class="font-body-md text-sm text-stone-500 mb-4">Chef Marcos Vinícius</p>
+<div class="mt-auto">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-semibold text-primary">15% concluído</span>
+<span class="text-xs text-stone-400">3/20 aulas</span>
+</div>
+<div class="w-full bg-stone-100 h-1.5 rounded-full mb-5">
+<div class="bg-secondary h-full rounded-full" style="width: 15%"></div>
+</div>
+<button class="w-full py-3 bg-primary text-on-primary rounded-full font-button text-sm hover:opacity-90 transition-opacity">Continuar</button>
+</div>
+</div>
+</div>
+<!-- Course Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden course-card-shadow flex flex-col group transition-all hover:-translate-y-1">
+<div class="aspect-video relative overflow-hidden">
+<img alt="Curso de Entremets" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Artistic cross section of a multi-layered entremet cake showing precise textures and colors on a minimalist background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6rF4-3T_bdPutQnbQxJ5eB3foNU0Q3hTwVM8gYtOaTpdpkKd7WlN9n0P7QgoDDINc1azOaZK6iccBV5ELcbMJwaRsktWlJkb5tx9sRnM32VNKMWuEVFngvIYBGOmWsPK5T3VbIklmIrDgyczLlLR5QD9e6RodcVVxL9FMbk9B5fqRtqe523PdF2iq4K0iU_w3yO3uCarXPxm9QAxASOQoIL5msg6sJjtY71Ul2abrsuD577G5t89d9N8zh7fkpNo1z1qnVMuTcAUk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-5xl" data-icon="play_circle">play_circle</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<span class="inline-block px-3 py-1 rounded-full bg-orange-50 text-orange-800 text-[10px] font-bold uppercase tracking-wider mb-3 w-fit">Iniciante</span>
+<h3 class="font-title-lg text-xl text-on-surface mb-1 leading-snug">Entremets Modernas e Glaceagem Espelho</h3>
+<p class="font-body-md text-sm text-stone-500 mb-4">Chef Clara Mendes</p>
+<div class="mt-auto">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-semibold text-primary">85% concluído</span>
+<span class="text-xs text-stone-400">17/20 aulas</span>
+</div>
+<div class="w-full bg-stone-100 h-1.5 rounded-full mb-5">
+<div class="bg-secondary h-full rounded-full" style="width: 85%"></div>
+</div>
+<button class="w-full py-3 bg-primary text-on-primary rounded-full font-button text-sm hover:opacity-90 transition-opacity">Continuar</button>
+</div>
+</div>
+</div>
+<!-- Course Card 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden course-card-shadow flex flex-col group transition-all hover:-translate-y-1">
+<div class="aspect-video relative overflow-hidden">
+<img alt="Curso de Padaria" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Golden brown sourdough bread loaf with beautiful scoring resting on a rustic linen cloth with flour dusting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZmv65lKJOwzeK55r6T6ltmI3RiH1r61Ub23JVbcyw7GuXMjNZJtFVVpXD5L6eGZSRloDeHAjNfqqAheB_2g-nwPPAfME-sBHg_nGAejg9ZEkAYkeTO1uPTM_kyS7QeQNX_eTXzC_qW9Awk44ytW1ELIFJAAvEKfuBpuXc_QmZmoavrPQppqNew_PZ8rIAc-0ixIfaWWYqEmWzEL7dMqT9gsdyZBOU97yjhaf-vOl9Qq2gDxs34rZC30JzAnSI2kkxoehwpUehKr3A"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-5xl" data-icon="play_circle">play_circle</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<span class="inline-block px-3 py-1 rounded-full bg-orange-50 text-orange-800 text-[10px] font-bold uppercase tracking-wider mb-3 w-fit">Intermediário</span>
+<h3 class="font-title-lg text-xl text-on-surface mb-1 leading-snug">Pães Artesanais e Levain do Zero</h3>
+<p class="font-body-md text-sm text-stone-500 mb-4">Chef André Silva</p>
+<div class="mt-auto">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-semibold text-primary">10% concluído</span>
+<span class="text-xs text-stone-400">2/20 aulas</span>
+</div>
+<div class="w-full bg-stone-100 h-1.5 rounded-full mb-5">
+<div class="bg-secondary h-full rounded-full" style="width: 10%"></div>
+</div>
+<button class="w-full py-3 bg-primary text-on-primary rounded-full font-button text-sm hover:opacity-90 transition-opacity">Continuar</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-auto py-8 bg-stone-100 dark:bg-stone-900 border-t border-stone-200 dark:border-stone-800 flex flex-col md:flex-row justify-between items-center px-12 ml-64">
+<p class="text-xs uppercase tracking-widest font-sans text-stone-500">© 2024 YBR Platform. Excelência em Confeitaria.</p>
+<div class="flex gap-8 mt-4 md:mt-0">
+<a class="text-xs uppercase tracking-widest font-sans text-stone-500 hover:text-orange-600 underline underline-offset-4 opacity-100 hover:opacity-80 transition-opacity" href="#">Termos</a>
+<a class="text-xs uppercase tracking-widest font-sans text-stone-500 hover:text-orange-600 underline underline-offset-4 opacity-100 hover:opacity-80 transition-opacity" href="#">Privacidade</a>
+<a class="text-xs uppercase tracking-widest font-sans text-stone-500 hover:text-orange-600 underline underline-offset-4 opacity-100 hover:opacity-80 transition-opacity" href="#">Ajuda</a>
+</div>
+</footer>
+</body></html>
