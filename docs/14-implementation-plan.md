@@ -2,7 +2,7 @@
 
 **Date:** 2026-04-24  
 **Last Updated:** 2026-04-24  
-**Status:** 🟢 Phase 0 complete — Phase 1 in progress  
+**Status:** 🟢 Phase 0 complete — Phase 0.5 (Swagger) complete — Phase 1 in progress  
 **Monorepo:** `ybr-plataform/platform/`
 
 > ⚠️ **MANDATORY RULE:** Every agent that completes a task MUST immediately mark the corresponding item with `[x]` in this document before finishing. This file is the single source of truth for what has been done.
@@ -280,7 +280,88 @@ apps/web/
 
 ---
 
+## PHASE 0.5 — API Documentation Standards (Week 2–3)
+
+> **Owner:** `nodejs-especialist`  
+> **Mandatory rule:** Every API route implemented from this point on MUST be documented in Swagger before the task is considered complete. No route is accepted without correct Swagger annotations in English.
+
+### 0.14 — Swagger Configuration & Standards
+
+This phase establishes the complete OpenAPI/Swagger foundation that all future API routes must follow. It runs in parallel with the end of Phase 0 and MUST be completed before any Phase 1 routes are implemented.
+
+#### What to implement
+
+1. **Enhanced Swagger bootstrap** in `apps/api/src/app.ts`:
+   - Security schemes: `BearerAuth` (JWT)
+   - Global tag definitions (one per domain)
+   - Server URLs per environment
+   - Contact and license metadata
+
+2. **Swagger helper modules** in `apps/api/src/swagger/`:
+   - `tags.ts` — Canonical tag list with descriptions
+   - `security.ts` — Reusable security requirement objects
+   - `responses.ts` — Standard response schema helpers (`ApiResponse<T>`, error bodies)
+
+3. **Document all existing routes** (currently only `/health`)
+
+4. **Developer guide** in `apps/api/src/swagger/README.md` — Pattern reference for annotating new routes
+
+#### Tag definitions (all routes must use one of these)
+
+| Tag             | Description                                          |
+| --------------- | ---------------------------------------------------- |
+| `health`        | Service health check                                 |
+| `auth`          | Authentication — register, login, tokens, passwords  |
+| `admin/courses` | Creator course management (protected: creator role)  |
+| `admin/modules` | Module CRUD within courses (protected: creator role) |
+| `admin/lessons` | Lesson CRUD within modules (protected: creator role) |
+| `student`       | Student-facing data — enrollments, progress          |
+| `public`        | Public endpoints — course landing pages, catalog     |
+| `payments`      | Stripe checkout and webhooks                         |
+| `coupons`       | Coupon validation and management                     |
+| `certificates`  | Certificate generation and verification              |
+
+#### Mandatory Swagger annotation pattern (all future routes)
+
+Every route MUST include the following in its schema:
+
+```typescript
+schema: {
+  tags: ['<domain-tag>'],          // Required — one of the canonical tags above
+  summary: 'Short action summary', // Required — max 60 chars, plain English
+  description: 'Full description', // Optional — longer context, markdown ok
+  security: [{ BearerAuth: [] }],  // Required for protected routes only
+  body: z.object({ ... }),         // Required if POST/PATCH/PUT
+  params: z.object({ ... }),       // Required if route has URL params
+  querystring: z.object({ ... }),  // Required if route has query params
+  response: {
+    200: z.object({ ... }),        // Required — document success shape
+    400: z.object({ ... }),        // Required if validation errors possible
+    401: z.object({ ... }),        // Required for protected routes
+    404: z.object({ ... }),        // Required if resource can be not found
+  },
+}
+```
+
+#### Checklist
+
+- [x] Swagger plugins installed (`@fastify/swagger`, `@fastify/swagger-ui`)
+- [x] Basic Swagger registration in `app.ts`
+- [x] Security scheme `BearerAuth` added to Swagger config
+- [x] All canonical tags registered with descriptions
+- [x] Server URLs added for dev, staging, and production
+- [x] `src/swagger/tags.ts` created
+- [x] `src/swagger/security.ts` created
+- [x] `src/swagger/responses.ts` created
+- [x] `GET /health` fully annotated with tag, summary, response schema
+- [x] `src/swagger/README.md` developer guide created
+- [x] Swagger UI accessible at `http://localhost:3002/docs` with no errors
+
+---
+
 ## PHASE 1 — MVP (Week 3–8)
+
+> ⚠️ **SWAGGER REQUIREMENT:** Every route implemented in Phase 1 and beyond MUST include complete Swagger annotations (tags, summary, response schemas, security) in English before the task can be marked `[x]`. Routes without Swagger docs are considered incomplete.
 
 ### 1.1 — Authentication (Week 3)
 

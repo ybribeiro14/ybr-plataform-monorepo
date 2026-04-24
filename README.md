@@ -425,11 +425,97 @@ docker compose logs postgres # View PostgreSQL logs
 
 ## API Documentation
 
-When the API is running in development mode, interactive Swagger documentation is available at:
+Interactive Swagger/OpenAPI documentation is served by the API in all non-production environments.
 
-**http://localhost:3002/docs**
+### Accessing the docs
 
-The docs include all endpoints, request/response schemas, and authentication requirements.
+| Environment | URL                                       |
+| ----------- | ----------------------------------------- |
+| Local dev   | http://localhost:3002/docs                |
+| Staging     | https://api-staging.ybr-platform.com/docs |
+| Production  | _(disabled — security hardening)_         |
+
+Start the API and open the URL in your browser:
+
+```bash
+pnpm dev --filter api
+# then open: http://localhost:3002/docs
+```
+
+### What's documented
+
+Every endpoint exposes:
+
+- **Summary** — one-line description of the action
+- **Request schema** — body, URL params, and query string validated via Zod
+- **Response schemas** — documented for all status codes (200, 400, 401, 404, etc.)
+- **Authentication** — protected routes show the `BearerAuth` lock icon
+- **Tags** — endpoints grouped by domain (auth, admin/courses, student, payments, etc.)
+
+### Authenticating in the Swagger UI
+
+1. Call `POST /auth/login` with your credentials — copy the `accessToken` from the response
+2. Click the **Authorize** button (top right of the UI)
+3. Paste the token in the `BearerAuth` field (without the `Bearer ` prefix)
+4. Click **Authorize** — all subsequent requests will include the JWT header automatically
+
+The UI saves the token across page refreshes (`persistAuthorization: true`).
+
+### Raw OpenAPI spec
+
+The machine-readable OpenAPI 3.0 JSON spec is available at:
+
+```
+GET http://localhost:3002/docs/json
+```
+
+Use it to generate client SDKs, import into Postman/Insomnia, or set up contract testing.
+
+### Adding documentation to new routes
+
+Every route MUST be documented before it can be considered complete. See the developer guide:
+
+```
+apps/api/src/swagger/README.md
+```
+
+Quick reference — annotate every route with:
+
+```typescript
+import { SWAGGER_TAGS } from "../swagger/tags";
+import { BEARER_AUTH } from "../swagger/security";
+import {
+  successResponse,
+  RESPONSE_401,
+  RESPONSE_404,
+} from "../swagger/responses";
+
+app.get(
+  "/courses/:id",
+  {
+    schema: {
+      tags: [SWAGGER_TAGS.PUBLIC],
+      summary: "Get course by ID",
+      description: "Returns full course data including modules and lessons.",
+      params: z.object({ id: z.string().uuid() }),
+      response: {
+        200: successResponse(courseSchema),
+        401: RESPONSE_401,
+        404: RESPONSE_404,
+      },
+    },
+  },
+  handler,
+);
+```
+
+Shared helpers live in `apps/api/src/swagger/`:
+
+| Module         | Exports                                                          |
+| -------------- | ---------------------------------------------------------------- |
+| `tags.ts`      | `SWAGGER_TAGS` — canonical tag names for each domain             |
+| `security.ts`  | `BEARER_AUTH`, `NO_AUTH` — security requirement objects          |
+| `responses.ts` | `successResponse()`, `errorResponse()`, `RESPONSE_401/403/404/…` |
 
 ---
 
