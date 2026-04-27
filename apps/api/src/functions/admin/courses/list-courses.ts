@@ -1,8 +1,8 @@
-import { courseModules, courses, db, lessons } from '@ybr/database'
-import { eq, sql } from 'drizzle-orm'
+import { courseModules, courses, db, lessons } from "@ybr/database";
+import { eq, sql } from "drizzle-orm";
 
 interface ListCoursesParams {
-  creatorId: string
+  creatorId: string;
 }
 
 const listCourses = async ({ creatorId }: ListCoursesParams) => {
@@ -28,10 +28,10 @@ const listCourses = async ({ creatorId }: ListCoursesParams) => {
     .leftJoin(lessons, eq(lessons.moduleId, courseModules.id))
     .where(eq(courses.creatorId, creatorId))
     .groupBy(courses.id)
-    .orderBy(courses.createdAt)
+    .orderBy(courses.createdAt);
 
-  return result
-}
+  return result;
+};
 
-export type { ListCoursesParams }
-export { listCourses }
+export { listCourses };
+export type { ListCoursesParams };
