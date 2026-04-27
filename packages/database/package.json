@@ -2,6 +2,10 @@
   "name": "@ybr/database",
   "version": "1.0.0",
   "private": true,
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "scripts": {
     "migrate": "drizzle-kit migrate",
     "generate": "drizzle-kit generate",
@@ -9,11 +13,12 @@
     "push": "drizzle-kit push"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^0.10.x",
     "drizzle-orm": "^0.45.0",
+    "postgres": "^3.4.0",
     "uuidv7": "^1.0.x"
   },
   "devDependencies": {
+    "dotenv": "^16.0.0",
     "drizzle-kit": "^0.31.0",
     "typescript": "^5.9.0"
   }

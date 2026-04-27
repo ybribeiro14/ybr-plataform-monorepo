@@ -1,5 +1,5 @@
-import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 import * as schema from "./schema";
 
 const createDb = () => {
@@ -9,8 +9,8 @@ const createDb = () => {
     throw new Error("DATABASE_URL environment variable is required");
   }
 
-  const sql = neon(databaseUrl);
-  return drizzle(sql, { schema });
+  const client = postgres(databaseUrl);
+  return drizzle(client, { schema });
 };
 
 export const db = createDb();

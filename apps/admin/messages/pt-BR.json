@@ -88,12 +88,57 @@
     },
     "deleteConfirm": "Tem certeza que deseja excluir este curso? Esta ação não pode ser desfeita.",
     "publishConfirm": "Isso tornará o curso visível para os alunos. Continuar?",
-    "unpublishConfirm": "Isso ocultará o curso dos alunos. Continuar?"
+    "unpublishConfirm": "Isso ocultará o curso dos alunos. Continuar?",
+    "archiveConfirm": "Tem certeza que deseja arquivar o curso",
+    "archive": "Arquivar",
+    "newCourse": "Novo Curso",
+    "newCourseSubtitle": "Preencha as informações básicas do seu curso",
+    "editCourse": "Editar Curso",
+    "viewContent": "Ver Conteúdo",
+    "status": {
+      "draft": "Rascunho",
+      "published": "Publicado",
+      "archived": "Arquivado"
+    },
+    "table": {
+      "title": "Título",
+      "status": "Status",
+      "students": "Alunos",
+      "revenue": "Receita",
+      "createdAt": "Criado em",
+      "modules": "Módulos",
+      "modulesUnit": "módulos",
+      "lessons": "Aulas",
+      "lessonsUnit": "aulas",
+      "price": "Preço"
+    },
+    "form": {
+      "titleLabel": "Título do curso",
+      "titlePlaceholder": "Ex: Técnicas Avançadas de Panificação",
+      "titleMinLength": "O título deve ter pelo menos 3 caracteres",
+      "descriptionLabel": "Descrição",
+      "descriptionPlaceholder": "Descreva o que os alunos vão aprender...",
+      "priceLabel": "Preço",
+      "priceMin": "O preço deve ser positivo",
+      "thumbnailLabel": "Thumbnail",
+      "thumbnailHint": "Clique para enviar (JPG, PNG ou WebP, máx. 5MB)",
+      "slugLabel": "Slug da URL",
+      "slugPlaceholder": "tecnicas-avancadas-panificacao",
+      "currencyLabel": "Moeda",
+      "currencyUSD": "Dólar americano (USD)",
+      "currencyBRL": "Real brasileiro (BRL)",
+      "languageLabel": "Idioma",
+      "languagePtBr": "Português (pt-BR)",
+      "languageEnUs": "Inglês (en-US)",
+      "submitCreate": "Criar curso",
+      "submitUpdate": "Salvar alterações"
+    }
   },
   "modules": {
     "title": "Módulos",
     "addModule": "Adicionar módulo",
     "noModules": "Este curso ainda não tem módulos.",
+    "deleteConfirm": "Tem certeza que deseja excluir este módulo? Todas as aulas serão removidas.",
     "form": {
       "titleLabel": "Título do módulo",
       "titlePlaceholder": "Ex: Introdução",
@@ -104,6 +149,7 @@
     "title": "Aulas",
     "addLesson": "Adicionar aula",
     "noLessons": "Este módulo ainda não tem aulas.",
+    "deleteConfirm": "Tem certeza que deseja excluir esta aula?",
     "form": {
       "titleLabel": "Título da aula",
       "titlePlaceholder": "Ex: Boas-vindas e visão geral",

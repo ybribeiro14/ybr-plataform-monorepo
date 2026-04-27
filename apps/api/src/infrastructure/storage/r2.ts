@@ -1,23 +1,22 @@
-import { S3Client } from "@aws-sdk/client-s3";
+import { S3Client } from '@aws-sdk/client-s3'
 
-const accountId = process.env["R2_ACCOUNT_ID"];
-const accessKeyId = process.env["R2_ACCESS_KEY_ID"];
-const secretAccessKey = process.env["R2_SECRET_ACCESS_KEY"];
+const createR2Client = () => {
+  const accountId = process.env.R2_ACCOUNT_ID
+  const accessKeyId = process.env.R2_ACCESS_KEY_ID
+  const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY
 
-if (!accountId || !accessKeyId || !secretAccessKey) {
-  throw new Error(
-    "R2 environment variables (R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY) are required",
-  );
+  if (!accountId || !accessKeyId || !secretAccessKey) {
+    console.warn('[R2] R2 credentials not set — file storage will not be available (dev mode)')
+    return null
+  }
+
+  return new S3Client({
+    region: 'auto',
+    endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+    credentials: { accessKeyId, secretAccessKey },
+  })
 }
 
-export const r2 = new S3Client({
-  region: "auto",
-  endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
-  credentials: {
-    accessKeyId,
-    secretAccessKey,
-  },
-});
-
-export const R2_BUCKET = process.env["R2_BUCKET_NAME"] ?? "ybr-platform";
-export const R2_PUBLIC_URL = process.env["R2_PUBLIC_URL"] ?? "";
+export const r2 = createR2Client()
+export const R2_BUCKET = process.env.R2_BUCKET_NAME ?? 'ybr-platform'
+export const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL ?? ''

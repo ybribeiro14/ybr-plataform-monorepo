@@ -25,9 +25,8 @@ const LocaleSwitcher = () => {
   };
 
   return (
-    <div
+    <nav
       className="flex items-center gap-1 rounded-full border border-[var(--color-outline)] px-2 py-1"
-      role="navigation"
       aria-label={t("switchLanguage")}
     >
       {routing.locales.map((loc) => (
@@ -47,7 +46,7 @@ const LocaleSwitcher = () => {
           {LOCALE_LABELS[loc as Locale]}
         </button>
       ))}
-    </div>
+    </nav>
   );
 };
 

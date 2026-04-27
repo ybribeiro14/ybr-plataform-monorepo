@@ -1,5 +1,9 @@
+import { config } from "dotenv";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
+
+config({ path: "../../.env" });
+config({ path: "../../.env.local", override: true });
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 

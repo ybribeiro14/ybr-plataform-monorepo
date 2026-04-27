@@ -88,12 +88,57 @@
     },
     "deleteConfirm": "¿Seguro que quieres eliminar este curso? Esta acción no se puede deshacer.",
     "publishConfirm": "Esto hará visible el curso para los estudiantes. ¿Continuar?",
-    "unpublishConfirm": "Esto ocultará el curso a los estudiantes. ¿Continuar?"
+    "unpublishConfirm": "Esto ocultará el curso a los estudiantes. ¿Continuar?",
+    "archiveConfirm": "¿Seguro que quieres archivar el curso",
+    "archive": "Archivar",
+    "newCourse": "Nuevo Curso",
+    "newCourseSubtitle": "Completa la información básica de tu curso",
+    "editCourse": "Editar Curso",
+    "viewContent": "Ver Contenido",
+    "status": {
+      "draft": "Borrador",
+      "published": "Publicado",
+      "archived": "Archivado"
+    },
+    "table": {
+      "title": "Título",
+      "status": "Estado",
+      "students": "Estudiantes",
+      "revenue": "Ingresos",
+      "createdAt": "Creado el",
+      "modules": "Módulos",
+      "modulesUnit": "módulos",
+      "lessons": "Lecciones",
+      "lessonsUnit": "lecciones",
+      "price": "Precio"
+    },
+    "form": {
+      "titleLabel": "Título del curso",
+      "titlePlaceholder": "Ej: Técnicas Avanzadas de Panadería",
+      "titleMinLength": "El título debe tener al menos 3 caracteres",
+      "descriptionLabel": "Descripción",
+      "descriptionPlaceholder": "Describe lo que aprenderán los estudiantes...",
+      "priceLabel": "Precio",
+      "priceMin": "El precio debe ser positivo",
+      "thumbnailLabel": "Miniatura",
+      "thumbnailHint": "Haz clic para subir (JPG, PNG o WebP, máx. 5MB)",
+      "slugLabel": "Slug de URL",
+      "slugPlaceholder": "tecnicas-avanzadas-panaderia",
+      "currencyLabel": "Moneda",
+      "currencyUSD": "Dólar estadounidense (USD)",
+      "currencyBRL": "Real brasileño (BRL)",
+      "languageLabel": "Idioma",
+      "languagePtBr": "Portugués (pt-BR)",
+      "languageEnUs": "Inglés (en-US)",
+      "submitCreate": "Crear curso",
+      "submitUpdate": "Guardar cambios"
+    }
   },
   "modules": {
     "title": "Módulos",
     "addModule": "Agregar módulo",
     "noModules": "Este curso no tiene módulos todavía.",
+    "deleteConfirm": "¿Seguro que quieres eliminar este módulo? Todas las lecciones serán eliminadas.",
     "form": {
       "titleLabel": "Título del módulo",
       "titlePlaceholder": "Ej: Introducción",
@@ -104,6 +149,7 @@
     "title": "Lecciones",
     "addLesson": "Agregar lección",
     "noLessons": "Este módulo no tiene lecciones todavía.",
+    "deleteConfirm": "¿Seguro que quieres eliminar esta lección?",
     "form": {
       "titleLabel": "Título de la lección",
       "titlePlaceholder": "Ej: Bienvenida y resumen",

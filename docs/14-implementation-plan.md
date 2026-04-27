@@ -1,9 +1,11 @@
 # 14 — Complete Implementation Plan
 
 **Date:** 2026-04-24  
-**Last Updated:** 2026-04-24  
-**Status:** 🟢 Phase 0 complete — Phase 0.5 (Swagger) complete — Phase 1 in progress  
+**Last Updated:** 2026-04-27  
+**Status:** 🟢 Phase 0 complete — Phase 0.5 (Swagger) complete — Phase 1.1 backend + auth tests complete — Phase 1.2 backend + admin UI complete — Phase 1.2 backend complete — Phase 1.2 frontend complete  
 **Monorepo:** `ybr-plataform/platform/`
+
+> ℹ️ **SCOPE NOTE (2026-04-27):** Checkout, payment processing, and the sales/landing page have been removed from this project. Those concerns are handled by a separate project. Enrollments in this platform are managed externally (e.g., via webhook from the payment system) and must not depend on Stripe or any payment gateway here.
 
 > ⚠️ **MANDATORY RULE:** Every agent that completes a task MUST immediately mark the corresponding item with `[x]` in this document before finishing. This file is the single source of truth for what has been done.
 
@@ -74,29 +76,29 @@ This is the **master execution document** for YBR Platform. Each item is a concr
 
 **Entities defined in Drizzle schema:**
 
-| Table                | Key fields                                                                                            | Notes                                                |
-| -------------------- | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| `users`              | id (uuidv7), email, password_hash, name, avatar_url, role, timestamps                                 | role: `student \| creator \| admin`                  |
-| `creators`           | id, user_id FK, bio, website, stripe_account_id, plan, timestamps                                     | plan: `starter \| growth \| pro \| agency`           |
-| `courses`            | id, creator_id FK, title, slug, description, thumbnail_url, price_cents, currency, status, language   | status: `draft \| published \| archived`             |
-| `course_modules`     | id, course_id FK, title, description, position, is_published                                          | Ordered by `position`                                |
-| `lessons`            | id, module_id FK, title, bunny_video_id, mux_asset_id, mux_playback_id, duration_seconds, position    | Phase 1: bunny*video_id. Phase 2+: mux*\*            |
-| `lesson_attachments` | id, lesson_id FK, title, file_url, file_type, file_size_bytes                                         | file_type: `pdf \| doc \| spreadsheet \| link`       |
-| `enrollments`        | id, user_id FK, course_id FK, payment_id FK, status, expires_at, enrolled_at, completed_at            | status: `active \| expired \| refunded`              |
-| `lesson_progress`    | id, user_id FK, lesson_id FK, watched_seconds, completed_at, last_watched_at                          |                                                      |
-| `payments`           | id, user_id FK, course_id FK, stripe_payment_intent_id, amount_cents, currency, status, installments  | status: `pending \| succeeded \| failed \| refunded` |
-| `coupons`            | id, creator_id FK, code, discount_type, discount_value, max_uses, current_uses, expires_at, is_active | discount_type: `percentage \| fixed`                 |
-| `certificates`       | id, user_id FK, course_id FK, enrollment_id FK, certificate_url, verification_code, issued_at         |                                                      |
+> ⚠️ **Scope note:** `payments` and `coupons` tables have been removed — payment processing is handled by a separate project. Enrollments are created via an external webhook (`POST /webhooks/enrollment`) triggered by the payment system.
+
+| Table                | Key fields                                                                                         | Notes                                                                         |
+| -------------------- | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `users`              | id (uuidv7), email, password_hash, name, avatar_url, role, timestamps                              | role: `student \| creator \| admin`                                           |
+| `creators`           | id, user_id FK, bio, website, plan, timestamps                                                     | plan: `starter \| growth \| pro \| agency`                                    |
+| `courses`            | id, creator_id FK, title, slug, description, thumbnail_url, status, language, timestamps           | status: `draft \| published \| archived`                                      |
+| `course_modules`     | id, course_id FK, title, description, position, is_published                                       | Ordered by `position`                                                         |
+| `lessons`            | id, module_id FK, title, bunny_video_id, mux_asset_id, mux_playback_id, duration_seconds, position | Phase 1: bunny*video_id. Phase 2+: mux*\*                                     |
+| `lesson_attachments` | id, lesson_id FK, title, file_url, file_type, file_size_bytes                                      | file_type: `pdf \| doc \| spreadsheet \| link`                                |
+| `enrollments`        | id, user_id FK, course_id FK, status, expires_at, enrolled_at, completed_at, external_ref          | status: `active \| expired \| revoked`. external_ref = ID from payment system |
+| `lesson_progress`    | id, user_id FK, lesson_id FK, watched_seconds, completed_at, last_watched_at                       |                                                                               |
+| `certificates`       | id, user_id FK, course_id FK, enrollment_id FK, certificate_url, verification_code, issued_at      |                                                                               |
 
 **Checklist:**
 
 - [x] `packages/database/package.json` configured with Drizzle + Neon
 - [x] `packages/database/src/client.ts` — connection via `DATABASE_URL`
-- [x] All 11 table schemas defined
+- [x] All 9 table schemas defined (payments and coupons removed — managed externally)
 - [x] `drizzle.config.ts` configured
-- [ ] Initial migration generated with `drizzle-kit generate` _(pending Neon account)_
-- [ ] Migration applied to Neon (dev) _(pending Neon account)_
-- [ ] Basic seeds created _(pending migration)_
+- [x] Initial migration generated with `drizzle-kit generate` (`0000_fast_molten_man.sql`)
+- [x] Migration applied to Neon (dev) _(local docker-compose — Neon pending for production)_
+- [ ] Basic seeds created _(pending)_
 
 ---
 
@@ -108,8 +110,8 @@ This is the **master execution document** for YBR Platform. Each item is a concr
 
 - [x] Auth schemas (`register`, `login`, `forgot-password`, `reset-password`)
 - [x] Course, module and lesson schemas
-- [x] Payment and coupon schemas
 - [x] Progress and certificate schemas
+- [x] Enrollment schema (external webhook payload validation)
 - [x] Package exporting all schemas with inferred types (`z.infer<typeof schema>`)
 
 ---
@@ -182,7 +184,7 @@ This is the **master execution document** for YBR Platform. Each item is a concr
 - [x] `middleware.ts` protecting `/dashboard`, `/meus-cursos`, `/cursos/*`
 - [x] `next.config.ts` configured (standalone output for Docker)
 - [x] Multi-stage `Dockerfile` created
-- [ ] i18n setup with `next-intl` _(in progress)_
+- [x] i18n setup with `next-intl` — `routing.ts`, `request.ts`, messages (`en/pt-BR/es`), `[locale]/layout.tsx`, `middleware.ts`, `next.config.ts` all configured
 
 ---
 
@@ -195,9 +197,9 @@ This is the **master execution document** for YBR Platform. Each item is a concr
 - [x] Folder structure created
 - [x] `package.json` with dependencies
 - [x] `globals.css` with matching color tokens
-- [ ] Admin shell with navigation sidebar _(Phase 1)_
-- [ ] Auth middleware + `creator`/`admin` role verification _(Phase 1)_
-- [ ] i18n setup with `next-intl` _(in progress)_
+- [x] i18n setup with `next-intl` — `routing.ts`, `request.ts`, messages (`en/pt-BR/es`), `[locale]/layout.tsx`, `middleware.ts`, `next.config.ts` all configured
+- [ ] Admin shell with navigation sidebar _(implemented in 1.2)_
+- [ ] Auth middleware + `creator`/`admin` role verification _(implemented in 1.2)_
 
 ---
 
@@ -308,18 +310,16 @@ This phase establishes the complete OpenAPI/Swagger foundation that all future A
 
 #### Tag definitions (all routes must use one of these)
 
-| Tag             | Description                                          |
-| --------------- | ---------------------------------------------------- |
-| `health`        | Service health check                                 |
-| `auth`          | Authentication — register, login, tokens, passwords  |
-| `admin/courses` | Creator course management (protected: creator role)  |
-| `admin/modules` | Module CRUD within courses (protected: creator role) |
-| `admin/lessons` | Lesson CRUD within modules (protected: creator role) |
-| `student`       | Student-facing data — enrollments, progress          |
-| `public`        | Public endpoints — course landing pages, catalog     |
-| `payments`      | Stripe checkout and webhooks                         |
-| `coupons`       | Coupon validation and management                     |
-| `certificates`  | Certificate generation and verification              |
+| Tag             | Description                                                |
+| --------------- | ---------------------------------------------------------- |
+| `health`        | Service health check                                       |
+| `auth`          | Authentication — register, login, tokens, passwords        |
+| `admin/courses` | Creator course management (protected: creator role)        |
+| `admin/modules` | Module CRUD within courses (protected: creator role)       |
+| `admin/lessons` | Lesson CRUD within modules (protected: creator role)       |
+| `student`       | Student-facing data — enrollments, progress                |
+| `webhooks`      | External system callbacks (enrollment from payment system) |
+| `certificates`  | Certificate generation and verification                    |
 
 #### Mandatory Swagger annotation pattern (all future routes)
 
@@ -386,11 +386,12 @@ schema: {
 
 **Checklist:**
 
-- [ ] Zod schemas for all endpoints
-- [ ] Functions layer: `registerUser`, `loginUser`, `refreshToken`, `forgotPassword`, `resetPassword`
-- [ ] Infrastructure: `email/auth-emails.ts` — Resend templates (welcome, recovery)
-- [ ] JWT plugin configured in `plugins/auth.ts`
-- [ ] Unit tests for each function (`qa-tester`)
+- [x] Zod schemas for all endpoints
+- [x] Functions layer: `registerUser`, `loginUser`, `refreshToken`, `forgotPassword`, `resetPassword`
+- [x] Infrastructure: `email/auth-emails.ts` — Resend templates (welcome, recovery)
+- [x] JWT plugin configured in `plugins/auth.ts`
+- [x] Unit tests for each function (`qa-tester`)
+- [x] Route integration tests for all 7 `/auth/*` endpoints (`qa-tester`) — 111 tests, 14 test files, all passing
 
 #### Frontend — `react-senior-engineer`
 
@@ -407,13 +408,14 @@ Pages to implement (design: Artisanal Sophistication, all UI text via i18n):
 
 **Checklist:**
 
-- [ ] Pages created with React Hook Form + schemas from `packages/schemas`
-- [ ] API client: `lib/api/auth.ts` with methods `login()`, `register()`, `forgotPassword()`, `resetPassword()`
-- [ ] TanStack Query mutation hooks: `useLogin`, `useRegister`
-- [ ] Zustand store for auth state (`useAuthStore`)
-- [ ] Next.js middleware protecting authenticated routes
-- [ ] Auto-redirect to `/dashboard` after login
-- [ ] All UI strings via `next-intl` message keys (no hardcoded text)
+- [x] Pages created with React Hook Form + schemas from `packages/schemas`
+- [x] API client: `lib/api/auth.ts` with methods `login()`, `register()`, `forgotPassword()`, `resetPassword()`
+- [x] Zustand store for auth state (`useAuthStore`)
+- [x] Next.js middleware protecting authenticated routes
+- [x] Auto-redirect to `/dashboard` after login
+- [x] All UI strings via `next-intl` message keys (no hardcoded text) — pt-BR, en, es
+- [x] Placeholder `/dashboard` page in `apps/web` (avoids 404 on post-login redirect)
+- [x] Placeholder `/dashboard` page in `apps/admin` (avoids 404 on post-login redirect)
 
 ---
 
@@ -441,11 +443,45 @@ Pages to implement (design: Artisanal Sophistication, all UI text via i18n):
 
 **Checklist:**
 
-- [ ] All routes with Zod validation
-- [ ] Authorization middleware: only `creator` accesses `/admin/*`
-- [ ] Cloudflare R2 integration for thumbnails
-- [ ] Bunny Stream API integration for video upload
-- [ ] CRUD route tests
+- [x] All routes with Zod validation — 15 routes fully annotated with Swagger
+- [x] Authorization middleware: `requireCreator` and `requireAdmin` decorators in `plugins/auth.ts`
+- [x] Cloudflare R2 integration for thumbnails — `infrastructure/storage/r2.ts` + `upload-thumbnail.ts`
+- [x] Bunny Stream API integration for video upload — `infrastructure/video/bunny.ts` with TUS credentials + SHA-256 signing
+- [x] CRUD route tests — 31 new tests (142 total, all passing)
+
+#### Frontend — `react-senior-engineer`
+
+**Checklist:**
+
+- [x] `apps/admin/src/lib/api/courses.ts` — Full fetch-based API client (courses, modules, lessons, thumbnail)
+- [x] `apps/admin/src/lib/types/courses.ts` — TypeScript interfaces for Course, Module, Lesson, CourseWithModules
+- [x] `apps/admin/src/app/[locale]/(admin)/layout.tsx` — Admin shell with responsive sidebar (lucide-react icons)
+- [x] `apps/admin/src/components/layout/admin-sidebar.tsx` — Sidebar with nav links + logout
+- [x] `/[locale]/(admin)/cursos/page.tsx` — Course list: table, status badges, publish/archive actions, loading/empty states
+- [x] `/[locale]/(admin)/cursos/novo/page.tsx` — Create course form with thumbnail upload preview
+- [x] `/[locale]/(admin)/cursos/[courseId]/editar/page.tsx` — Edit course form (pre-populated)
+- [x] `/[locale]/(admin)/cursos/[courseId]/conteudo/page.tsx` — Module/lesson editor with ↑↓ reorder, inline forms
+- [x] All UI strings via `next-intl` message keys (pt-BR, en, es)
+- [x] Admin login page — `apps/admin/src/app/[locale]/login/page.tsx` with role validation (creator/admin only)
+- [x] Admin auth store — `apps/admin/src/stores/auth.ts` (Zustand, cookie + localStorage)
+- [ ] Drag-and-drop module reordering _(deferred to Phase 2 — implemented with ↑↓ buttons)_
+
+#### Frontend — `react-senior-engineer` ✅ 2026-04-25
+
+- [x] `apps/admin/src/lib/types/courses.ts` — TypeScript interfaces matching backend schemas
+- [x] `apps/admin/src/lib/api/courses.ts` — Fetch-based API client for all course/module/lesson endpoints
+- [x] `apps/admin/src/lib/utils/token.ts` — Cookie token reader utility
+- [x] `apps/admin/src/components/layout/admin-sidebar.tsx` — Sidebar with navigation links (Client Component)
+- [x] `apps/admin/src/app/[locale]/(admin)/layout.tsx` — Admin layout wrapping all protected pages
+- [x] `apps/admin/src/app/[locale]/(admin)/dashboard/page.tsx` — Dashboard moved into admin route group
+- [x] `apps/admin/src/app/[locale]/(admin)/cursos/page.tsx` — Course list with loading/empty/error states
+- [x] `apps/admin/src/app/[locale]/(admin)/cursos/novo/page.tsx` — Create course form (title, description, price, currency, language, thumbnail)
+- [x] `apps/admin/src/app/[locale]/(admin)/cursos/[courseId]/editar/page.tsx` — Edit course form (pre-populated)
+- [x] `apps/admin/src/app/[locale]/(admin)/cursos/[courseId]/conteudo/page.tsx` — Module/lesson editor with ↑↓ reorder, inline add/edit/delete
+- [x] i18n messages updated (pt-BR, en, es) with new keys: `courses.status.*`, `courses.form.currency*`, `courses.form.language*`, `courses.table.*`, `modules.deleteConfirm`, `lessons.deleteConfirm`
+- [x] `apps/admin/globals.css` — Migrated from `:root {}` to `@theme {}` enabling Tailwind v4 utility classes (`bg-primary`, `text-on-surface`, etc.)
+- [x] `pnpm --filter admin build` passes with 0 errors
+- [x] Biome lint passes (0 errors)
 
 ---
 
@@ -471,64 +507,26 @@ Pages to implement (design: Artisanal Sophistication, all UI text via i18n):
 
 ---
 
-### 1.4 — Checkout & Payments (Week 4–5)
+### 1.4 — Student Area (Week 4–5)
 
 #### Backend — `nodejs-especialist`
 
-| Method | Route                     | Description                                                       |
-| ------ | ------------------------- | ----------------------------------------------------------------- |
-| `GET`  | `/public/courses/:slug`   | Public course data for landing page and checkout                  |
-| `POST` | `/payments/create-intent` | Create PaymentIntent in Stripe. Body: `{ courseId, couponCode? }` |
-| `POST` | `/payments/webhook`       | Stripe webhook. On `payment_intent.succeeded`: create enrollment  |
-| `POST` | `/coupons/validate`       | Validate coupon and return applied discount                       |
+| Method | Route                              | Description                                                                                                                                   |
+| ------ | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `POST` | `/webhooks/enrollment`             | Receive enrollment notification from external payment system. Creates or updates enrollment record. Requires shared secret header validation. |
+| `GET`  | `/student/enrollments`             | List enrolled courses with aggregated progress                                                                                                |
+| `GET`  | `/student/courses/:id`             | Full details: modules, lessons, progress per lesson                                                                                           |
+| `GET`  | `/student/lessons/:id/attachments` | List lesson materials                                                                                                                         |
 
-**Security — mandatory:**
+**Security requirements:**
 
-```typescript
-// ALWAYS validate Stripe webhook signature
-const event = stripe.webhooks.constructEvent(
-  rawBody,
-  request.headers["stripe-signature"],
-  STRIPE_WEBHOOK_SECRET,
-);
-```
-
-**Checklist:**
-
-- [ ] `POST /payments/create-intent` with coupon discount calculation
-- [ ] `POST /payments/webhook` with signature validation
-- [ ] Enrollment creation after confirmed payment
-- [ ] Purchase confirmation email (Resend)
-- [ ] Coupon validation endpoint
-- [ ] Stripe webhook tests with stripe-cli
-
-#### Frontend — `react-senior-engineer`
-
-**Layout reference:** `layout/desktop-layout/checkout_desktop/code.html`
-
-- [ ] Checkout page with embedded Stripe Elements
-- [ ] "6x of $37" installment display (prominent)
-- [ ] Coupon discount field with real-time validation
-- [ ] Apple Pay / Google Pay (Payment Request Button)
-- [ ] Confirmation page `/confirmacao` with purchase summary
-- [ ] Loading state and error handling
-- [ ] All UI strings via `next-intl` message keys
-
----
-
-### 1.5 — Student Area (Week 5–6)
-
-#### Backend — `nodejs-especialist`
-
-| Method | Route                              | Description                                         |
-| ------ | ---------------------------------- | --------------------------------------------------- |
-| `GET`  | `/student/enrollments`             | List enrolled courses with aggregated progress      |
-| `GET`  | `/student/courses/:id`             | Full details: modules, lessons, progress per lesson |
-| `GET`  | `/student/lessons/:id/attachments` | List lesson materials                               |
+- `POST /webhooks/enrollment` must validate a shared secret header (`X-Webhook-Secret`) to prevent unauthorized enrollment injection
+- Enrollment access verification middleware for all `/student/*` routes
 
 **Checklist:**
 
 - [ ] All endpoints with Zod validation
+- [ ] `POST /webhooks/enrollment` with shared-secret validation + idempotency key
 - [ ] Enrollment access verification middleware
 - [ ] Aggregated progress calculation
 
@@ -541,7 +539,7 @@ const event = stripe.webhooks.constructEvent(
 - `layout/desktop-layout/vis_o_geral_do_curso_desktop/code.html`
 
 - [ ] `/[locale]/dashboard` — Welcome, courses in progress, next lesson
-- [ ] `/[locale]/my-courses` — Catalog of purchased courses
+- [ ] `/[locale]/my-courses` — Catalog of enrolled courses
 - [ ] `/[locale]/courses/:slug` — Course overview (modules, overall progress)
 - [ ] `/[locale]/courses/:slug/lessons/:lessonId` — Player + materials + notes
 - [ ] Gold progress bars per module
@@ -550,38 +548,18 @@ const event = stripe.webhooks.constructEvent(
 
 ---
 
-### 1.6 — Sales Page (Week 6–7)
-
-#### Backend — `nodejs-especialist`
-
-- [ ] `GET /public/courses/:slug` — Public course data
-- [ ] Configurable landing page template
-
-#### Frontend — `react-senior-engineer`
-
-**Layout reference:** `layout/desktop-layout/p_gina_de_vendas_desktop/code.html`
-
-- [ ] Sections: Hero, About the Course, Modules, Testimonials, Instructor, Price, FAQ
-- [ ] Urgency countdown timer
-- [ ] Fixed CTA button on mobile
-- [ ] SEO: meta tags, Open Graph, Schema.org
-- [ ] All UI strings via `next-intl` message keys
-
----
-
-### 1.7 — Transactional Emails (Week 7)
+### 1.5 — Transactional Emails (Week 5)
 
 > **Owner:** `nodejs-especialist`
 
 - [ ] Template: Welcome on account creation
-- [ ] Template: Purchase confirmation + access link
-- [ ] Template: Course access granted
+- [ ] Template: Course access granted (triggered by enrollment webhook)
 - [ ] Template: Password recovery
 - [ ] Template: Lesson reminder (7 days without login)
 
 ---
 
-### 1.8 — Certificates (Week 8)
+### 1.6 — Certificates (Week 6)
 
 #### Backend — `nodejs-especialist`
 
@@ -598,12 +576,13 @@ const event = stripe.webhooks.constructEvent(
 
 ---
 
-### 1.9 — Testing & Quality (Phase 1)
+### 1.7 — Testing & Quality (Phase 1)
 
 > **Owner:** `qa-tester`
 
-- [ ] Unit test coverage > 70% for backend
-- [ ] E2E tests for critical flows: register → purchase → course access
+- [x] Unit test coverage > 70% for backend — Auth functions: 7 unit test files + 1 integration test file (111 tests total, all passing)
+- [x] Auth route integration tests (POST /register, /login, /refresh, /logout, /forgot-password, /reset-password, GET /me)
+- [ ] E2E tests for critical flows: register → enroll (via webhook) → course access
 - [ ] Accessibility audit (WCAG 2.1 AA)
 - [ ] Performance: LCP < 2.5s, FID < 100ms, CLS < 0.1
 
@@ -622,7 +601,7 @@ const event = stripe.webhooks.constructEvent(
 
 ### Advanced Analytics (Week 10–11)
 
-- [ ] Admin dashboard: sales, revenue, active students, MRR
+- [ ] Admin dashboard: active students, completion rates, engagement metrics
 - [ ] Completion rate per module (dropout funnel)
 - [ ] Retention cohort analysis
 - [ ] Video engagement heatmap (Bunny Analytics or Mux)
@@ -637,23 +616,15 @@ const event = stripe.webhooks.constructEvent(
 - [ ] Per-video engagement analytics (Mux Data)
 - [ ] Hybrid strategy: Mux for paid courses, Bunny for free previews
 
-### Coupons & Promotions (Week 12)
-
-- [ ] Coupon CRUD in admin panel
-- [ ] Percentage and fixed-value coupons
-- [ ] Expiration date and usage limit
-- [ ] Affiliate coupon tracking
-- [ ] Automatic discount display at checkout
-
-### Basic Multi-tenancy (Week 13–15)
+### Basic Multi-tenancy (Week 12–14)
 
 - [ ] New creator registration (onboarding flow)
-- [ ] Subscription plans via Stripe Billing (Starter/Growth/Pro/Agency)
+- [ ] Creator plan tiers (Starter/Growth/Pro/Agency) — billing managed externally
 - [ ] Custom subdomain: `creator.ybr-platform.com`
 - [ ] Creator-customizable theme (primary colors)
 - [ ] Data isolation per creator (RLS in Neon)
 
-### PWA (Week 15–16)
+### PWA (Week 14–15)
 
 - [ ] Service Worker for offline lesson caching
 - [ ] Web App Manifest for app installation

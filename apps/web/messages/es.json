@@ -26,16 +26,24 @@
   },
   "auth": {
     "login": {
-      "title": "Bienvenido de nuevo",
-      "subtitle": "Inicia sesión en tu cuenta para continuar",
+      "brandName": "Ateliê YBR",
+      "title": "Bienvenida de nuevo",
+      "subtitle": "La perfección de la alta pastelería te espera.",
       "emailLabel": "Correo electrónico",
       "emailPlaceholder": "tu@correo.com",
       "passwordLabel": "Contraseña",
       "passwordPlaceholder": "Tu contraseña",
       "forgotPassword": "¿Olvidaste tu contraseña?",
       "submitButton": "Iniciar sesión",
+      "subtitleMobile": "Inicia sesión para continuar aprendiendo",
+      "forgotPasswordMobile": "¿Olvidaste tu contraseña?",
+      "orContinueWith": "O continúa con",
+      "orContinueWithMobile": "o continúa con",
+      "googleButton": "Iniciar sesión con Google",
+      "googleButtonMobile": "Google",
       "noAccount": "¿No tienes cuenta?",
-      "registerLink": "Crear cuenta",
+      "registerLink": "Crea tu cuenta gratis →",
+      "sslSecurity": "Conexión segura SSL",
       "error": {
         "invalidCredentials": "Correo o contraseña incorrectos.",
         "tooManyAttempts": "Demasiados intentos. Por favor, inténtalo en unos minutos."
@@ -92,7 +100,9 @@
     "noCourses": "Aún no estás inscrito en ningún curso.",
     "browseCourses": "Ver cursos",
     "progress": "{completed} de {total} lecciones completadas",
-    "nextLesson": "Próxima lección: {title}"
+    "nextLesson": "Próxima lección: {title}",
+    "certificatesTitle": "Certificados",
+    "noCertificates": "Tus certificados aparecerán aquí cuando completes un curso."
   },
   "myCourses": {
     "title": "Mis Cursos",

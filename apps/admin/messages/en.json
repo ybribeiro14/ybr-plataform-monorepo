@@ -88,12 +88,57 @@
     },
     "deleteConfirm": "Are you sure you want to delete this course? This action cannot be undone.",
     "publishConfirm": "This will make the course visible to students. Continue?",
-    "unpublishConfirm": "This will hide the course from students. Continue?"
+    "unpublishConfirm": "This will hide the course from students. Continue?",
+    "archiveConfirm": "Are you sure you want to archive the course",
+    "archive": "Archive",
+    "newCourse": "New Course",
+    "newCourseSubtitle": "Fill in the basic details of your course",
+    "editCourse": "Edit Course",
+    "viewContent": "View Content",
+    "status": {
+      "draft": "Draft",
+      "published": "Published",
+      "archived": "Archived"
+    },
+    "table": {
+      "title": "Title",
+      "status": "Status",
+      "students": "Students",
+      "revenue": "Revenue",
+      "createdAt": "Created at",
+      "modules": "Modules",
+      "modulesUnit": "modules",
+      "lessons": "Lessons",
+      "lessonsUnit": "lessons",
+      "price": "Price"
+    },
+    "form": {
+      "titleLabel": "Course title",
+      "titlePlaceholder": "e.g. Advanced Baking Techniques",
+      "titleMinLength": "Title must be at least 3 characters",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Describe what students will learn...",
+      "priceLabel": "Price",
+      "priceMin": "Price must be a positive number",
+      "thumbnailLabel": "Thumbnail",
+      "thumbnailHint": "Click to upload (JPG, PNG or WebP, max 5MB)",
+      "slugLabel": "URL slug",
+      "slugPlaceholder": "advanced-baking-techniques",
+      "currencyLabel": "Currency",
+      "currencyUSD": "US Dollar (USD)",
+      "currencyBRL": "Brazilian Real (BRL)",
+      "languageLabel": "Language",
+      "languagePtBr": "Portuguese (pt-BR)",
+      "languageEnUs": "English (en-US)",
+      "submitCreate": "Create course",
+      "submitUpdate": "Save changes"
+    }
   },
   "modules": {
     "title": "Modules",
     "addModule": "Add module",
     "noModules": "This course has no modules yet.",
+    "deleteConfirm": "Are you sure you want to delete this module? All lessons will be removed.",
     "form": {
       "titleLabel": "Module title",
       "titlePlaceholder": "e.g. Introduction",
@@ -104,6 +149,7 @@
     "title": "Lessons",
     "addLesson": "Add lesson",
     "noLessons": "This module has no lessons yet.",
+    "deleteConfirm": "Are you sure you want to delete this lesson?",
     "form": {
       "titleLabel": "Lesson title",
       "titlePlaceholder": "e.g. Welcome and overview",

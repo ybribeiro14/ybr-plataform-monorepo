@@ -26,16 +26,24 @@
   },
   "auth": {
     "login": {
+      "brandName": "Ateliê YBR",
       "title": "Welcome back",
-      "subtitle": "Sign in to your account to continue",
+      "subtitle": "The perfection of haute pastry awaits you.",
       "emailLabel": "Email address",
       "emailPlaceholder": "your@email.com",
       "passwordLabel": "Password",
       "passwordPlaceholder": "Your password",
       "forgotPassword": "Forgot password?",
       "submitButton": "Sign in",
+      "subtitleMobile": "Sign in to your account to continue learning",
+      "forgotPasswordMobile": "Forgot your password?",
+      "orContinueWith": "Or continue with",
+      "orContinueWithMobile": "or continue with",
+      "googleButton": "Sign in with Google",
+      "googleButtonMobile": "Google",
       "noAccount": "Don't have an account?",
-      "registerLink": "Create account",
+      "registerLink": "Create for free →",
+      "sslSecurity": "Secure SSL connection",
       "error": {
         "invalidCredentials": "Invalid email or password.",
         "tooManyAttempts": "Too many attempts. Please try again in a few minutes."
@@ -92,7 +100,9 @@
     "noCourses": "You haven't enrolled in any courses yet.",
     "browseCourses": "Browse courses",
     "progress": "{completed} of {total} lessons completed",
-    "nextLesson": "Next lesson: {title}"
+    "nextLesson": "Next lesson: {title}",
+    "certificatesTitle": "Certificates",
+    "noCertificates": "Your certificates will appear here when you complete a course."
   },
   "myCourses": {
     "title": "My Courses",

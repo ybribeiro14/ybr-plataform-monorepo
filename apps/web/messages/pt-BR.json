@@ -26,16 +26,24 @@
   },
   "auth": {
     "login": {
-      "title": "Bem-vindo de volta",
-      "subtitle": "Entre na sua conta para continuar",
+      "brandName": "Ateliê YBR",
+      "title": "Bem-vinda de volta",
+      "subtitle": "A perfeição da alta confeitaria te espera.",
       "emailLabel": "E-mail",
       "emailPlaceholder": "seu@email.com",
       "passwordLabel": "Senha",
       "passwordPlaceholder": "Sua senha",
       "forgotPassword": "Esqueceu a senha?",
       "submitButton": "Entrar",
-      "noAccount": "Não tem uma conta?",
-      "registerLink": "Criar conta",
+      "subtitleMobile": "Entre na sua conta para continuar aprendendo",
+      "forgotPasswordMobile": "Esqueceu sua senha?",
+      "orContinueWith": "Ou continue com",
+      "orContinueWithMobile": "ou continue com",
+      "googleButton": "Entrar com Google",
+      "googleButtonMobile": "Google",
+      "noAccount": "Não tem conta?",
+      "registerLink": "Crie gratuitamente →",
+      "sslSecurity": "Conexão segura SSL",
       "error": {
         "invalidCredentials": "E-mail ou senha inválidos.",
         "tooManyAttempts": "Muitas tentativas. Por favor, tente novamente em alguns minutos."
@@ -92,7 +100,9 @@
     "noCourses": "Você ainda não está matriculado em nenhum curso.",
     "browseCourses": "Ver cursos",
     "progress": "{completed} de {total} aulas concluídas",
-    "nextLesson": "Próxima aula: {title}"
+    "nextLesson": "Próxima aula: {title}",
+    "certificatesTitle": "Certificados",
+    "noCertificates": "Seus certificados aparecem aqui ao concluir um curso."
   },
   "myCourses": {
     "title": "Meus Cursos",
