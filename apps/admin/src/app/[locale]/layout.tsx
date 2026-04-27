@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   },
   description: 'YBR Platform creator dashboard',
   robots: { index: false, follow: false },
-  metadataBase: new URL(process.env['NEXT_PUBLIC_ADMIN_URL'] ?? 'https://admin.ybr-platform.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://admin.ybr-platform.com'),
 }
 
 interface LocaleLayoutProps {

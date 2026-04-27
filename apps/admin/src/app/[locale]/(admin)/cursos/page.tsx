@@ -2,28 +2,24 @@
 
 import { coursesApi } from "@/lib/api/courses";
 import type { CourseWithCounts } from "@/lib/types/courses";
-import { BookOpen, Plus } from "lucide-react";
+import { ConfirmDialog } from "@ybr/ui";
+import { BookOpen, Eye, Pencil, Plus, Star } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const STATUS_STYLES: Record<string, string> = {
-  draft: "bg-surface-container text-on-surface-variant",
-  published: "bg-green-100 text-green-800",
-  archived: "bg-outline-variant text-on-surface-variant",
-};
+type FilterTab = "all" | "published" | "draft" | "archived";
+
+interface PendingAction {
+  type: "archive" | "publish";
+  courseId: string;
+  courseTitle?: string;
+}
 
 const formatPrice = (cents: number, currency: string): string =>
   new Intl.NumberFormat("pt-BR", { style: "currency", currency }).format(
     cents / 100,
   );
-
-const formatDate = (dateStr: string): string =>
-  new Intl.DateTimeFormat("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }).format(new Date(dateStr));
 
 const CoursesPage = () => {
   const t = useTranslations("courses");
@@ -34,6 +30,10 @@ const CoursesPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<FilterTab>("all");
+  const [pendingAction, setPendingAction] = useState<PendingAction | null>(
+    null,
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -56,80 +56,168 @@ const CoursesPage = () => {
     };
   }, [tc]);
 
-  const handleArchive = async (courseId: string, courseTitle: string) => {
-    if (!window.confirm(`${t("archiveConfirm")} "${courseTitle}"?`)) return;
+  const handleArchive = (courseId: string, courseTitle: string) => {
+    setPendingAction({ type: "archive", courseId, courseTitle });
+  };
+
+  const handlePublish = (courseId: string) => {
+    setPendingAction({ type: "publish", courseId });
+  };
+
+  const handleDialogCancel = () => setPendingAction(null);
+
+  const handleDialogConfirm = async () => {
+    if (!pendingAction) return;
+    const { type, courseId } = pendingAction;
+    setPendingAction(null);
     setActionLoading(courseId);
     try {
-      await coursesApi.deleteCourse(courseId);
-      setCourses((prev) => prev.filter((c) => c.id !== courseId));
+      if (type === "archive") {
+        await coursesApi.deleteCourse(courseId);
+        setCourses((prev) => prev.filter((c) => c.id !== courseId));
+      } else {
+        const updated = await coursesApi.publishCourse(courseId);
+        setCourses((prev) =>
+          prev.map((c) => (c.id === courseId ? { ...c, ...updated } : c)),
+        );
+      }
     } catch (err) {
-      window.alert(err instanceof Error ? err.message : tc("error"));
+      setError(err instanceof Error ? err.message : tc("error"));
     } finally {
       setActionLoading(null);
     }
   };
 
-  const handlePublish = async (courseId: string) => {
-    if (!window.confirm(t("publishConfirm"))) return;
-    setActionLoading(courseId);
-    try {
-      const updated = await coursesApi.publishCourse(courseId);
-      setCourses((prev) =>
-        prev.map((c) => (c.id === courseId ? { ...c, ...updated } : c)),
-      );
-    } catch (err) {
-      window.alert(err instanceof Error ? err.message : tc("error"));
-    } finally {
-      setActionLoading(null);
-    }
-  };
+  const tabs: { key: FilterTab; label: string }[] = [
+    { key: "all", label: t("filterAll") },
+    { key: "published", label: t("filterPublished") },
+    { key: "draft", label: t("filterDrafts") },
+    { key: "archived", label: t("filterArchived") },
+  ];
+
+  const filteredCourses =
+    activeTab === "all"
+      ? courses
+      : courses.filter((c) => c.status === activeTab);
+
+  const publishedCount = courses.filter((c) => c.status === "published").length;
 
   return (
     <div>
-      {/* Page header */}
-      <div className="mb-8 flex items-center justify-between">
+      {/* Breadcrumb + header */}
+      <header className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
         <div>
-          <h1 className="font-serif text-3xl text-on-surface">{t("title")}</h1>
-          <p className="mt-1 text-sm text-on-surface-variant">
-            {t("subtitle")}
-          </p>
+          <nav className="flex items-center gap-2 text-xs text-on-surface-variant uppercase tracking-widest mb-2">
+            <span>Dashboard</span>
+            <span aria-hidden="true">›</span>
+            <span className="text-primary">{t("title")}</span>
+          </nav>
+          <h2 className="font-display-md text-display-md text-on-surface">
+            {t("title")}
+          </h2>
         </div>
         <Link
           href={`/${locale}/cursos/novo`}
-          className="flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-hover"
+          className="flex items-center gap-2 h-12 px-8 rounded-full bg-primary text-on-primary font-button text-button shadow-lg shadow-primary/20 hover:bg-primary-container transition-all w-fit"
         >
-          <Plus className="h-4 w-4" />
+          <Plus className="h-5 w-5" />
           {t("createCourse")}
         </Link>
+      </header>
+
+      {/* Stats bar */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+        <div className="bg-surface-container-low border border-outline-variant p-4 rounded-xl">
+          <p className="text-xs text-on-surface-variant uppercase tracking-wider mb-1">
+            {t("stats.totalStudents")}
+          </p>
+          <p className="font-title-lg text-title-lg text-primary">—</p>
+        </div>
+        <div className="bg-surface-container-low border border-outline-variant p-4 rounded-xl">
+          <p className="text-xs text-on-surface-variant uppercase tracking-wider mb-1">
+            {t("stats.monthlyRevenue")}
+          </p>
+          <p className="font-title-lg text-title-lg text-primary">—</p>
+        </div>
+        <div className="bg-surface-container-low border border-outline-variant p-4 rounded-xl">
+          <p className="text-xs text-on-surface-variant uppercase tracking-wider mb-1">
+            {t("stats.completionRate")}
+          </p>
+          <p className="font-title-lg text-title-lg text-primary">—</p>
+        </div>
+        <div className="bg-surface-container-low border border-outline-variant p-4 rounded-xl">
+          <p className="text-xs text-on-surface-variant uppercase tracking-wider mb-1">
+            {t("stats.activeCourses")}
+          </p>
+          <p className="font-title-lg text-title-lg text-primary">
+            {publishedCount}
+          </p>
+        </div>
       </div>
 
-      {/* Loading skeletons */}
+      {/* Filter tabs + sort */}
+      <div className="flex items-center justify-between mb-6 bg-white p-4 rounded-xl border border-outline-variant shadow-sm">
+        <div className="flex items-center gap-4">
+          {tabs.map((tab) => (
+            <button
+              key={tab.key}
+              type="button"
+              onClick={() => setActiveTab(tab.key)}
+              className={`text-sm pb-1 transition-colors ${
+                activeTab === tab.key
+                  ? "font-semibold text-primary border-b-2 border-primary"
+                  : "text-on-surface-variant hover:text-on-surface"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+        <div className="flex items-center gap-2 text-on-surface-variant">
+          <span className="text-xs uppercase tracking-tighter">
+            {t("sortBy")}
+          </span>
+          <select className="border-none text-sm font-semibold text-on-surface bg-transparent focus:ring-0 cursor-pointer">
+            <option>{t("sortNewest")}</option>
+            <option>{t("sortBestSelling")}</option>
+            <option>{t("sortAlphabetical")}</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Loading state */}
       {loading && (
-        <div className="space-y-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="h-20 animate-pulse rounded-2xl bg-surface-container"
-            />
+              className="rounded-xl border border-outline-variant overflow-hidden"
+            >
+              <div className="h-48 animate-pulse bg-surface-container" />
+              <div className="p-6 space-y-3">
+                <div className="h-5 w-3/4 animate-pulse rounded bg-surface-container" />
+                <div className="h-4 w-full animate-pulse rounded bg-surface-container" />
+              </div>
+            </div>
           ))}
         </div>
       )}
 
       {/* Error state */}
       {!loading && error && (
-        <div className="rounded-2xl border border-error bg-red-50 p-6 text-sm text-error">
+        <div className="rounded-xl border border-error bg-red-50 p-6 text-sm text-error">
           {error}
         </div>
       )}
 
       {/* Empty state */}
-      {!loading && !error && courses.length === 0 && (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-outline-variant bg-white py-16 text-center">
+      {!loading && !error && filteredCourses.length === 0 && (
+        <div className="flex flex-col items-center justify-center rounded-xl border border-outline-variant bg-white py-16 text-center">
           <BookOpen className="mb-4 h-10 w-10 text-outline" />
           <p className="font-serif text-lg text-on-surface">{t("noCourses")}</p>
           <Link
             href={`/${locale}/cursos/novo`}
-            className="mt-4 flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary hover:bg-primary-hover"
+            className="mt-4 flex items-center gap-2 rounded-full bg-primary px-6 h-10 text-sm font-semibold text-on-primary hover:bg-primary-container"
           >
             <Plus className="h-4 w-4" />
             {t("createCourse")}
@@ -137,127 +225,173 @@ const CoursesPage = () => {
         </div>
       )}
 
-      {/* Courses table */}
-      {!loading && !error && courses.length > 0 && (
-        <div className="overflow-hidden rounded-2xl border border-outline-variant bg-white shadow-sm">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-outline-variant bg-surface-container">
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wide text-on-surface-variant">
-                  {t("table.title")}
-                </th>
-                <th className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide text-on-surface-variant">
-                  {tc("status")}
-                </th>
-                <th className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide text-on-surface-variant">
-                  {t("table.modules")}
-                </th>
-                <th className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide text-on-surface-variant">
-                  {t("table.price")}
-                </th>
-                <th className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide text-on-surface-variant">
-                  {tc("createdAt")}
-                </th>
-                <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wide text-on-surface-variant">
-                  {tc("actions")}
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-outline-variant">
-              {courses.map((course) => (
-                <tr
-                  key={course.id}
-                  className="group hover:bg-surface-container/50"
-                >
-                  {/* Title + thumbnail */}
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
-                      {course.thumbnailUrl ? (
-                        // biome-ignore lint/performance/noImgElement: thumbnail from external S3, unoptimized is acceptable
-                        <img
-                          src={course.thumbnailUrl}
-                          alt={course.title}
-                          className="h-10 w-16 flex-shrink-0 rounded-lg object-cover"
-                        />
-                      ) : (
-                        <div className="flex h-10 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-surface-container">
-                          <BookOpen className="h-4 w-4 text-outline" />
-                        </div>
-                      )}
-                      <span className="text-sm font-medium text-on-surface">
-                        {course.title}
-                      </span>
+      {/* Card grid */}
+      {!loading && !error && filteredCourses.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          {filteredCourses.map((course) => {
+            const isPublished = course.status === "published";
+            const isDraft = course.status === "draft";
+
+            return (
+              <div
+                key={course.id}
+                className="group bg-white rounded-xl border border-outline-variant hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 overflow-hidden flex flex-col"
+              >
+                {/* Thumbnail */}
+                <div className="relative h-48 overflow-hidden bg-surface-container">
+                  {course.thumbnailUrl ? (
+                    // biome-ignore lint/performance/noImgElement: thumbnail from S3, acceptable in admin
+                    <img
+                      src={course.thumbnailUrl}
+                      alt={course.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <BookOpen className="h-10 w-10 text-outline" />
                     </div>
-                  </td>
-
+                  )}
                   {/* Status badge */}
-                  <td className="px-4 py-4">
-                    <span
-                      className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                        STATUS_STYLES[course.status] ?? STATUS_STYLES.draft
-                      }`}
-                    >
-                      {t(`status.${course.status}`)}
-                    </span>
-                  </td>
+                  <div className="absolute top-4 left-4">
+                    {isPublished && (
+                      <span className="bg-primary-container/90 backdrop-blur-sm text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+                        {t("status.published")}
+                      </span>
+                    )}
+                    {isDraft && (
+                      <span className="bg-secondary-container/90 backdrop-blur-sm text-on-secondary-container text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+                        {t("status.draft")}
+                      </span>
+                    )}
+                    {course.status === "archived" && (
+                      <span className="bg-outline/80 backdrop-blur-sm text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+                        {t("status.archived")}
+                      </span>
+                    )}
+                  </div>
+                  {/* Rating badge for published */}
+                  {isPublished && (
+                    <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-1 text-primary">
+                      <Star className="h-3 w-3 fill-current" />
+                      <span className="text-xs font-bold">5.0</span>
+                    </div>
+                  )}
+                </div>
 
-                  {/* Modules/lessons */}
-                  <td className="px-4 py-4 text-sm text-on-surface-variant">
-                    {course.moduleCount} {t("table.modulesUnit")} ·{" "}
-                    {course.lessonCount} {t("table.lessonsUnit")}
-                  </td>
+                {/* Card body */}
+                <div className="p-6 flex-1 flex flex-col">
+                  <h3 className="font-title-lg text-title-lg text-on-surface mb-4 leading-tight">
+                    {course.title}
+                  </h3>
 
-                  {/* Price */}
-                  <td className="px-4 py-4 text-sm text-on-surface">
-                    {formatPrice(course.priceCents, course.currency)}
-                  </td>
+                  {/* Stats row */}
+                  <div
+                    className={`grid grid-cols-3 gap-2 mb-6 border-y border-outline-variant/30 py-4 ${isDraft ? "opacity-50" : ""}`}
+                  >
+                    <div className="text-center">
+                      <p className="text-[10px] text-on-surface-variant uppercase tracking-tighter mb-1">
+                        {t("table.modules")}
+                      </p>
+                      <p className="text-sm font-bold text-on-surface">
+                        {course.moduleCount}
+                      </p>
+                    </div>
+                    <div className="text-center border-x border-outline-variant/30">
+                      <p className="text-[10px] text-on-surface-variant uppercase tracking-tighter mb-1">
+                        {t("table.lessons")}
+                      </p>
+                      <p className="text-sm font-bold text-on-surface">
+                        {course.lessonCount}
+                      </p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-[10px] text-on-surface-variant uppercase tracking-tighter mb-1">
+                        {tc("status")}
+                      </p>
+                      <p className="text-sm font-bold text-on-surface">
+                        {formatPrice(course.priceCents, course.currency)}
+                      </p>
+                    </div>
+                  </div>
 
-                  {/* Created at */}
-                  <td className="px-4 py-4 text-sm text-on-surface-variant">
-                    {formatDate(course.createdAt)}
-                  </td>
-
-                  {/* Actions */}
-                  <td className="px-6 py-4">
-                    <div className="flex items-center justify-end gap-2">
-                      <Link
-                        href={`/${locale}/cursos/${course.id}/conteudo`}
-                        className="rounded-lg px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary-light transition-colors"
-                      >
-                        {t("viewContent")}
-                      </Link>
-                      <Link
-                        href={`/${locale}/cursos/${course.id}/editar`}
-                        className="rounded-lg px-3 py-1.5 text-xs font-medium text-on-surface-variant hover:bg-surface-container transition-colors"
-                      >
-                        {tc("edit")}
-                      </Link>
-                      {course.status === "draft" && (
+                  {/* Action buttons */}
+                  <div className="flex items-center gap-3 mt-auto">
+                    {isPublished && (
+                      <>
+                        <button
+                          type="button"
+                          disabled={actionLoading === course.id}
+                          onClick={() => handleArchive(course.id, course.title)}
+                          className="flex-1 border border-outline text-outline font-button text-sm h-10 rounded-full hover:bg-surface-container transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                        >
+                          <Eye className="h-4 w-4" />
+                          {t("viewPage")}
+                        </button>
+                        <Link
+                          href={`/${locale}/cursos/${course.id}/editar`}
+                          className="flex-1 bg-primary text-on-primary font-button text-sm h-10 rounded-full hover:bg-primary-container transition-colors flex items-center justify-center gap-2"
+                        >
+                          <Pencil className="h-4 w-4" />
+                          {tc("edit")}
+                        </Link>
+                      </>
+                    )}
+                    {isDraft && (
+                      <>
+                        <Link
+                          href={`/${locale}/cursos/${course.id}/conteudo`}
+                          className="flex-1 border border-outline text-outline font-button text-sm h-10 rounded-full hover:bg-surface-container transition-colors flex items-center justify-center gap-2"
+                        >
+                          <Eye className="h-4 w-4" />
+                          {t("preview")}
+                        </Link>
                         <button
                           type="button"
                           disabled={actionLoading === course.id}
                           onClick={() => handlePublish(course.id)}
-                          className="rounded-lg px-3 py-1.5 text-xs font-medium text-secondary hover:bg-secondary-light/30 transition-colors disabled:opacity-50"
+                          className="flex-1 bg-primary text-on-primary font-button text-sm h-10 rounded-full hover:bg-primary-container transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                         >
-                          {tc("publish")}
+                          <Pencil className="h-4 w-4" />
+                          {t("continue")}
                         </button>
-                      )}
-                      <button
-                        type="button"
-                        disabled={actionLoading === course.id}
-                        onClick={() => handleArchive(course.id, course.title)}
-                        className="rounded-lg px-3 py-1.5 text-xs font-medium text-error hover:bg-red-50 transition-colors disabled:opacity-50"
+                      </>
+                    )}
+                    {course.status === "archived" && (
+                      <Link
+                        href={`/${locale}/cursos/${course.id}/editar`}
+                        className="flex-1 border border-outline text-outline font-button text-sm h-10 rounded-full hover:bg-surface-container transition-colors flex items-center justify-center gap-2"
                       >
-                        {t("archive")}
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                        <Pencil className="h-4 w-4" />
+                        {tc("edit")}
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
+      {/* Confirm dialogs */}
+      <ConfirmDialog
+        open={pendingAction?.type === "archive"}
+        title={t("archive")}
+        description={`${t("archiveConfirm")} "${pendingAction?.courseTitle ?? ""}"?`}
+        confirmLabel={tc("confirm")}
+        cancelLabel={tc("cancel")}
+        variant="danger"
+        onConfirm={handleDialogConfirm}
+        onCancel={handleDialogCancel}
+      />
+      <ConfirmDialog
+        open={pendingAction?.type === "publish"}
+        title={tc("publish")}
+        description={t("publishConfirm")}
+        confirmLabel={tc("publish")}
+        cancelLabel={tc("cancel")}
+        onConfirm={handleDialogConfirm}
+        onCancel={handleDialogCancel}
+      />
     </div>
   );
 };

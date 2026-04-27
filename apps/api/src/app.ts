@@ -14,6 +14,7 @@ import { z } from "zod";
 import { authPlugin } from "./plugins/auth";
 import { adminRoutes } from "./routes/admin";
 import { authRoutes } from "./routes/auth";
+import { studentRoutes } from "./routes/student";
 import { RESPONSE_500, successResponse } from "./swagger/responses";
 import { SWAGGER_TAGS } from "./swagger/tags";
 
@@ -219,6 +220,7 @@ const buildApp = async () => {
   await app.register(authPlugin);
   await app.register(authRoutes, { prefix: "/auth" });
   await app.register(adminRoutes);
+  await app.register(studentRoutes);
 
   return app;
 };

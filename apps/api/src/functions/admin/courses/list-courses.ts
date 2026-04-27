@@ -1,14 +1,15 @@
-import { courseModules, courses, db, lessons } from "@ybr/database";
-import { eq, sql } from "drizzle-orm";
+import { courseModules, courses, db, lessons } from '@ybr/database'
+import { eq, sql } from 'drizzle-orm'
 
 interface ListCoursesParams {
-  creatorId: string;
+  creatorId: string
 }
 
 const listCourses = async ({ creatorId }: ListCoursesParams) => {
   const result = await db
     .select({
       id: courses.id,
+      creatorId: courses.creatorId,
       title: courses.title,
       slug: courses.slug,
       description: courses.description,
@@ -27,10 +28,10 @@ const listCourses = async ({ creatorId }: ListCoursesParams) => {
     .leftJoin(lessons, eq(lessons.moduleId, courseModules.id))
     .where(eq(courses.creatorId, creatorId))
     .groupBy(courses.id)
-    .orderBy(courses.createdAt);
+    .orderBy(courses.createdAt)
 
-  return result;
-};
+  return result
+}
 
-export { listCourses };
-export type { ListCoursesParams };
+export type { ListCoursesParams }
+export { listCourses }

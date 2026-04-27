@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../../../../packages/ui/src";
 
 /* ═══════════════════════════════════════════════════════════════
    TAILWIND V4 THEME — Design System Tokens as Utility Classes
@@ -28,13 +29,13 @@
   --color-on-error: #ffffff;
 
   /* ─── Font Families ─── */
-  --font-display-lg: "DM Serif Display", Georgia, serif;
-  --font-display-md: "DM Serif Display", Georgia, serif;
-  --font-title-lg: "DM Serif Display", Georgia, serif;
-  --font-body-lg: Inter, system-ui, sans-serif;
-  --font-body-md: Inter, system-ui, sans-serif;
-  --font-label-md: Inter, system-ui, sans-serif;
-  --font-button: Inter, system-ui, sans-serif;
+  --font-display-lg: var(--font-inter), Inter, system-ui, sans-serif;
+  --font-display-md: var(--font-inter), Inter, system-ui, sans-serif;
+  --font-title-lg: var(--font-inter), Inter, system-ui, sans-serif;
+  --font-body-lg: var(--font-inter), Inter, system-ui, sans-serif;
+  --font-body-md: var(--font-inter), Inter, system-ui, sans-serif;
+  --font-label-md: var(--font-inter), Inter, system-ui, sans-serif;
+  --font-button: var(--font-inter), Inter, system-ui, sans-serif;
 
   /* ─── Font Sizes (with companion line-heights) ─── */
   --text-display-lg: 3rem;
@@ -190,7 +191,7 @@
   body {
     background-color: var(--color-background);
     color: var(--color-on-surface);
-    font-family: "Inter", "DM Serif Display", sans-serif;
+    font-family: var(--font-inter), Inter, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -202,7 +203,7 @@
   h4,
   h5,
   h6 {
-    font-family: "DM Serif Display", Georgia, serif;
+    font-family: var(--font-inter), Inter, sans-serif;
     color: var(--color-on-surface);
   }
 

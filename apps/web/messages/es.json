@@ -143,7 +143,12 @@
       "nextLesson": "Próxima lección",
       "previousLesson": "Lección anterior",
       "markComplete": "Marcar como completada",
-      "completed": "Completada"
+      "completed": "Completada",
+      "loading": "Cargando contenido del curso...",
+      "sidebar": {
+        "contentTitle": "Contenido del Curso",
+        "lesson": "Lección"
+      }
     }
   },
   "checkout": {

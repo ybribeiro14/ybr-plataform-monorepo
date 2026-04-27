@@ -29,9 +29,16 @@
     "courses": "Cursos",
     "students": "Alunos",
     "analytics": "Análises",
+    "financeiro": "Financeiro",
     "settings": "Configurações",
+    "suporte": "Suporte",
     "logout": "Sair",
     "profile": "Meu Perfil"
+  },
+  "topNav": {
+    "searchPlaceholder": "Buscar por alunos ou cursos...",
+    "notifications": "Notificações",
+    "help": "Ajuda"
   },
   "auth": {
     "login": {
@@ -51,15 +58,46 @@
   },
   "dashboard": {
     "title": "Dashboard",
+    "greeting": "Visão Geral",
     "subtitle": "Visão geral do desempenho da sua plataforma",
+    "welcomeBack": "Bem-vindo de volta ao seu ateliê digital.",
     "stats": {
-      "totalStudents": "Total de Alunos",
+      "totalStudents": "Total Alunos",
       "totalRevenue": "Receita Total",
+      "monthlyRevenue": "Receita Mensal",
       "activeCourses": "Cursos Ativos",
-      "completionRate": "Taxa de Conclusão Média"
+      "completionRate": "Taxa de Conclusão",
+      "newEnrollments": "Novas Matrículas",
+      "stable": "Estável",
+      "new": "Novo"
     },
     "recentEnrollments": "Matrículas Recentes",
-    "topCourses": "Cursos em Destaque"
+    "topCourses": "Cursos em Destaque",
+    "revenueChart": "Receita nos últimos 30 dias",
+    "grossRevenue": "Receita Bruta",
+    "recentActivity": "Atividade Recente",
+    "viewAll": "Ver tudo",
+    "courseSummary": "Resumo dos Cursos",
+    "filterByStatus": "FILTRAR POR STATUS",
+    "newCourse": "Novo Curso",
+    "table": {
+      "course": "Curso",
+      "activeStudents": "Alunos Ativos",
+      "status": "Status",
+      "revenue": "Faturamento",
+      "actions": "Ações"
+    },
+    "activity": {
+      "enrollment": "Nova matrícula",
+      "enrollmentDetail": "Aluno matriculou-se em um curso",
+      "payment": "Pagamento Confirmado",
+      "paymentDetail": "Transação processada com sucesso",
+      "certificate": "Certificado Gerado",
+      "certificateDetail": "Aluno concluiu um curso",
+      "timeAgo2min": "Há 2 minutos",
+      "timeAgo45min": "Há 45 minutos",
+      "timeAgo2h": "Há 2 horas"
+    }
   },
   "courses": {
     "title": "Cursos",
@@ -99,6 +137,23 @@
       "draft": "Rascunho",
       "published": "Publicado",
       "archived": "Arquivado"
+    },
+    "filterAll": "Todos",
+    "filterPublished": "Publicados",
+    "filterDrafts": "Rascunhos",
+    "filterArchived": "Arquivados",
+    "sortBy": "Ordenar por:",
+    "sortNewest": "Mais recentes",
+    "sortBestSelling": "Mais vendidos",
+    "sortAlphabetical": "Alfabética",
+    "viewPage": "Ver Página",
+    "preview": "Preview",
+    "continue": "Continuar",
+    "stats": {
+      "totalStudents": "Total de Alunos",
+      "monthlyRevenue": "Receita Mensal",
+      "completionRate": "Taxa de Conclusão",
+      "activeCourses": "Cursos Ativos"
     },
     "table": {
       "title": "Título",
@@ -215,6 +270,21 @@
       "emailOnCompletion": "E-mail quando um aluno concluir um curso",
       "emailOnReview": "E-mail quando um aluno deixar uma avaliação"
     }
+  },
+  "contentEditor": {
+    "title": "Editor de Aula",
+    "saving": "Alterações salvas",
+    "preview": "Pré-visualizar",
+    "save": "Salvar Aula",
+    "courseStructure": "Estrutura do Curso",
+    "lessonTitle": "Título da Aula",
+    "videoContent": "Conteúdo em Vídeo",
+    "lessonDescription": "Descrição da Aula",
+    "materials": "Materiais de Apoio (PDF, Planilhas)",
+    "proTip": "Dica Pro",
+    "proTipText": "Arraste as aulas para reorganizar a jornada do seu aluno de forma fluida.",
+    "attachFile": "Anexar arquivo",
+    "uploadingVideo": "Fazendo upload para o servidor seguro..."
   },
   "locale": {
     "en": "English",

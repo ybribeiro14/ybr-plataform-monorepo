@@ -29,9 +29,16 @@
     "courses": "Cursos",
     "students": "Estudiantes",
     "analytics": "Análisis",
+    "financeiro": "Finanzas",
     "settings": "Configuración",
+    "suporte": "Soporte",
     "logout": "Cerrar sesión",
     "profile": "Mi Perfil"
+  },
+  "topNav": {
+    "searchPlaceholder": "Buscar estudiantes o cursos...",
+    "notifications": "Notificaciones",
+    "help": "Ayuda"
   },
   "auth": {
     "login": {
@@ -51,15 +58,46 @@
   },
   "dashboard": {
     "title": "Panel",
+    "greeting": "Visión General",
     "subtitle": "Resumen del rendimiento de tu plataforma",
+    "welcomeBack": "Bienvenido de nuevo a tu atelier digital.",
     "stats": {
-      "totalStudents": "Total de Estudiantes",
+      "totalStudents": "Total Estudiantes",
       "totalRevenue": "Ingresos Totales",
+      "monthlyRevenue": "Ingresos Mensuales",
       "activeCourses": "Cursos Activos",
-      "completionRate": "Tasa de Finalización Prom."
+      "completionRate": "Tasa de Finalización",
+      "newEnrollments": "Nuevas Inscripciones",
+      "stable": "Estable",
+      "new": "Nuevo"
     },
     "recentEnrollments": "Inscripciones Recientes",
-    "topCourses": "Cursos Destacados"
+    "topCourses": "Cursos Destacados",
+    "revenueChart": "Ingresos en los últimos 30 días",
+    "grossRevenue": "Ingresos Brutos",
+    "recentActivity": "Actividad Reciente",
+    "viewAll": "Ver todo",
+    "courseSummary": "Resumen de Cursos",
+    "filterByStatus": "FILTRAR POR ESTADO",
+    "newCourse": "Nuevo Curso",
+    "table": {
+      "course": "Curso",
+      "activeStudents": "Estudiantes Activos",
+      "status": "Estado",
+      "revenue": "Ingresos",
+      "actions": "Acciones"
+    },
+    "activity": {
+      "enrollment": "Nueva inscripción",
+      "enrollmentDetail": "Estudiante inscrito en un curso",
+      "payment": "Pago Confirmado",
+      "paymentDetail": "Transacción procesada con éxito",
+      "certificate": "Certificado Generado",
+      "certificateDetail": "Estudiante completó un curso",
+      "timeAgo2min": "Hace 2 minutos",
+      "timeAgo45min": "Hace 45 minutos",
+      "timeAgo2h": "Hace 2 horas"
+    }
   },
   "courses": {
     "title": "Cursos",
@@ -99,6 +137,23 @@
       "draft": "Borrador",
       "published": "Publicado",
       "archived": "Archivado"
+    },
+    "filterAll": "Todos",
+    "filterPublished": "Publicados",
+    "filterDrafts": "Borradores",
+    "filterArchived": "Archivados",
+    "sortBy": "Ordenar por:",
+    "sortNewest": "Más recientes",
+    "sortBestSelling": "Más vendidos",
+    "sortAlphabetical": "Alfabético",
+    "viewPage": "Ver Página",
+    "preview": "Vista previa",
+    "continue": "Continuar",
+    "stats": {
+      "totalStudents": "Total Estudiantes",
+      "monthlyRevenue": "Ingresos Mensuales",
+      "completionRate": "Tasa de Finalización",
+      "activeCourses": "Cursos Activos"
     },
     "table": {
       "title": "Título",
@@ -215,6 +270,21 @@
       "emailOnCompletion": "Email cuando un estudiante complete un curso",
       "emailOnReview": "Email cuando un estudiante deje una reseña"
     }
+  },
+  "contentEditor": {
+    "title": "Editor de Clase",
+    "saving": "Cambios guardados",
+    "preview": "Vista previa",
+    "save": "Guardar Clase",
+    "courseStructure": "Estructura del Curso",
+    "lessonTitle": "Título de la Clase",
+    "videoContent": "Contenido en Video",
+    "lessonDescription": "Descripción de la Clase",
+    "materials": "Materiales de Apoyo (PDF, Hojas de cálculo)",
+    "proTip": "Consejo Pro",
+    "proTipText": "Arrastra las clases para reorganizar el recorrido de tu estudiante de forma fluida.",
+    "attachFile": "Adjuntar archivo",
+    "uploadingVideo": "Subiendo al servidor seguro..."
   },
   "locale": {
     "en": "English",

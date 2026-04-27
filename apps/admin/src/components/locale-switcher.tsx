@@ -1,53 +1,52 @@
-"use client";
+'use client'
 
-import { routing } from "@/i18n/routing";
-import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from 'next/navigation'
+import { useLocale, useTranslations } from 'next-intl'
+import { routing } from '@/i18n/routing'
 
-type Locale = (typeof routing.locales)[number];
+type Locale = (typeof routing.locales)[number]
 
 const LOCALE_LABELS: Record<Locale, string> = {
-  en: "EN",
-  "pt-BR": "PT",
-  es: "ES",
-};
+  en: 'EN',
+  'pt-BR': 'PT',
+  es: 'ES',
+}
 
 const LocaleSwitcher = () => {
-  const t = useTranslations("locale");
-  const locale = useLocale() as Locale;
-  const router = useRouter();
-  const pathname = usePathname();
+  const t = useTranslations('locale')
+  const locale = useLocale() as Locale
+  const router = useRouter()
+  const pathname = usePathname()
 
   const handleLocaleChange = (newLocale: Locale) => {
-    const pathnameWithoutLocale =
-      pathname.replace(/^\/(en|pt-BR|es)/, "") || "/";
-    router.push(`/${newLocale}${pathnameWithoutLocale}`);
-  };
+    const pathnameWithoutLocale = pathname.replace(/^\/(en|pt-BR|es)/, '') || '/'
+    router.push(`/${newLocale}${pathnameWithoutLocale}`)
+  }
 
   return (
     <nav
       className="flex items-center gap-1 rounded-full border border-[var(--color-outline)] px-2 py-1"
-      aria-label={t("switchLanguage")}
+      aria-label={t('switchLanguage')}
     >
-      {routing.locales.map((loc) => (
+      {routing.locales.map(loc => (
         <button
           key={loc}
           type="button"
           onClick={() => handleLocaleChange(loc as Locale)}
           aria-label={t(loc)}
-          aria-current={locale === loc ? "true" : undefined}
+          aria-current={locale === loc ? 'true' : undefined}
           className={[
-            "rounded-full px-2 py-0.5 text-xs font-medium transition-colors",
+            'rounded-full px-2 py-0.5 text-xs font-medium transition-colors',
             locale === loc
-              ? "bg-[var(--color-primary)] text-white"
-              : "text-[var(--color-on-surface-variant)] hover:bg-[var(--color-surface-container)]",
-          ].join(" ")}
+              ? 'bg-[var(--color-primary)] text-white'
+              : 'text-[var(--color-on-surface-variant)] hover:bg-[var(--color-surface-container)]',
+          ].join(' ')}
         >
           {LOCALE_LABELS[loc as Locale]}
         </button>
       ))}
     </nav>
-  );
-};
+  )
+}
 
-export { LocaleSwitcher };
+export { LocaleSwitcher }

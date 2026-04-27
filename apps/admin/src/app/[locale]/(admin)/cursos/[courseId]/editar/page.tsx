@@ -2,12 +2,13 @@
 
 import { coursesApi } from "@/lib/api/courses";
 import type { CourseWithModules } from "@/lib/types/courses";
+import { CurrencyInput } from "@ybr/ui";
 import { ArrowLeft, Upload, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 interface CourseFormValues {
   title: string;
@@ -37,8 +38,12 @@ const EditCoursePage = () => {
     register,
     handleSubmit,
     reset,
+    control,
+    watch,
     formState: { errors },
   } = useForm<CourseFormValues>();
+
+  const watchedCurrency = watch("currency");
 
   useEffect(() => {
     const load = async () => {
@@ -190,21 +195,20 @@ const EditCoursePage = () => {
               >
                 {t("form.priceLabel")} <span className="text-error">*</span>
               </label>
-              <input
-                id="priceDisplay"
-                type="number"
-                step="0.01"
-                min="0"
-                placeholder="197.00"
-                className={`w-full rounded-lg border bg-surface-container px-4 py-3 text-sm text-on-surface placeholder:text-outline focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary ${
-                  errors.priceDisplay
-                    ? "border-error"
-                    : "border-outline-variant"
-                }`}
-                {...register("priceDisplay", {
-                  required: tc("required"),
-                  min: { value: 0, message: t("form.priceMin") },
-                })}
+              <Controller
+                name="priceDisplay"
+                control={control}
+                rules={{ required: tc("required") }}
+                render={({ field }) => (
+                  <CurrencyInput
+                    id="priceDisplay"
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    currency={watchedCurrency}
+                    hasError={!!errors.priceDisplay}
+                  />
+                )}
               />
               {errors.priceDisplay && (
                 <p className="mt-1 text-xs text-error">

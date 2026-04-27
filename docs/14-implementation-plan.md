@@ -2,7 +2,7 @@
 
 **Date:** 2026-04-24  
 **Last Updated:** 2026-04-27  
-**Status:** 🟢 Phase 0 complete — Phase 0.5 (Swagger) complete — Phase 1.1 backend + auth tests complete — Phase 1.2 backend + admin UI complete — Phase 1.2 backend complete — Phase 1.2 frontend complete  
+**Status:** 🟢 Phase 0 complete — Phase 0.5 (Swagger) complete — Phase 1.1 backend + auth tests complete — Phase 1.2 backend + admin UI complete — Phase 1.2 backend complete — Phase 1.2 frontend complete — Phase 1.3 backend complete — Phase 1.3 frontend complete  
 **Monorepo:** `ybr-plataform/platform/`
 
 > ℹ️ **SCOPE NOTE (2026-04-27):** Checkout, payment processing, and the sales/landing page have been removed from this project. Those concerns are handled by a separate project. Enrollments in this platform are managed externally (e.g., via webhook from the payment system) and must not depend on Stripe or any payment gateway here.
@@ -98,7 +98,7 @@ This is the **master execution document** for YBR Platform. Each item is a concr
 - [x] `drizzle.config.ts` configured
 - [x] Initial migration generated with `drizzle-kit generate` (`0000_fast_molten_man.sql`)
 - [x] Migration applied to Neon (dev) _(local docker-compose — Neon pending for production)_
-- [ ] Basic seeds created _(pending)_
+- [x] Basic seeds created (`pnpm db:seed` — admin@ybr.dev, criador@ybr.dev, aluno@ybr.dev)
 
 ---
 
@@ -451,6 +451,16 @@ Pages to implement (design: Artisanal Sophistication, all UI text via i18n):
 
 #### Frontend — `react-senior-engineer`
 
+> ⚠️ **Layout references (mandatory):**
+>
+> | Screen                             | Layout file                                       |
+> | ---------------------------------- | ------------------------------------------------- |
+> | Dashboard                          | `layout/admin-layout/admin_dashboard_desktop/`    |
+> | Gestão de Cursos                   | `layout/admin-layout/gest_o_de_cursos_desktop/`   |
+> | Editor de Conteúdo (módulos/aulas) | `layout/admin-layout/editor_de_conte_do_desktop/` |
+>
+> For each screen: read `code.html` first, view `screen.png` as visual target. See `docs/15-layout-reference.md` for full instructions.
+
 **Checklist:**
 
 - [x] `apps/admin/src/lib/api/courses.ts` — Full fetch-based API client (courses, modules, lessons, thumbnail)
@@ -467,6 +477,10 @@ Pages to implement (design: Artisanal Sophistication, all UI text via i18n):
 - [ ] Drag-and-drop module reordering _(deferred to Phase 2 — implemented with ↑↓ buttons)_
 
 #### Frontend — `react-senior-engineer` ✅ 2026-04-25
+
+> ✅ **Layout review completed (2026-04-27):** Admin screens reviewed and updated to match layout references.
+
+- [x] Admin screens reviewed and updated to match layout references
 
 - [x] `apps/admin/src/lib/types/courses.ts` — TypeScript interfaces matching backend schemas
 - [x] `apps/admin/src/lib/api/courses.ts` — Fetch-based API client for all course/module/lesson endpoints
@@ -489,21 +503,21 @@ Pages to implement (design: Artisanal Sophistication, all UI text via i18n):
 
 #### Backend — `nodejs-especialist`
 
-- [ ] Streaming endpoint with Bunny token
-- [ ] Progress endpoint (upsert: create or update)
-- [ ] Rate limiting on progress endpoint (1 req/5s per user)
+- [x] Streaming endpoint with Bunny token
+- [x] Progress endpoint (upsert: create or update)
+- [x] Rate limiting on progress endpoint (1 req/5s per user)
 
 #### Frontend — `react-senior-engineer`
 
 **Layout reference:** `layout/desktop-layout/player_de_aula_desktop/code.html`
 
-- [ ] `VideoPlayer.tsx` component using `@ybr/hls-player`
-- [ ] Lesson page: player + module/lesson sidebar
-- [ ] Auto-save progress every 10 seconds while watching
-- [ ] Mark lesson as complete when reaching 90% of video
-- [ ] Gold progress bar per module (design system gold)
-- [ ] Tabs: Lesson / Materials / My Notes
-- [ ] All UI strings via `next-intl` message keys
+- [x] `VideoPlayer.tsx` component using `@ybr/hls-player`
+- [x] Lesson page: player + module/lesson sidebar
+- [x] Auto-save progress every 10 seconds while watching
+- [x] Mark lesson as complete when reaching 90% of video
+- [x] Gold progress bar per module (design system gold)
+- [x] Tabs: Lesson / Materials / My Notes
+- [x] All UI strings via `next-intl` message keys
 
 ---
 
@@ -601,6 +615,10 @@ Pages to implement (design: Artisanal Sophistication, all UI text via i18n):
 
 ### Advanced Analytics (Week 10–11)
 
+**Layout reference:** `layout/admin-layout/analytics_de_performance_desktop/` (read `code.html` + `screen.png` before implementing UI)
+
+- [ ] Admin analytics page `/[locale]/(admin)/analytics` using the layout reference
+
 - [ ] Admin dashboard: active students, completion rates, engagement metrics
 - [ ] Completion rate per module (dropout funnel)
 - [ ] Retention cohort analysis
@@ -615,6 +633,13 @@ Pages to implement (design: Artisanal Sophistication, all UI text via i18n):
 - [ ] Auto subtitles via Mux Robots
 - [ ] Per-video engagement analytics (Mux Data)
 - [ ] Hybrid strategy: Mux for paid courses, Bunny for free previews
+
+### Student Management — Admin (Week 11–12)
+
+**Layout reference:** `layout/admin-layout/gest_o_de_alunas_desktop/` (read `code.html` + `screen.png` before implementing UI)
+
+- [ ] `GET /admin/students` — List students enrolled in creator's courses
+- [ ] Admin page `/[locale]/(admin)/alunas` — Student list with progress, enrollment status, search/filter
 
 ### Basic Multi-tenancy (Week 12–14)
 

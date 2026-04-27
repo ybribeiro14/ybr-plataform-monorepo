@@ -143,7 +143,12 @@
       "nextLesson": "Next lesson",
       "previousLesson": "Previous lesson",
       "markComplete": "Mark as complete",
-      "completed": "Completed"
+      "completed": "Completed",
+      "loading": "Loading course content...",
+      "sidebar": {
+        "contentTitle": "Course Content",
+        "lesson": "Lesson"
+      }
     }
   },
   "checkout": {

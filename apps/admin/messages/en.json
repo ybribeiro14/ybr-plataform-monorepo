@@ -29,9 +29,16 @@
     "courses": "Courses",
     "students": "Students",
     "analytics": "Analytics",
+    "financeiro": "Financial",
     "settings": "Settings",
+    "suporte": "Support",
     "logout": "Sign out",
     "profile": "My Profile"
+  },
+  "topNav": {
+    "searchPlaceholder": "Search for students or courses...",
+    "notifications": "Notifications",
+    "help": "Help"
   },
   "auth": {
     "login": {
@@ -51,15 +58,46 @@
   },
   "dashboard": {
     "title": "Dashboard",
+    "greeting": "Overview",
     "subtitle": "Overview of your platform performance",
+    "welcomeBack": "Welcome back to your digital atelier.",
     "stats": {
       "totalStudents": "Total Students",
       "totalRevenue": "Total Revenue",
+      "monthlyRevenue": "Monthly Revenue",
       "activeCourses": "Active Courses",
-      "completionRate": "Avg. Completion Rate"
+      "completionRate": "Completion Rate",
+      "newEnrollments": "New Enrollments",
+      "stable": "Stable",
+      "new": "New"
     },
     "recentEnrollments": "Recent Enrollments",
-    "topCourses": "Top Courses"
+    "topCourses": "Top Courses",
+    "revenueChart": "Revenue over the last 30 days",
+    "grossRevenue": "Gross Revenue",
+    "recentActivity": "Recent Activity",
+    "viewAll": "View all",
+    "courseSummary": "Course Summary",
+    "filterByStatus": "FILTER BY STATUS",
+    "newCourse": "New Course",
+    "table": {
+      "course": "Course",
+      "activeStudents": "Active Students",
+      "status": "Status",
+      "revenue": "Revenue",
+      "actions": "Actions"
+    },
+    "activity": {
+      "enrollment": "New enrollment",
+      "enrollmentDetail": "Student enrolled in a course",
+      "payment": "Payment Confirmed",
+      "paymentDetail": "Transaction processed successfully",
+      "certificate": "Certificate Generated",
+      "certificateDetail": "Student completed a course",
+      "timeAgo2min": "2 minutes ago",
+      "timeAgo45min": "45 minutes ago",
+      "timeAgo2h": "2 hours ago"
+    }
   },
   "courses": {
     "title": "Courses",
@@ -99,6 +137,23 @@
       "draft": "Draft",
       "published": "Published",
       "archived": "Archived"
+    },
+    "filterAll": "All",
+    "filterPublished": "Published",
+    "filterDrafts": "Drafts",
+    "filterArchived": "Archived",
+    "sortBy": "Sort by:",
+    "sortNewest": "Most recent",
+    "sortBestSelling": "Best selling",
+    "sortAlphabetical": "Alphabetical",
+    "viewPage": "View Page",
+    "preview": "Preview",
+    "continue": "Continue",
+    "stats": {
+      "totalStudents": "Total Students",
+      "monthlyRevenue": "Monthly Revenue",
+      "completionRate": "Completion Rate",
+      "activeCourses": "Active Courses"
     },
     "table": {
       "title": "Title",
@@ -215,6 +270,21 @@
       "emailOnCompletion": "Email when a student completes a course",
       "emailOnReview": "Email when a student leaves a review"
     }
+  },
+  "contentEditor": {
+    "title": "Lesson Editor",
+    "saving": "Changes saved",
+    "preview": "Preview",
+    "save": "Save Lesson",
+    "courseStructure": "Course Structure",
+    "lessonTitle": "Lesson Title",
+    "videoContent": "Video Content",
+    "lessonDescription": "Lesson Description",
+    "materials": "Support Materials (PDF, Spreadsheets)",
+    "proTip": "Pro Tip",
+    "proTipText": "Drag lessons to reorganize your student's journey fluidly.",
+    "attachFile": "Attach file",
+    "uploadingVideo": "Uploading to secure server..."
   },
   "locale": {
     "en": "English",

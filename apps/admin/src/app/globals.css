@@ -1,36 +1,74 @@
 @import "tailwindcss";
+@source "../../../../packages/ui/src";
 
 /* ═══════════════════════════════════════════════════════════════
    DESIGN SYSTEM — Artisanal Sophistication (Admin)
    ═══════════════════════════════════════════════════════════════ */
 
 @theme {
-  /* Colors */
+  /* ── Colors ─────────────────────────────────────────────────── */
   --color-primary: #984207;
   --color-primary-hover: #b85a21;
+  --color-primary-container: #b85a21;
   --color-primary-light: #fdeae2;
   --color-on-primary: #ffffff;
   --color-secondary: #755b00;
   --color-secondary-light: #fed977;
+  --color-secondary-container: #fed977;
+  --color-on-secondary-container: #785d00;
+  --color-tertiary: #006480;
+  --color-on-tertiary: #ffffff;
   --color-background: #fff8f6;
   --color-surface: #fff8f6;
   --color-surface-container: #fdeae2;
+  --color-surface-container-low: #fff1eb;
+  --color-surface-container-high: #f7e4dc;
+  --color-surface-container-highest: #f1dfd7;
+  --color-surface-container-lowest: #ffffff;
   --color-white: #ffffff;
   --color-on-surface: #231915;
-  --color-on-surface-variant: #52433e;
+  --color-on-surface-variant: #56433a;
   --color-outline: #897268;
-  --color-outline-variant: #d9c5bc;
+  --color-outline-variant: #dcc1b5;
   --color-error: #ba1a1a;
   --color-success: #1a7a1a;
 
-  /* Fonts */
+  /* ── Font families ───────────────────────────────────────────── */
   --font-sans: var(--font-inter), Inter, ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-dm-serif), "DM Serif Display", Georgia, serif;
+  --font-serif: var(--font-inter), Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-display-md:
+    var(--font-inter), Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-display-lg:
+    var(--font-inter), Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-title-lg:
+    var(--font-inter), Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-body-md: var(--font-inter), Inter, ui-sans-serif, sans-serif;
+  --font-body-lg: var(--font-inter), Inter, ui-sans-serif, sans-serif;
+  --font-label-md: var(--font-inter), Inter, ui-sans-serif, sans-serif;
+  --font-button: var(--font-inter), Inter, ui-sans-serif, sans-serif;
 
-  /* Shadows */
-  --shadow-card: 0px 4px 20px rgba(196, 99, 42, 0.08);
+  /* ── Font sizes ──────────────────────────────────────────────── */
+  --text-display-md: 36px;
+  --text-display-md--line-height: 1.2;
+  --text-display-lg: 48px;
+  --text-display-lg--line-height: 1.1;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-title-lg: 28px;
+  --text-title-lg--line-height: 1.3;
+  --text-body-md: 16px;
+  --text-body-md--line-height: 1.6;
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 1.6;
+  --text-label-md: 14px;
+  --text-label-md--line-height: 1.2;
+  --text-label-md--letter-spacing: 0.05em;
+  --text-button: 16px;
+  --text-button--line-height: 1;
 
-  /* Radius */
+  /* ── Shadows ─────────────────────────────────────────────────── */
+  --shadow-card: 0px 4px 20px rgba(152, 66, 7, 0.06);
+
+  /* ── Radius ──────────────────────────────────────────────────── */
   --radius-lg: 1rem;
   --radius-full: 9999px;
 }
@@ -52,6 +90,6 @@
   h4,
   h5,
   h6 {
-    font-family: var(--font-serif);
+    font-family: var(--font-inter), Inter, sans-serif;
   }
 }

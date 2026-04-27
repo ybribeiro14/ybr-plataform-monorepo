@@ -144,7 +144,7 @@ export const HLSPlayer = ({
           await handleAutoplay(video, {
             muted,
             autoplayFallbackToMuted,
-            onAutoplayBlocked,
+            ...(onAutoplayBlocked ? { onAutoplayBlocked } : {}),
           });
         }
       });
@@ -173,7 +173,7 @@ export const HLSPlayer = ({
         handleAutoplay(video, {
           muted,
           autoplayFallbackToMuted,
-          onAutoplayBlocked,
+          ...(onAutoplayBlocked ? { onAutoplayBlocked } : {}),
         });
       }
     } else {

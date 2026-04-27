@@ -21,8 +21,9 @@
 
 All layouts live under:
 
-- Desktop: `ybr-plataform/platform/layout/desktop-layout/`
-- Mobile: `ybr-plataform/platform/layout/mobile-layout/`
+- Web (desktop): `ybr-plataform/platform/layout/desktop-layout/`
+- Web (mobile): `ybr-plataform/platform/layout/mobile-layout/`
+- **Admin panel: `ybr-plataform/platform/layout/admin-layout/`** ← NEW
 - Design system: `ybr-plataform/platform/layout/desktop-layout/artisanal_sophistication/DESIGN.md`
 
 Each layout folder contains exactly:
@@ -54,13 +55,19 @@ Each layout folder contains exactly:
 | Materiais da Aula    | `/[locale]/(student)/cursos/[slug]/aulas/[lessonId]/materiais/page.tsx` | _(use desktop player as base)_                        | `layout/mobile-layout/materiais_da_aula/`    |
 | Minhas Notas         | `/[locale]/(student)/notas/page.tsx`                                    | _(use desktop player as base)_                        | `layout/mobile-layout/minhas_notas/`         |
 
-### Checkout & Sales Pages (`apps/web`)
+### Admin Panel Pages (`apps/admin`)
 
-| Page                  | Route                                           | Desktop Layout                                        | Mobile Layout          |
-| --------------------- | ----------------------------------------------- | ----------------------------------------------------- | ---------------------- |
-| Checkout              | `/[locale]/checkout/[courseSlug]/page.tsx`      | `layout/desktop-layout/checkout_desktop/`             | _(scale from desktop)_ |
-| Confirmação de Compra | `/[locale]/confirmacao/page.tsx`                | `layout/desktop-layout/confirma_o_de_compra_desktop/` | _(scale from desktop)_ |
-| Página de Vendas      | `/[locale]/[creatorSlug]/[courseSlug]/page.tsx` | `layout/desktop-layout/p_gina_de_vendas_desktop/`     | _(scale from desktop)_ |
+> ⚠️ **MANDATORY:** Every admin screen MUST be implemented following its reference layout. No admin page can be designed from scratch.
+
+| Page               | Route                                                   | Admin Layout                                            |
+| ------------------ | ------------------------------------------------------- | ------------------------------------------------------- |
+| Dashboard Admin    | `/[locale]/(admin)/dashboard/page.tsx`                  | `layout/admin-layout/admin_dashboard_desktop/`          |
+| Gestão de Cursos   | `/[locale]/(admin)/cursos/page.tsx`                     | `layout/admin-layout/gest_o_de_cursos_desktop/`         |
+| Editor de Conteúdo | `/[locale]/(admin)/cursos/[courseId]/conteudo/page.tsx` | `layout/admin-layout/editor_de_conte_do_desktop/`       |
+| Gestão de Alunas   | `/[locale]/(admin)/alunas/page.tsx`                     | `layout/admin-layout/gest_o_de_alunas_desktop/`         |
+| Analytics          | `/[locale]/(admin)/analytics/page.tsx`                  | `layout/admin-layout/analytics_de_performance_desktop/` |
+
+> **Note:** Admin layouts are desktop-only references. For mobile responsiveness, use `md:` breakpoints to stack sidebar/content vertically.
 
 ---
 
@@ -309,7 +316,7 @@ Some mobile layouts have **no desktop counterpart** (auth flows are mobile-first
 - Scale up naturally for larger screens using responsive Tailwind prefixes (`md:`, `lg:`)
 - Auth pages are centered cards — they work well at all sizes with `max-w-[480px]`
 
-Some desktop layouts have **no mobile counterpart** (checkout, confirmação, sales page). For these:
+Some desktop layouts have **no mobile counterpart** (admin panel). For these:
 
 - Implement the desktop design first
 - Make it responsive by stacking columns on mobile (`flex-col md:flex-row`)

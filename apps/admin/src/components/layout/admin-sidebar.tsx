@@ -1,99 +1,106 @@
-"use client";
+'use client'
 
 import {
-  BarChart2,
   BookOpen,
+  CreditCard,
+  HelpCircle,
   LayoutDashboard,
   LogOut,
   Settings,
   Users,
-} from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import type { ComponentType } from "react";
+} from 'lucide-react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useLocale, useTranslations } from 'next-intl'
+import type { ComponentType } from 'react'
 
 interface NavItem {
-  labelKey: string;
-  href: string;
-  Icon: ComponentType<{ className?: string }>;
+  labelKey: string
+  href: string
+  Icon: ComponentType<{ className?: string }>
 }
 
 const AdminSidebar = () => {
-  const t = useTranslations("nav");
-  const locale = useLocale();
-  const pathname = usePathname();
+  const t = useTranslations('nav')
+  const locale = useLocale()
+  const pathname = usePathname()
 
   const navItems: NavItem[] = [
     {
-      labelKey: "dashboard",
+      labelKey: 'dashboard',
       href: `/${locale}/dashboard`,
       Icon: LayoutDashboard,
     },
-    { labelKey: "courses", href: `/${locale}/cursos`, Icon: BookOpen },
-    { labelKey: "students", href: `/${locale}/alunos`, Icon: Users },
-    { labelKey: "analytics", href: `/${locale}/analises`, Icon: BarChart2 },
-    { labelKey: "settings", href: `/${locale}/configuracoes`, Icon: Settings },
-  ];
+    { labelKey: 'courses', href: `/${locale}/cursos`, Icon: BookOpen },
+    { labelKey: 'students', href: `/${locale}/alunos`, Icon: Users },
+    { labelKey: 'financeiro', href: `/${locale}/financeiro`, Icon: CreditCard },
+    { labelKey: 'settings', href: `/${locale}/configuracoes`, Icon: Settings },
+  ]
 
   const handleLogout = () => {
     // biome-ignore lint/suspicious/noDocumentCookie: logout requires direct cookie expiry
-    document.cookie =
-      "ybr_access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = 'ybr_access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
     // biome-ignore lint/suspicious/noDocumentCookie: logout requires direct cookie expiry
-    document.cookie =
-      "ybr_refresh_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    window.location.href = `/${locale}/login`;
-  };
+    document.cookie = 'ybr_refresh_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+    window.location.href = `/${locale}/login`
+  }
 
   return (
-    <aside className="flex w-64 flex-shrink-0 flex-col border-r border-outline-variant bg-white">
+    <aside className="hidden md:flex flex-col h-screen w-64 border-r border-outline-variant bg-[#F8F4F0] shrink-0 py-6 px-4 space-y-2">
       {/* Logo */}
-      <div className="border-b border-outline-variant px-6 py-5">
-        <span className="font-serif text-xl text-primary">YBR Admin</span>
+      <div className="flex items-center gap-3 px-2 mb-8">
+        <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary shrink-0">
+          <BookOpen className="h-5 w-5" />
+        </div>
+        <div>
+          <h1 className="font-serif italic text-lg leading-none text-primary">YBR Platform</h1>
+          <span className="text-[10px] uppercase tracking-widest text-outline">Ateliê de Luxo</span>
+        </div>
       </div>
 
       {/* Navigation */}
-      <nav
-        className="flex-1 space-y-0.5 px-3 py-5"
-        aria-label="Navegação principal"
-      >
+      <nav className="flex-1 space-y-1" aria-label="Navegação principal">
         {navItems.map(({ labelKey, href, Icon }) => {
-          const isActive = pathname === href || pathname.startsWith(`${href}/`);
+          const isActive = pathname === href || pathname.startsWith(`${href}/`)
           return (
             <Link
               key={labelKey}
               href={href}
-              aria-current={isActive ? "page" : undefined}
-              className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
+              aria-current={isActive ? 'page' : undefined}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${
                 isActive
-                  ? "bg-surface-container text-primary"
-                  : "text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
+                  ? 'bg-[#F2EAE4] text-primary font-bold border-l-4 border-primary'
+                  : 'text-on-surface-variant hover:bg-surface-container hover:text-primary transform hover:translate-x-1'
               }`}
             >
-              <Icon
-                className={`h-4 w-4 flex-shrink-0 ${isActive ? "text-primary" : ""}`}
-              />
-              {t(labelKey)}
+              <Icon className={`h-5 w-5 shrink-0 ${isActive ? 'text-primary' : ''}`} />
+              <span className="font-sans text-sm uppercase tracking-wide">{t(labelKey)}</span>
             </Link>
-          );
+          )
         })}
       </nav>
 
-      {/* Logout */}
-      <div className="border-t border-outline-variant px-3 py-4">
+      {/* Footer links */}
+      <div className="pt-4 border-t border-outline-variant space-y-1">
+        <Link
+          href={`/${locale}/suporte`}
+          className="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-primary transition-all duration-300 transform hover:translate-x-1"
+        >
+          <HelpCircle className="h-5 w-5 shrink-0" />
+          <span className="font-sans text-sm uppercase tracking-wide">{t('suporte')}</span>
+        </Link>
         <button
           type="button"
           onClick={handleLogout}
-          aria-label={t("logout")}
-          className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-on-surface-variant transition-colors hover:bg-surface-container hover:text-on-surface"
+          aria-label={t('logout')}
+          className="flex w-full items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-error transition-all duration-300 transform hover:translate-x-1"
         >
-          <LogOut className="h-4 w-4 flex-shrink-0" />
-          {t("logout")}
+          <LogOut className="h-5 w-5 shrink-0" />
+          <span className="font-sans text-sm uppercase tracking-wide">{t('logout')}</span>
         </button>
       </div>
     </aside>
-  );
-};
+  )
+}
 
-export { AdminSidebar };
+export { AdminSidebar }

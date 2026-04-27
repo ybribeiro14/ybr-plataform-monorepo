@@ -38,6 +38,7 @@ process.env["R2_PUBLIC_URL"] = "https://test.r2.dev";
 process.env["BUNNY_STREAM_API_KEY"] = "fake-bunny-api-key";
 process.env["BUNNY_VIDEO_LIBRARY_ID"] = "12345";
 process.env["BUNNY_PULL_ZONE_URL"] = "https://test.b-cdn.net";
+process.env["BUNNY_VIDEO_PULL_ZONE_URL"] = "https://test-video.b-cdn.net";
 
 // Re-apply defaults before each test file to ensure a clean environment
 // (some tests may delete or override individual variables).
@@ -62,4 +63,5 @@ beforeAll(() => {
   process.env["BUNNY_STREAM_API_KEY"] = "fake-bunny-api-key";
   process.env["BUNNY_VIDEO_LIBRARY_ID"] = "12345";
   process.env["BUNNY_PULL_ZONE_URL"] = "https://test.b-cdn.net";
+  process.env["BUNNY_VIDEO_PULL_ZONE_URL"] = "https://test-video.b-cdn.net";
 });
