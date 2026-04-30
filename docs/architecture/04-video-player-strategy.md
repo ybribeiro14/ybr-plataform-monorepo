@@ -8,7 +8,7 @@
 
 YBR Platform adopts the **custom HLS Player** developed in-house (source at `ybr-plataform/video-player/index.ts`) as a shared package `packages/hls-player` in the monorepo, instead of the proprietary `@mux/mux-player-react` solution.
 
-This decision ensures **full compatibility with Bunny Stream in Phase 1**, absolute control over the UI to match the "Artisanal Sophistication" design system, and a **transparent migration to Mux Video in Phase 2+** — only changing the source URL, without rewriting any UI.
+This decision ensures **full compatibility with Bunny Stream in Phase 1**, absolute control over the UI to match the White-Label Studio design system, and a **transparent migration to Mux Video in Phase 2+** — only changing the source URL, without rewriting any UI.
 
 ---
 
@@ -37,7 +37,7 @@ This decision ensures **full compatibility with Bunny Stream in Phase 1**, absol
 The custom HLS Player is the right choice for YBR Platform because:
 
 1. **Phase 1 uses Bunny Stream** — `@mux/mux-player-react` is incompatible
-2. **Strict design system** — The Mux Web Component's Shadow DOM prevents the deep customization required for "Artisanal Sophistication"
+2. **Strict design system** — The Mux Web Component's Shadow DOM prevents the deep customization required for the White-Label Studio (the player must adapt to each creator's brand color)
 3. **Provider agnosticism** — Hybrid Bunny (free previews) + Mux (paid courses) strategy requires a universal player
 4. **Code already exists and is tested** — The player was developed and validated in production in another YBR ecosystem product
 

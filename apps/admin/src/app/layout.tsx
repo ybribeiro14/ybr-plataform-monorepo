@@ -1,14 +1,14 @@
-import { Inter } from "next/font/google";
-import "./globals.css";
+import { Inter } from 'next/font/google'
+import './globals.css'
 
 const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
 
 interface RootLayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 const RootLayout = ({ children }: RootLayoutProps) => (
@@ -16,6 +16,6 @@ const RootLayout = ({ children }: RootLayoutProps) => (
   <html lang="en" className={inter.variable} suppressHydrationWarning>
     <body className="font-sans antialiased">{children}</body>
   </html>
-);
+)
 
-export default RootLayout;
+export default RootLayout

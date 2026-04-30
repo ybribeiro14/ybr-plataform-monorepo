@@ -1,6 +1,8 @@
 # 04 — Project Scope — Phases and Deliverables
 
-**Date:** 2026-04-24 | **Updated:** 2026-07-07
+**Date:** 2026-04-24 | **Updated:** 2026-04-29
+
+> 🔄 **Realignment (2026-04-29):** Scope revised after product strategy session. See `docs/research/05-business-model-analysis.md` for full business model analysis.
 
 ---
 
@@ -43,65 +45,72 @@
 ### Authentication (Week 3)
 
 - [ ] User registration (email + password)
+- [ ] Google Social Login (students only)
 - [ ] Login with JWT
 - [ ] Password recovery via email (Resend)
 - [ ] User profile
 - [ ] Route protection (Next.js middleware)
 
-### Course Management — Creator Admin (Weeks 3–4)
+### Course Management — Creator Workstation (Weeks 3–4)
 
-- [ ] Course CRUD (title, description, thumbnail, price)
+- [ ] Course CRUD (title, description, thumbnail)
 - [ ] Module and lesson CRUD
 - [ ] Video upload via Bunny Stream API
 - [ ] Video preview player
 - [ ] Course publish/unpublish
-- [ ] Sales page preview
+- [ ] Drag-and-drop module reordering (Phase 2 — ↑↓ buttons for MVP)
 
-### Checkout & Payments (Weeks 4–5)
+### Enrollment System (Week 5)
 
-- [ ] Embedded Stripe Elements
-- [ ] PaymentIntent creation
-- [ ] Payment confirmed webhook
-- [ ] Automatic enrollment creation
-- [ ] Purchase confirmation email
-- [ ] Refund policy (15 days)
+Two flows must coexist:
+
+**Flow A — External payment webhook:**
+
+- [ ] `POST /api/enrollment` endpoint with shared secret header validation
+- [ ] Creates active enrollment immediately
+- [ ] Triggers welcome email
+
+**Flow B — Creator invite link:**
+
+- [ ] Creator generates invite link per course
+- [ ] Student registers via link → pending enrollment created
+- [ ] Creator activates enrollment manually in workstation
+- [ ] Student receives welcome email upon activation
 
 ### Student Area (Weeks 5–6)
 
-- [ ] Purchased courses catalog
+- [ ] Purchased/enrolled courses catalog
 - [ ] Video player with progress tracking
 - [ ] Lesson completion marking
 - [ ] Progress bar per module
 - [ ] Downloadable lesson materials
 
-### Sales Page (Weeks 6–7)
-
-- [ ] Course landing page (customizable)
-- [ ] Checkout integration
-- [ ] Testimonials (manual input)
-- [ ] FAQ section
-- [ ] Countdown timer (urgency)
-
-### Transactional Emails (Week 7)
+### Transactional Emails (Week 5–6)
 
 - [ ] Welcome on account creation
-- [ ] Purchase confirmation
-- [ ] Course access
-- [ ] Incomplete lesson reminder (7 days)
+- [ ] Course access granted (triggered by enrollment activation)
+- [ ] Incomplete lesson reminder (7 days without login)
 
-### Certificate (Week 8)
+### Certificate (Week 6)
 
 - [ ] Certificate generation at 100% course completion
 - [ ] Public certificate verification page
-- [ ] PDF download
+- [ ] PDF download + LinkedIn share
+
+### YBR Admin Panel — Minimal (Week 6)
+
+- [ ] Creators list with status (active/suspended), courses count, students count
+- [ ] Create new creator account (manual onboarding)
+- [ ] Activate/suspend creator
 
 ### MVP Acceptance Criteria
 
-- [ ] At least 1 published and purchasable course
-- [ ] Real Stripe payment working (not test mode)
+- [ ] At least 1 published and accessible course
+- [ ] Student can enroll via invite link or external webhook
 - [ ] Video loading in less than 3 seconds
 - [ ] Mobile responsive (75%+ of access will be mobile)
-- [ ] Confirmation email arriving in less than 2 minutes
+- [ ] Welcome email arriving in less than 2 minutes after enrollment activation
+- [ ] Certificate downloadable after 100% course completion
 
 ---
 

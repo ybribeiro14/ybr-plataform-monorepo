@@ -40,7 +40,7 @@ const ForgotPasswordPage = () => {
   if (isSuccess) {
     return (
       <div
-        className="rounded-xl p-8 shadow-[0px_4px_20px_rgba(152,66,7,0.06)] border text-center"
+        className="rounded-xl p-8 shadow-card border text-center"
         style={{
           backgroundColor: "#ffffff",
           borderColor: "var(--color-outline-variant)",
@@ -93,7 +93,7 @@ const ForgotPasswordPage = () => {
 
   return (
     <div
-      className="rounded-xl p-8 shadow-[0px_4px_20px_rgba(152,66,7,0.06)] border"
+      className="rounded-xl p-8 shadow-card border"
       style={{
         backgroundColor: "#ffffff",
         borderColor: "var(--color-outline-variant)",
@@ -102,7 +102,7 @@ const ForgotPasswordPage = () => {
       {/* Header */}
       <div className="mb-8 text-center">
         <h1
-          className="font-serif text-3xl mb-2"
+          className="font-sans text-3xl mb-2"
           style={{ color: "var(--color-on-surface)" }}
         >
           {t("title")}

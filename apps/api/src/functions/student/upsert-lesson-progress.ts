@@ -86,6 +86,8 @@ const upsertLessonProgress = async ({
       .where(eq(lessonProgress.id, existing.id))
       .returning();
 
+    if (!updated) throw new Error("Failed to update progress");
+
     return {
       watchedSeconds: updated.watchedSeconds,
       completed: updated.completedAt !== null,
@@ -103,6 +105,8 @@ const upsertLessonProgress = async ({
       completedAt: isCompletionThresholdMet ? new Date() : null,
     })
     .returning();
+
+  if (!inserted) throw new Error("Failed to insert progress");
 
   return {
     watchedSeconds: inserted.watchedSeconds,

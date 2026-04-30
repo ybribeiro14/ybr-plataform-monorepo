@@ -36,6 +36,15 @@ export const createLessonSchema = z.object({
 
 export const updateLessonSchema = createLessonSchema.partial();
 
+export const reorderLessonsSchema = z.object({
+  lessons: z.array(
+    z.object({
+      id: z.string(),
+      position: z.number().int().min(0),
+    }),
+  ),
+});
+
 export type CreateCourseInput = z.infer<typeof createCourseSchema>;
 export type UpdateCourseInput = z.infer<typeof updateCourseSchema>;
 export type CreateModuleInput = z.infer<typeof createModuleSchema>;

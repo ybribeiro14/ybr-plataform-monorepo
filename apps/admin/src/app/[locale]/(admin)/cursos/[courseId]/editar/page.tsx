@@ -1,38 +1,38 @@
-"use client";
+'use client'
 
-import { coursesApi } from "@/lib/api/courses";
-import type { CourseWithModules } from "@/lib/types/courses";
-import { CurrencyInput } from "@ybr/ui";
-import { ArrowLeft, Upload, X } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { CurrencyInput } from '@ybr/ui'
+import { ArrowLeft, Upload, X } from 'lucide-react'
+import Link from 'next/link'
+import { useParams, useRouter } from 'next/navigation'
+import { useLocale, useTranslations } from 'next-intl'
+import { useEffect, useRef, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { coursesApi } from '@/lib/api/courses'
+import type { CourseWithModules } from '@/lib/types/courses'
 
 interface CourseFormValues {
-  title: string;
-  description: string;
-  priceDisplay: string;
-  currency: "USD" | "BRL";
-  language: "pt-BR" | "en-US";
+  title: string
+  description: string
+  priceDisplay: string
+  currency: 'USD' | 'BRL'
+  language: 'pt-BR' | 'en-US'
 }
 
 const EditCoursePage = () => {
-  const t = useTranslations("courses");
-  const tc = useTranslations("common");
-  const locale = useLocale();
-  const router = useRouter();
-  const params = useParams<{ courseId: string }>();
+  const t = useTranslations('courses')
+  const tc = useTranslations('common')
+  const locale = useLocale()
+  const router = useRouter()
+  const params = useParams<{ courseId: string }>()
 
-  const [course, setCourse] = useState<CourseWithModules | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState<string | null>(null);
-  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
-  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [course, setCourse] = useState<CourseWithModules | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null)
+  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const {
     register,
@@ -41,71 +41,69 @@ const EditCoursePage = () => {
     control,
     watch,
     formState: { errors },
-  } = useForm<CourseFormValues>();
+  } = useForm<CourseFormValues>()
 
-  const watchedCurrency = watch("currency");
+  const watchedCurrency = watch('currency')
 
   useEffect(() => {
     const load = async () => {
       try {
-        const data = await coursesApi.getCourse(params.courseId);
-        setCourse(data);
+        const data = await coursesApi.getCourse(params.courseId)
+        setCourse(data)
         reset({
           title: data.title,
-          description: data.description ?? "",
+          description: data.description ?? '',
           priceDisplay: (data.priceCents / 100).toFixed(2),
-          currency: data.currency as "USD" | "BRL",
-          language: data.language as "pt-BR" | "en-US",
-        });
-        if (data.thumbnailUrl) setThumbnailPreview(data.thumbnailUrl);
+          currency: data.currency as 'USD' | 'BRL',
+          language: data.language as 'pt-BR' | 'en-US',
+        })
+        if (data.thumbnailUrl) setThumbnailPreview(data.thumbnailUrl)
       } catch (err) {
-        setLoadError(err instanceof Error ? err.message : tc("error"));
+        setLoadError(err instanceof Error ? err.message : tc('error'))
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    load();
-  }, [params.courseId, reset, tc]);
+    }
+    load()
+  }, [params.courseId, reset, tc])
 
   const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setThumbnailFile(file);
-    const reader = new FileReader();
-    reader.onload = (ev) => setThumbnailPreview(ev.target?.result as string);
-    reader.readAsDataURL(file);
-  };
+    const file = e.target.files?.[0]
+    if (!file) return
+    setThumbnailFile(file)
+    const reader = new FileReader()
+    reader.onload = ev => setThumbnailPreview(ev.target?.result as string)
+    reader.readAsDataURL(file)
+  }
 
   const removeThumbnail = () => {
-    setThumbnailFile(null);
-    setThumbnailPreview(null);
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  };
+    setThumbnailFile(null)
+    setThumbnailPreview(null)
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
 
   const onSubmit = async (values: CourseFormValues) => {
-    if (!course) return;
-    setSubmitting(true);
-    setSubmitError(null);
+    if (!course) return
+    setSubmitting(true)
+    setSubmitError(null)
     try {
-      const priceCents = Math.round(
-        parseFloat(values.priceDisplay || "0") * 100,
-      );
+      const priceCents = Math.round(parseFloat(values.priceDisplay || '0') * 100)
       await coursesApi.updateCourse(course.id, {
         title: values.title,
         description: values.description || undefined,
         priceCents,
         currency: values.currency,
         language: values.language,
-      });
+      })
       if (thumbnailFile) {
-        await coursesApi.uploadThumbnail(course.id, thumbnailFile);
+        await coursesApi.uploadThumbnail(course.id, thumbnailFile)
       }
-      router.push(`/${locale}/cursos`);
+      router.push(`/${locale}/cursos`)
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : tc("error"));
-      setSubmitting(false);
+      setSubmitError(err instanceof Error ? err.message : tc('error'))
+      setSubmitting(false)
     }
-  };
+  }
 
   if (loading) {
     return (
@@ -113,7 +111,7 @@ const EditCoursePage = () => {
         <div className="h-8 w-48 animate-pulse rounded-lg bg-surface-container" />
         <div className="h-64 animate-pulse rounded-2xl bg-surface-container" />
       </div>
-    );
+    )
   }
 
   if (loadError) {
@@ -121,7 +119,7 @@ const EditCoursePage = () => {
       <div className="mx-auto max-w-2xl rounded-2xl border border-error bg-red-50 p-6 text-sm text-error">
         {loadError}
       </div>
-    );
+    )
   }
 
   return (
@@ -132,13 +130,11 @@ const EditCoursePage = () => {
         className="mb-6 flex items-center gap-2 text-sm text-on-surface-variant hover:text-on-surface"
       >
         <ArrowLeft className="h-4 w-4" />
-        {tc("back")}
+        {tc('back')}
       </Link>
 
       <div className="mb-8">
-        <h1 className="font-serif text-3xl text-on-surface">
-          {t("editCourse")}
-        </h1>
+        <h1 className="font-serif text-3xl text-on-surface">{t('editCourse')}</h1>
         <p className="mt-1 text-sm text-on-surface-variant">{course?.title}</p>
       </div>
 
@@ -146,27 +142,22 @@ const EditCoursePage = () => {
         <div className="space-y-6 rounded-2xl border border-outline-variant bg-white p-6 shadow-sm">
           {/* Title */}
           <div>
-            <label
-              className="mb-1.5 block text-sm font-medium text-on-surface"
-              htmlFor="title"
-            >
-              {t("form.titleLabel")} <span className="text-error">*</span>
+            <label className="mb-1.5 block text-sm font-medium text-on-surface" htmlFor="title">
+              {t('form.titleLabel')} <span className="text-error">*</span>
             </label>
             <input
               id="title"
               type="text"
-              placeholder={t("form.titlePlaceholder")}
+              placeholder={t('form.titlePlaceholder')}
               className={`w-full rounded-lg border bg-surface-container px-4 py-3 text-sm text-on-surface placeholder:text-outline focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary ${
-                errors.title ? "border-error" : "border-outline-variant"
+                errors.title ? 'border-error' : 'border-outline-variant'
               }`}
-              {...register("title", {
-                required: tc("required"),
-                minLength: { value: 3, message: t("form.titleMinLength") },
+              {...register('title', {
+                required: tc('required'),
+                minLength: { value: 3, message: t('form.titleMinLength') },
               })}
             />
-            {errors.title && (
-              <p className="mt-1 text-xs text-error">{errors.title.message}</p>
-            )}
+            {errors.title && <p className="mt-1 text-xs text-error">{errors.title.message}</p>}
           </div>
 
           {/* Description */}
@@ -175,14 +166,14 @@ const EditCoursePage = () => {
               className="mb-1.5 block text-sm font-medium text-on-surface"
               htmlFor="description"
             >
-              {t("form.descriptionLabel")}
+              {t('form.descriptionLabel')}
             </label>
             <textarea
               id="description"
               rows={4}
-              placeholder={t("form.descriptionPlaceholder")}
+              placeholder={t('form.descriptionPlaceholder')}
               className="w-full resize-none rounded-lg border border-outline-variant bg-surface-container px-4 py-3 text-sm text-on-surface placeholder:text-outline focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-              {...register("description")}
+              {...register('description')}
             />
           </div>
 
@@ -193,12 +184,12 @@ const EditCoursePage = () => {
                 className="mb-1.5 block text-sm font-medium text-on-surface"
                 htmlFor="priceDisplay"
               >
-                {t("form.priceLabel")} <span className="text-error">*</span>
+                {t('form.priceLabel')} <span className="text-error">*</span>
               </label>
               <Controller
                 name="priceDisplay"
                 control={control}
-                rules={{ required: tc("required") }}
+                rules={{ required: tc('required') }}
                 render={({ field }) => (
                   <CurrencyInput
                     id="priceDisplay"
@@ -211,9 +202,7 @@ const EditCoursePage = () => {
                 )}
               />
               {errors.priceDisplay && (
-                <p className="mt-1 text-xs text-error">
-                  {errors.priceDisplay.message}
-                </p>
+                <p className="mt-1 text-xs text-error">{errors.priceDisplay.message}</p>
               )}
             </div>
 
@@ -222,34 +211,31 @@ const EditCoursePage = () => {
                 className="mb-1.5 block text-sm font-medium text-on-surface"
                 htmlFor="currency"
               >
-                {t("form.currencyLabel")}
+                {t('form.currencyLabel')}
               </label>
               <select
                 id="currency"
                 className="w-full rounded-lg border border-outline-variant bg-surface-container px-4 py-3 text-sm text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                {...register("currency")}
+                {...register('currency')}
               >
-                <option value="USD">{t("form.currencyUSD")}</option>
-                <option value="BRL">{t("form.currencyBRL")}</option>
+                <option value="USD">{t('form.currencyUSD')}</option>
+                <option value="BRL">{t('form.currencyBRL')}</option>
               </select>
             </div>
           </div>
 
           {/* Language */}
           <div>
-            <label
-              className="mb-1.5 block text-sm font-medium text-on-surface"
-              htmlFor="language"
-            >
-              {t("form.languageLabel")}
+            <label className="mb-1.5 block text-sm font-medium text-on-surface" htmlFor="language">
+              {t('form.languageLabel')}
             </label>
             <select
               id="language"
               className="w-full rounded-lg border border-outline-variant bg-surface-container px-4 py-3 text-sm text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-              {...register("language")}
+              {...register('language')}
             >
-              <option value="pt-BR">{t("form.languagePtBr")}</option>
-              <option value="en-US">{t("form.languageEnUs")}</option>
+              <option value="pt-BR">{t('form.languagePtBr')}</option>
+              <option value="en-US">{t('form.languageEnUs')}</option>
             </select>
           </div>
 
@@ -259,7 +245,7 @@ const EditCoursePage = () => {
               className="mb-1.5 block text-sm font-medium text-on-surface"
               htmlFor="thumbnail-input-editar"
             >
-              {t("form.thumbnailLabel")}
+              {t('form.thumbnailLabel')}
             </label>
             {thumbnailPreview ? (
               <div className="relative inline-block">
@@ -285,7 +271,7 @@ const EditCoursePage = () => {
                 className="flex h-36 w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-colors"
               >
                 <Upload className="h-6 w-6" />
-                <span className="text-sm">{t("form.thumbnailHint")}</span>
+                <span className="text-sm">{t('form.thumbnailHint')}</span>
               </button>
             )}
             <input
@@ -312,27 +298,27 @@ const EditCoursePage = () => {
             href={`/${locale}/cursos/${params.courseId}/conteudo`}
             className="text-sm font-medium text-primary hover:underline"
           >
-            {t("viewContent")} →
+            {t('viewContent')} →
           </Link>
           <div className="flex items-center gap-3">
             <Link
               href={`/${locale}/cursos`}
               className="rounded-full border border-outline-variant px-5 py-2.5 text-sm font-semibold text-on-surface-variant hover:bg-surface-container transition-colors"
             >
-              {tc("cancel")}
+              {tc('cancel')}
             </Link>
             <button
               type="submit"
               disabled={submitting}
               className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary hover:bg-primary-hover transition-colors disabled:opacity-60"
             >
-              {submitting ? tc("loading") : t("form.submitUpdate")}
+              {submitting ? tc('loading') : t('form.submitUpdate')}
             </button>
           </div>
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default EditCoursePage;
+export default EditCoursePage

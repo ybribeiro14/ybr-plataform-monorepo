@@ -115,7 +115,7 @@ const LessonSidebar = ({
                     >
                       {/* Icon */}
                       {lesson.isCompleted ? (
-                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary-container text-primary flex items-center justify-center">
                           <CheckCircle2 size={16} aria-hidden="true" />
                         </div>
                       ) : isActive ? (

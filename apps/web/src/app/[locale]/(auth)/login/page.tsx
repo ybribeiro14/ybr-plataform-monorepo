@@ -65,7 +65,7 @@ const LoginPage = () => {
       </div>
 
       {/* ─── Card ─── */}
-      <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg md:p-10 shadow-[0px_4px_20px_rgba(152,66,7,0.06)] flex flex-col items-center w-full">
+      <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg md:p-10 shadow-card flex flex-col items-center w-full">
         {/* Logo section — desktop only (inside card) */}
         <div className="mb-stack-lg text-center hidden md:flex md:flex-col md:items-center">
           <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-stack-md mx-auto shadow-sm">
@@ -180,9 +180,37 @@ const LoginPage = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full h-12 bg-primary text-on-primary rounded-full font-button text-button hover:bg-surface-tint active:scale-95 transition-all shadow-md disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100"
+              aria-busy={isSubmitting}
+              className="w-full h-12 bg-primary text-on-primary rounded-full font-button text-button hover:bg-primary-hover active:scale-95 transition-all shadow-button disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100"
             >
-              {isSubmitting ? "..." : t("submitButton")}
+              {isSubmitting ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg
+                    className="animate-spin h-4 w-4 shrink-0"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    />
+                  </svg>
+                  <span>Carregando...</span>
+                </span>
+              ) : (
+                t("submitButton")
+              )}
             </button>
           </div>
 
@@ -200,11 +228,15 @@ const LoginPage = () => {
             </div>
           </div>
 
-          {/* Google button — OAuth not yet implemented */}
+          {/* Google button */}
           <button
             type="button"
-            disabled
-            className="w-full h-12 border border-outline-variant bg-surface-container-lowest text-on-surface-variant rounded-full font-button text-button flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            onClick={() => {
+              const apiUrl =
+                process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
+              window.location.href = `${apiUrl}/auth/google`;
+            }}
+            className="w-full h-12 border border-outline-variant bg-surface-container-lowest text-on-surface rounded-full font-button text-button flex items-center justify-center gap-2 hover:bg-surface-container transition-colors active:scale-95"
             aria-label={t("googleButton")}
           >
             <svg

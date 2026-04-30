@@ -6,15 +6,22 @@ import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import Fastify from "fastify";
 import {
+  jsonSchemaTransform,
   serializerCompiler,
   validatorCompiler,
   type ZodTypeProvider,
 } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { authPlugin } from "./plugins/auth";
+import { googleOAuthPlugin } from "./plugins/google-oauth";
 import { adminRoutes } from "./routes/admin";
 import { authRoutes } from "./routes/auth";
+import { googleAuthRoutes } from "./routes/auth/google";
+import { certificateRoutes } from "./routes/certificates";
+import { inviteRoutes } from "./routes/invites";
 import { studentRoutes } from "./routes/student";
+import { webhookRoutes } from "./routes/webhooks";
+import { ybrAdminRoutes } from "./routes/ybr-admin";
 import { RESPONSE_500, successResponse } from "./swagger/responses";
 import { SWAGGER_TAGS } from "./swagger/tags";
 
@@ -58,6 +65,7 @@ const buildApp = async () => {
   // Swagger — disabled in production to avoid exposing API docs
   if (!isProduction) {
     await app.register(swagger, {
+      transform: jsonSchemaTransform,
       openapi: {
         openapi: "3.0.0",
         info: {
@@ -131,6 +139,16 @@ const buildApp = async () => {
           {
             name: "certificates",
             description: "Certificate generation and public verification",
+          },
+          {
+            name: "webhooks",
+            description:
+              "Webhook endpoints for external system integrations (e.g., payment providers)",
+          },
+          {
+            name: "ybr-admin",
+            description:
+              "YBR platform administration — creator management (requires admin role)",
           },
         ],
       },
@@ -217,10 +235,16 @@ const buildApp = async () => {
     });
   });
 
+  await app.register(googleOAuthPlugin);
   await app.register(authPlugin);
   await app.register(authRoutes, { prefix: "/auth" });
+  await app.register(googleAuthRoutes);
   await app.register(adminRoutes);
+  await app.register(certificateRoutes);
+  await app.register(inviteRoutes);
   await app.register(studentRoutes);
+  await app.register(webhookRoutes);
+  await app.register(ybrAdminRoutes);
 
   return app;
 };

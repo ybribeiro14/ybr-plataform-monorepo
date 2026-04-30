@@ -6,6 +6,7 @@ import type {
   Lesson,
   ModuleWithLessons,
 } from "@/lib/types/courses";
+import { HLSPlayer } from "@ybr/hls-player";
 import { ConfirmDialog } from "@ybr/ui";
 import {
   ArrowDown,
@@ -26,7 +27,8 @@ import {
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import * as tus from "tus-js-client";
 
 /* ─── Inline form ────────────────────────────────────────────────── */
 interface InlineTitleFormProps {
@@ -86,21 +88,31 @@ const InlineTitleForm = ({
 /* ─── Lesson row (left panel) ────────────────────────────────────── */
 interface LessonRowProps {
   lesson: Lesson;
+  index: number;
+  total: number;
   isSelected: boolean;
   onSelect: (lesson: Lesson) => void;
+  onMoveUp: (id: string) => Promise<void>;
+  onMoveDown: (id: string) => Promise<void>;
   onEdit: (id: string, title: string) => void;
   onDelete: (id: string) => Promise<void>;
 }
 
 const LessonRow = ({
   lesson,
+  index,
+  total,
   isSelected,
   onSelect,
+  onMoveUp,
+  onMoveDown,
   onEdit,
   onDelete,
 }: LessonRowProps) => {
   const [deleting, setDeleting] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [movingUp, setMovingUp] = useState(false);
+  const [movingDown, setMovingDown] = useState(false);
   const tc = useTranslations("common");
   const tl = useTranslations("lessons");
 
@@ -109,6 +121,20 @@ const LessonRow = ({
     setDeleting(true);
     await onDelete(lesson.id);
     setDeleting(false);
+  };
+
+  const handleMoveUp = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setMovingUp(true);
+    await onMoveUp(lesson.id);
+    setMovingUp(false);
+  };
+
+  const handleMoveDown = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setMovingDown(true);
+    await onMoveDown(lesson.id);
+    setMovingDown(false);
   };
 
   const hasVideo = lesson.muxPlaybackId || lesson.bunnyVideoId;
@@ -141,6 +167,24 @@ const LessonRow = ({
           </span>
         </div>
         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button
+            type="button"
+            disabled={index === 0 || movingUp}
+            onClick={handleMoveUp}
+            aria-label="Mover aula para cima"
+            className="p-1 rounded text-outline hover:text-primary disabled:opacity-30"
+          >
+            <ArrowUp className="h-3 w-3" />
+          </button>
+          <button
+            type="button"
+            disabled={index === total - 1 || movingDown}
+            onClick={handleMoveDown}
+            aria-label="Mover aula para baixo"
+            className="p-1 rounded text-outline hover:text-primary disabled:opacity-30"
+          >
+            <ArrowDown className="h-3 w-3" />
+          </button>
           <button
             type="button"
             onClick={(e) => {
@@ -194,6 +238,11 @@ interface ModuleItemProps {
   onAddLesson: (moduleId: string, title: string) => Promise<void>;
   onEditLesson: (id: string, title: string) => void;
   onDeleteLesson: (id: string, moduleId: string) => Promise<void>;
+  onMoveLesson: (
+    lessonId: string,
+    moduleId: string,
+    direction: "up" | "down",
+  ) => Promise<void>;
   onSelectLesson: (lesson: Lesson) => void;
 }
 
@@ -209,6 +258,7 @@ const ModuleItem = ({
   onAddLesson,
   onEditLesson,
   onDeleteLesson,
+  onMoveLesson,
   onSelectLesson,
 }: ModuleItemProps) => {
   const [expanded, setExpanded] = useState(true);
@@ -315,12 +365,16 @@ const ModuleItem = ({
             </p>
           )}
 
-          {module.lessons.map((lesson) => (
+          {module.lessons.map((lesson, lessonIdx) => (
             <LessonRow
               key={lesson.id}
               lesson={lesson}
+              index={lessonIdx}
+              total={module.lessons.length}
               isSelected={selectedLessonId === lesson.id}
               onSelect={onSelectLesson}
+              onMoveUp={(id) => onMoveLesson(id, module.id, "up")}
+              onMoveDown={(id) => onMoveLesson(id, module.id, "down")}
               onEdit={onEditLesson}
               onDelete={(id) => onDeleteLesson(id, module.id)}
             />
@@ -394,6 +448,14 @@ const CourseContentPage = () => {
   const [editorTitle, setEditorTitle] = useState("");
   const [editorDescription, setEditorDescription] = useState("");
   const [savingLesson, setSavingLesson] = useState(false);
+
+  // Video upload
+  const videoInputRef = useRef<HTMLInputElement>(null);
+  const [videoUploading, setVideoUploading] = useState(false);
+  const [videoUploadProgress, setVideoUploadProgress] = useState(0);
+  const [videoUploadError, setVideoUploadError] = useState<string | null>(null);
+  const [removingVideo, setRemovingVideo] = useState(false);
+  const [removeVideoDialogOpen, setRemoveVideoDialogOpen] = useState(false);
 
   // Publish dialog + action errors
   const [publishDialogOpen, setPublishDialogOpen] = useState(false);
@@ -643,6 +705,59 @@ const CourseContentPage = () => {
     }
   };
 
+  const handleMoveLesson = async (
+    lessonId: string,
+    moduleId: string,
+    direction: "up" | "down",
+  ) => {
+    if (!course) return;
+    const mod = course.modules.find((m) => m.id === moduleId);
+    if (!mod) return;
+    const idx = mod.lessons.findIndex((l) => l.id === lessonId);
+    if (direction === "up" && idx === 0) return;
+    if (direction === "down" && idx === mod.lessons.length - 1) return;
+
+    const newLessons = [...mod.lessons];
+    const swapIdx = direction === "up" ? idx - 1 : idx + 1;
+    const current = newLessons[idx];
+    const swap = newLessons[swapIdx];
+    if (!current || !swap) return;
+
+    newLessons[idx] = swap;
+    newLessons[swapIdx] = current;
+
+    const reordered = newLessons.map((l, i) => ({ ...l, position: i }));
+    setCourse((prev) =>
+      prev
+        ? {
+            ...prev,
+            modules: prev.modules.map((m) =>
+              m.id === moduleId ? { ...m, lessons: reordered } : m,
+            ),
+          }
+        : prev,
+    );
+
+    try {
+      await coursesApi.reorderLessons(
+        reordered.map((l) => ({ id: l.id, position: l.position })),
+      );
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : tc("error"));
+      // Revert on failure
+      setCourse((prev) =>
+        prev
+          ? {
+              ...prev,
+              modules: prev.modules.map((m) =>
+                m.id === moduleId ? { ...m, lessons: mod.lessons } : m,
+              ),
+            }
+          : prev,
+      );
+    }
+  };
+
   /* ── Publish ───────────────────────────────────────────────────── */
   const handlePublish = () => {
     if (!course) return;
@@ -663,6 +778,98 @@ const CourseContentPage = () => {
     }
   };
 
+  /* ── Video upload ─────────────────────────────────────────────── */
+  const handleVideoFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file || !selectedLessonId) return;
+
+    setVideoUploading(true);
+    setVideoUploadProgress(0);
+    setVideoUploadError(null);
+
+    try {
+      const credentials = await coursesApi.createVideoUpload(selectedLessonId);
+
+      await new Promise<void>((resolve, reject) => {
+        const upload = new tus.Upload(file, {
+          endpoint: credentials.uploadUrl,
+          retryDelays: [0, 3000, 5000, 10000],
+          headers: {
+            AuthorizationSignature: credentials.authSignature,
+            AuthorizationExpire: String(credentials.authExpire),
+            VideoId: credentials.videoId,
+            LibraryId: String(credentials.libraryId),
+          },
+          metadata: {
+            filetype: file.type,
+            title: selectedLesson?.title ?? file.name,
+          },
+          uploadSize: file.size,
+          onProgress: (bytesUploaded, bytesTotal) => {
+            const pct = Math.round((bytesUploaded / bytesTotal) * 100);
+            setVideoUploadProgress(pct);
+          },
+          onSuccess: () => {
+            setCourse((prev) =>
+              prev
+                ? {
+                    ...prev,
+                    modules: prev.modules.map((m) => ({
+                      ...m,
+                      lessons: m.lessons.map((l) =>
+                        l.id === selectedLessonId
+                          ? { ...l, bunnyVideoId: credentials.videoId }
+                          : l,
+                      ),
+                    })),
+                  }
+                : prev,
+            );
+            resolve();
+          },
+          onError: (err) => reject(err),
+        });
+        upload.start();
+      });
+    } catch (err) {
+      setVideoUploadError(
+        err instanceof Error ? err.message : "Erro ao enviar vídeo",
+      );
+    } finally {
+      setVideoUploading(false);
+      e.target.value = "";
+    }
+  };
+
+  /* ── Remove video ─────────────────────────────────────────────── */
+  const handleRemoveVideo = async () => {
+    if (!selectedLessonId) return;
+    setRemovingVideo(true);
+    setRemoveVideoDialogOpen(false);
+    try {
+      await coursesApi.deleteVideo(selectedLessonId);
+      setCourse((prev) =>
+        prev
+          ? {
+              ...prev,
+              modules: prev.modules.map((m) => ({
+                ...m,
+                lessons: m.lessons.map((l) =>
+                  l.id === selectedLessonId ? { ...l, bunnyVideoId: null } : l,
+                ),
+              })),
+            }
+          : prev,
+      );
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : te("removeVideo"));
+    } finally {
+      setRemovingVideo(false);
+    }
+  };
+
   const selectedLesson =
     course?.modules
       .flatMap((m) => m.lessons)
@@ -672,7 +879,7 @@ const CourseContentPage = () => {
   if (loading) {
     return (
       <div className="flex flex-col h-full">
-        <div className="flex items-center justify-between px-6 py-3 border-b border-outline-variant bg-[#FDFBF9] shrink-0">
+        <div className="flex items-center justify-between px-6 py-3 border-b border-outline-variant bg-surface-container-lowest shrink-0">
           <div className="h-6 w-48 animate-pulse rounded bg-surface-container" />
           <div className="h-10 w-32 animate-pulse rounded-full bg-surface-container" />
         </div>
@@ -734,7 +941,7 @@ const CourseContentPage = () => {
         onCancel={() => setPublishDialogOpen(false)}
       />
       {/* ── Editor top header ─────────────────────────────────────── */}
-      <header className="flex items-center justify-between px-6 py-3 bg-[#FDFBF9] border-b border-outline-variant shadow-sm shadow-primary/5 shrink-0 z-10">
+      <header className="flex items-center justify-between px-6 py-3 bg-surface-container-lowest border-b border-outline-variant shadow-card shrink-0 z-10">
         <div className="flex items-center gap-4">
           <Link
             href={`/${locale}/cursos`}
@@ -876,6 +1083,7 @@ const CourseContentPage = () => {
                   onAddLesson={handleAddLesson}
                   onEditLesson={handleEditLesson}
                   onDeleteLesson={handleDeleteLesson}
+                  onMoveLesson={handleMoveLesson}
                   onSelectLesson={handleSelectLesson}
                 />
               );
@@ -897,9 +1105,9 @@ const CourseContentPage = () => {
             ) : null}
 
             {/* Pro tip card */}
-            <div className="p-4 bg-tertiary/10 border border-tertiary/20 rounded-2xl mt-2">
-              <Lightbulb className="h-4 w-4 text-tertiary" />
-              <h5 className="text-sm font-bold text-tertiary mt-2">
+            <div className="p-4 bg-warning-container border border-warning/20 rounded-2xl mt-2">
+              <Lightbulb className="h-4 w-4 text-warning" />
+              <h5 className="text-sm font-bold text-warning mt-2">
                 {te("proTip")}
               </h5>
               <p className="text-xs text-on-surface-variant mt-1 leading-relaxed">
@@ -936,19 +1144,92 @@ const CourseContentPage = () => {
                 <p className="font-label-md text-label-md text-outline uppercase tracking-widest block">
                   {te("videoContent")}
                 </p>
-                {selectedLesson.muxPlaybackId || selectedLesson.bunnyVideoId ? (
-                  <div className="w-full aspect-video bg-on-surface rounded-2xl flex items-center justify-center">
-                    <PlayCircle className="h-12 w-12 text-surface opacity-60" />
+
+                <input
+                  ref={videoInputRef}
+                  type="file"
+                  accept="video/mp4,video/quicktime"
+                  className="hidden"
+                  onChange={handleVideoFileChange}
+                />
+
+                {selectedLesson.bunnyVideoId ? (
+                  <div className="space-y-3">
+                    <section
+                      className="w-full aspect-video rounded-2xl overflow-hidden bg-on-surface"
+                      aria-label={te("videoPlaying")}
+                    >
+                      <HLSPlayer
+                        src={`${process.env.NEXT_PUBLIC_BUNNY_PULL_ZONE_URL}/${selectedLesson.bunnyVideoId}/playlist.m3u8`}
+                        controls={true}
+                        className="w-full h-full"
+                      />
+                    </section>
+                    <div className="flex items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => videoInputRef.current?.click()}
+                        className="text-sm text-on-surface-variant underline hover:text-on-surface transition-colors"
+                      >
+                        {te("replaceVideo")}
+                      </button>
+                      <span className="text-outline text-xs">·</span>
+                      <button
+                        type="button"
+                        disabled={removingVideo}
+                        onClick={() => setRemoveVideoDialogOpen(true)}
+                        className="text-sm text-error underline hover:text-error/80 transition-colors disabled:opacity-50"
+                      >
+                        {removingVideo ? "..." : te("removeVideo")}
+                      </button>
+                    </div>
+
+                    <ConfirmDialog
+                      open={removeVideoDialogOpen}
+                      title={te("removeVideo")}
+                      description={te("removeVideoConfirm")}
+                      confirmLabel={te("removeVideo")}
+                      cancelLabel={tc("cancel")}
+                      variant="danger"
+                      onConfirm={handleRemoveVideo}
+                      onCancel={() => setRemoveVideoDialogOpen(false)}
+                    />
+                  </div>
+                ) : videoUploading ? (
+                  <div className="w-full aspect-video bg-surface-container-high rounded-[2rem] border-2 border-dashed border-primary/40 flex flex-col items-center justify-center p-8 gap-4">
+                    <div className="w-full max-w-xs">
+                      <div className="flex justify-between text-xs text-on-surface-variant mb-2">
+                        <span>Enviando vídeo...</span>
+                        <span>{videoUploadProgress}%</span>
+                      </div>
+                      <div className="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-primary rounded-full transition-all duration-300"
+                          style={{ width: `${videoUploadProgress}%` }}
+                        />
+                      </div>
+                    </div>
                   </div>
                 ) : (
-                  <div className="w-full aspect-video bg-surface-container-high rounded-[2rem] border-2 border-dashed border-outline-variant flex flex-col items-center justify-center p-8 hover:border-primary/50 transition-colors cursor-pointer">
-                    <PlayCircle className="h-10 w-10 text-outline mb-4" />
-                    <p className="text-sm font-semibold text-on-surface-variant">
-                      Clique para enviar um vídeo
-                    </p>
-                    <p className="text-xs text-outline mt-1">
-                      MP4, MOV — máx. 4GB
-                    </p>
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() => videoInputRef.current?.click()}
+                      className="w-full aspect-video bg-surface-container-high rounded-[2rem] border-2 border-dashed border-outline-variant flex flex-col items-center justify-center p-8 hover:border-primary/50 transition-colors cursor-pointer"
+                    >
+                      <PlayCircle className="h-10 w-10 text-outline mb-4" />
+                      <p className="text-sm font-semibold text-on-surface-variant">
+                        Clique para enviar um vídeo
+                      </p>
+                      <p className="text-xs text-outline mt-1">
+                        MP4, MOV — máx. 4GB
+                      </p>
+                    </button>
+                    {videoUploadError && (
+                      <p className="text-xs text-error mt-2">
+                        {videoUploadError}
+                      </p>
+                    )}
                   </div>
                 )}
               </div>

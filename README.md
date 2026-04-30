@@ -539,17 +539,17 @@ Full project documentation is organized in `docs/` by category:
 
 ### Architecture
 
-| Document                                                                                         | Description                                               |
-| ------------------------------------------------------------------------------------------------ | --------------------------------------------------------- |
-| [docs/architecture/01-overview.md](docs/architecture/01-overview.md)                             | Project overview, vision, and current phase status        |
-| [docs/architecture/02-tech-stack.md](docs/architecture/02-tech-stack.md)                         | Full technology stack with versions and rationale         |
-| [docs/architecture/03-system-architecture.md](docs/architecture/03-system-architecture.md)       | System architecture, DB schema, core flows                |
-| [docs/architecture/04-video-player-strategy.md](docs/architecture/04-video-player-strategy.md)   | Custom HLS player decision and implementation             |
-| [docs/architecture/05-video-hosting.md](docs/architecture/05-video-hosting.md)                   | Bunny Stream vs Mux Video comparison                      |
-| [docs/architecture/06-payment-processing.md](docs/architecture/06-payment-processing.md)         | Stripe integration and checkout strategy                  |
-| [docs/architecture/07-hosting-infrastructure.md](docs/architecture/07-hosting-infrastructure.md) | Vercel, Railway, Neon, Upstash, R2                        |
-| [docs/architecture/08-docker-devops.md](docs/architecture/08-docker-devops.md)                   | Docker setup, CI/CD pipelines, environments               |
-| [docs/architecture/09-design-system.md](docs/architecture/09-design-system.md)                   | Artisanal Sophistication — colors, typography, components |
+| Document                                                                                         | Description                                            |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------ |
+| [docs/architecture/01-overview.md](docs/architecture/01-overview.md)                             | Project overview, vision, and current phase status     |
+| [docs/architecture/02-tech-stack.md](docs/architecture/02-tech-stack.md)                         | Full technology stack with versions and rationale      |
+| [docs/architecture/03-system-architecture.md](docs/architecture/03-system-architecture.md)       | System architecture, DB schema, core flows             |
+| [docs/architecture/04-video-player-strategy.md](docs/architecture/04-video-player-strategy.md)   | Custom HLS player decision and implementation          |
+| [docs/architecture/05-video-hosting.md](docs/architecture/05-video-hosting.md)                   | Bunny Stream vs Mux Video comparison                   |
+| [docs/architecture/06-payment-processing.md](docs/architecture/06-payment-processing.md)         | Stripe integration and checkout strategy               |
+| [docs/architecture/07-hosting-infrastructure.md](docs/architecture/07-hosting-infrastructure.md) | Vercel, Railway, Neon, Upstash, R2                     |
+| [docs/architecture/08-docker-devops.md](docs/architecture/08-docker-devops.md)                   | Docker setup, CI/CD pipelines, environments            |
+| [docs/architecture/09-design-system.md](docs/architecture/09-design-system.md)                   | White-Label Studio — colors, typography, theming model |
 
 ### Research & Business
 

@@ -1,10 +1,10 @@
-import { courseModules, courses, db, lessons } from "@ybr/database";
-import type { CreateLessonInput } from "@ybr/schemas";
-import { eq, max } from "drizzle-orm";
+import { courseModules, courses, db, lessons } from '@ybr/database'
+import type { CreateLessonInput } from '@ybr/schemas'
+import { eq, max } from 'drizzle-orm'
 
 interface CreateLessonParams extends CreateLessonInput {
-  moduleId: string;
-  creatorId: string;
+  moduleId: string
+  creatorId: string
 }
 
 const createLesson = async ({
@@ -20,25 +20,24 @@ const createLesson = async ({
     .from(courseModules)
     .innerJoin(courses, eq(courses.id, courseModules.courseId))
     .where(eq(courseModules.id, moduleId))
-    .limit(1);
+    .limit(1)
 
   if (!moduleWithCourse || moduleWithCourse.creatorId !== creatorId) {
-    const error = new Error("Module not found");
-    (error as Error & { statusCode: number; code: string }).statusCode = 404;
-    (error as Error & { statusCode: number; code: string }).code =
-      "MODULE_NOT_FOUND";
-    throw error;
+    const error = new Error('Module not found')
+    ;(error as Error & { statusCode: number; code: string }).statusCode = 404
+    ;(error as Error & { statusCode: number; code: string }).code = 'MODULE_NOT_FOUND'
+    throw error
   }
 
-  let resolvedPosition = position;
+  let resolvedPosition = position
 
   if (resolvedPosition === undefined) {
     const [maxResult] = await db
       .select({ maxPosition: max(lessons.position) })
       .from(lessons)
-      .where(eq(lessons.moduleId, moduleId));
+      .where(eq(lessons.moduleId, moduleId))
 
-    resolvedPosition = (maxResult?.maxPosition ?? -1) + 1;
+    resolvedPosition = (maxResult?.maxPosition ?? -1) + 1
   }
 
   const [lesson] = await db
@@ -50,10 +49,10 @@ const createLesson = async ({
       position: resolvedPosition,
       isFreePreview: isFreePreview ?? false,
     })
-    .returning();
+    .returning()
 
-  return lesson;
-};
+  return lesson
+}
 
-export { createLesson };
-export type { CreateLessonParams };
+export type { CreateLessonParams }
+export { createLesson }

@@ -1,26 +1,26 @@
-'use client'
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import type { LoginInput } from '@ybr/schemas'
-import { loginSchema } from '@ybr/schemas'
-import { Eye, EyeOff, LayoutDashboard, Lock } from 'lucide-react'
-import { useParams, useRouter } from 'next/navigation'
-import { useTranslations } from 'next-intl'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { adminAuthApi } from '@/lib/api/auth'
-import { useAdminAuthStore } from '@/stores/auth'
+import { adminAuthApi } from "@/lib/api/auth";
+import { useAdminAuthStore } from "@/stores/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { LoginInput } from "@ybr/schemas";
+import { loginSchema } from "@ybr/schemas";
+import { Eye, EyeOff, LayoutDashboard, Lock } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 const AdminLoginPage = () => {
-  const t = useTranslations('auth.login')
-  const router = useRouter()
-  const params = useParams()
-  const locale = params.locale as string
+  const t = useTranslations("auth.login");
+  const router = useRouter();
+  const params = useParams();
+  const locale = params.locale as string;
 
-  const { setAuth } = useAdminAuthStore()
+  const { setAuth } = useAdminAuthStore();
 
-  const [showPassword, setShowPassword] = useState(false)
-  const [serverError, setServerError] = useState<string | null>(null)
+  const [showPassword, setShowPassword] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const {
     register,
@@ -28,26 +28,34 @@ const AdminLoginPage = () => {
     formState: { errors, isSubmitting },
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
-  })
+  });
 
   const handleFormSubmit = async (data: LoginInput) => {
-    setServerError(null)
+    setServerError(null);
     try {
-      const result = await adminAuthApi.login(data)
+      const result = await adminAuthApi.login(data);
 
-      if (result.user.role !== 'creator' && result.user.role !== 'admin') {
-        setServerError(t('error.unauthorized'))
-        return
+      if (result.user.role !== "creator" && result.user.role !== "admin") {
+        setServerError(t("error.unauthorized"));
+        return;
       }
 
-      setAuth(result.user, result.accessToken, result.refreshToken)
-      router.push(`/${locale}/dashboard`)
-    } catch (error) {
-      setServerError(error instanceof Error ? error.message : t('error.invalidCredentials'))
-    }
-  }
+      setAuth(result.user, result.accessToken, result.refreshToken);
 
-  const handleTogglePassword = () => setShowPassword(prev => !prev)
+      // Redirect by role
+      if (result.user.role === "admin") {
+        router.push(`/${locale}/ybr-admin/criadores`);
+      } else {
+        router.push(`/${locale}/cursos`);
+      }
+    } catch (error) {
+      setServerError(
+        error instanceof Error ? error.message : t("error.invalidCredentials"),
+      );
+    }
+  };
+
+  const handleTogglePassword = () => setShowPassword((prev) => !prev);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-(--color-background) px-4 py-16">
@@ -55,15 +63,25 @@ const AdminLoginPage = () => {
         {/* Logo */}
         <div className="mb-8 flex flex-col items-center text-center">
           <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary shadow-sm">
-            <LayoutDashboard className="text-on-primary" size={26} aria-hidden="true" />
+            <LayoutDashboard
+              className="text-on-primary"
+              size={26}
+              aria-hidden="true"
+            />
           </div>
-          <h1 className="font-serif text-3xl text-on-surface">{t('title')}</h1>
-          <p className="mt-2 text-sm text-on-surface-variant">{t('subtitle')}</p>
+          <h1 className="font-serif text-3xl text-on-surface">{t("title")}</h1>
+          <p className="mt-2 text-sm text-on-surface-variant">
+            {t("subtitle")}
+          </p>
         </div>
 
         {/* Card */}
         <div className="rounded-2xl border border-outline-variant bg-white p-8 shadow-sm">
-          <form onSubmit={handleSubmit(handleFormSubmit)} noValidate className="space-y-5">
+          <form
+            onSubmit={handleSubmit(handleFormSubmit)}
+            noValidate
+            className="space-y-5"
+          >
             {/* Server error */}
             {serverError && (
               <div
@@ -76,20 +94,25 @@ const AdminLoginPage = () => {
 
             {/* Email */}
             <div className="space-y-1.5">
-              <label htmlFor="email" className="block text-sm font-medium text-on-surface-variant">
-                {t('emailLabel')}
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-on-surface-variant"
+              >
+                {t("emailLabel")}
               </label>
               <input
-                {...register('email')}
+                {...register("email")}
                 id="email"
                 type="email"
                 autoComplete="email"
-                placeholder={t('emailPlaceholder')}
+                placeholder={t("emailPlaceholder")}
                 className={`h-12 w-full rounded-lg border bg-surface-container-low px-4 text-on-surface placeholder:text-outline outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20 ${
-                  errors.email ? 'border-error' : 'border-outline-variant'
+                  errors.email ? "border-error" : "border-outline-variant"
                 }`}
               />
-              {errors.email && <p className="text-xs text-error">{errors.email.message}</p>}
+              {errors.email && (
+                <p className="text-xs text-error">{errors.email.message}</p>
+              )}
             </div>
 
             {/* Password */}
@@ -98,23 +121,23 @@ const AdminLoginPage = () => {
                 htmlFor="password"
                 className="block text-sm font-medium text-on-surface-variant"
               >
-                {t('passwordLabel')}
+                {t("passwordLabel")}
               </label>
               <div className="relative">
                 <input
-                  {...register('password')}
+                  {...register("password")}
                   id="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
-                  placeholder={t('passwordPlaceholder')}
+                  placeholder={t("passwordPlaceholder")}
                   className={`h-12 w-full rounded-lg border bg-surface-container-low px-4 pr-11 text-on-surface placeholder:text-outline outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20 ${
-                    errors.password ? 'border-error' : 'border-outline-variant'
+                    errors.password ? "border-error" : "border-outline-variant"
                   }`}
                 />
                 <button
                   type="button"
                   onClick={handleTogglePassword}
-                  aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                  aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors"
                 >
                   {showPassword ? (
@@ -124,12 +147,16 @@ const AdminLoginPage = () => {
                   )}
                 </button>
               </div>
-              {errors.password && <p className="text-xs text-error">{errors.password.message}</p>}
+              {errors.password && (
+                <p className="text-xs text-error">{errors.password.message}</p>
+              )}
             </div>
 
             {/* Forgot password link */}
             <div className="flex justify-end">
-              <span className="text-sm text-on-surface-variant">{t('forgotPassword')}</span>
+              <span className="text-sm text-on-surface-variant">
+                {t("forgotPassword")}
+              </span>
             </div>
 
             {/* Submit */}
@@ -143,7 +170,7 @@ const AdminLoginPage = () => {
               ) : (
                 <>
                   <Lock size={16} aria-hidden="true" />
-                  {t('submitButton')}
+                  {t("submitButton")}
                 </>
               )}
             </button>
@@ -151,7 +178,7 @@ const AdminLoginPage = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminLoginPage
+export default AdminLoginPage;

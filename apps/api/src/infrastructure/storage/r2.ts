@@ -6,7 +6,6 @@ const createR2Client = () => {
   const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY
 
   if (!accountId || !accessKeyId || !secretAccessKey) {
-    console.warn('[R2] R2 credentials not set — file storage will not be available (dev mode)')
     return null
   }
 

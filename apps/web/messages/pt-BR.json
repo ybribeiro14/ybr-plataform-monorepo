@@ -22,7 +22,9 @@
     "profile": "Perfil",
     "logout": "Sair",
     "login": "Entrar",
-    "register": "Criar conta"
+    "register": "Criar conta",
+    "certificates": "Certificados",
+    "support": "Suporte"
   },
   "auth": {
     "login": {
@@ -63,6 +65,8 @@
       "submitButton": "Criar conta",
       "hasAccount": "Já tem uma conta?",
       "loginLink": "Entrar",
+      "orContinueWith": "Ou continue com",
+      "googleButton": "Cadastrar com Google",
       "error": {
         "emailTaken": "Este e-mail já está em uso.",
         "passwordMismatch": "As senhas não coincidem.",
@@ -102,7 +106,9 @@
     "progress": "{completed} de {total} aulas concluídas",
     "nextLesson": "Próxima aula: {title}",
     "certificatesTitle": "Certificados",
-    "noCertificates": "Seus certificados aparecem aqui ao concluir um curso."
+    "noCertificates": "Seus certificados aparecem aqui ao concluir um curso.",
+    "continue": "Continuar",
+    "start": "Começar"
   },
   "myCourses": {
     "title": "Meus Cursos",
@@ -112,7 +118,8 @@
     "progress": "{percent}% concluído",
     "lastWatched": "Última aula: {date}",
     "continue": "Continuar",
-    "start": "Começar"
+    "start": "Começar",
+    "lessons": "{completed} de {total} aulas"
   },
   "course": {
     "overview": {
@@ -122,7 +129,15 @@
       "progress": "Seu progresso",
       "startCourse": "Começar curso",
       "continueCourse": "Continuar curso",
-      "completedCourse": "Curso concluído"
+      "completedCourse": "Curso concluído",
+      "content": "Conteúdo",
+      "materials": "Materiais",
+      "community": "Comunidade",
+      "completedLabel": "Concluída",
+      "inProgress": "Em andamento",
+      "notStarted": "Não iniciada",
+      "moduleCompleted": "Concluído",
+      "moduleInProgress": "Em andamento"
     },
     "lesson": {
       "tabs": {
@@ -212,5 +227,63 @@
     "notFoundDescription": "A página que você está procurando não existe.",
     "unauthorized": "Você não tem autorização para acessar esta página.",
     "goHome": "Ir para o início"
+  },
+  "invite": {
+    "loading": "Verificando seu convite...",
+    "invalid": "Este link de convite é inválido ou expirou.",
+    "title": "Você foi convidado!",
+    "courseLabel": "Curso",
+    "creatorLabel": "Criador",
+    "formTitle": "Crie sua conta para ter acesso",
+    "nameLabel": "Nome completo",
+    "namePlaceholder": "Seu nome",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "seu@email.com",
+    "passwordLabel": "Senha",
+    "passwordPlaceholder": "Mínimo 8 caracteres",
+    "submit": "Criar conta e solicitar acesso",
+    "alreadyHaveAccount": "Já tem uma conta?",
+    "loginLink": "Entrar",
+    "pendingTitle": "Solicitação enviada!",
+    "pendingMessage": "Sua solicitação de acesso ao curso {courseTitle} foi enviada. Você receberá um e-mail assim que o criador ativar seu acesso.",
+    "error": {
+      "emailExists": "Este e-mail já está cadastrado. Faça login para continuar.",
+      "generic": "Algo deu errado. Por favor, tente novamente."
+    }
+  },
+  "certificate": {
+    "title": "Certificado de Conclusão",
+    "studentLabel": "Este certificado foi emitido para",
+    "courseLabel": "pelo curso",
+    "issuedOn": "Emitido em",
+    "instructorLabel": "Instrutor(a)",
+    "verificationCode": "Código de verificação",
+    "downloadPdf": "Baixar certificado",
+    "shareLinkedIn": "Compartilhar no LinkedIn",
+    "copyLink": "Copiar link",
+    "linkCopied": "Link copiado!",
+    "loading": "Carregando certificado...",
+    "notFound": "Certificado não encontrado.",
+    "backToCourses": "Voltar para meus cursos",
+    "generateButton": "Gerar meu certificado",
+    "generating": "Gerando...",
+    "notCompleted": "Você precisa completar 100% do curso para emitir o certificado.",
+    "alreadyIssued": "Seu certificado já foi emitido.",
+    "error": "Não foi possível gerar o certificado. Tente novamente."
+  },
+  "verify": {
+    "title": "Verificar Certificado",
+    "subtitle": "Digite o código de verificação para confirmar a autenticidade do certificado.",
+    "codePlaceholder": "Ex: 01970000-0000-0000-0000-000000000000",
+    "verifyButton": "Verificar",
+    "verifying": "Verificando...",
+    "valid": "Certificado válido",
+    "validDescription": "Este certificado é autêntico e foi emitido pela YBR Platform.",
+    "studentLabel": "Aluno(a)",
+    "courseLabel": "Curso",
+    "instructorLabel": "Instrutor(a)",
+    "issuedOn": "Emitido em",
+    "invalid": "Certificado não encontrado. Verifique o código e tente novamente.",
+    "error": "Algo deu errado. Por favor, tente novamente."
   }
 }

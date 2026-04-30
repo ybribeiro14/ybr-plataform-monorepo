@@ -4,6 +4,7 @@ export * from "./coupons";
 export * from "./courses";
 export * from "./creators";
 export * from "./enrollments";
+export * from "./invite-tokens";
 export * from "./lessons";
 export * from "./modules";
 export * from "./payments";

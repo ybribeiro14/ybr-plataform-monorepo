@@ -26,6 +26,7 @@
     "@ybr/schemas": "workspace:*",
     "@ybr/types": "workspace:*",
     "@ybr/ui": "workspace:*",
+    "@ybr/hls-player": "workspace:*",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "lucide-react": "latest",
@@ -35,6 +36,7 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.0.0",
     "tailwind-merge": "^2.0.0",
+    "tus-js-client": "^4.3.1",
     "zustand": "^5.0.0"
   },
   "devDependencies": {

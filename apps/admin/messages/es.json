@@ -149,6 +149,7 @@
     "viewPage": "Ver Página",
     "preview": "Vista previa",
     "continue": "Continuar",
+    "noContentWarning": "Sin contenido",
     "stats": {
       "totalStudents": "Total Estudiantes",
       "monthlyRevenue": "Ingresos Mensuales",
@@ -284,7 +285,12 @@
     "proTip": "Consejo Pro",
     "proTipText": "Arrastra las clases para reorganizar el recorrido de tu estudiante de forma fluida.",
     "attachFile": "Adjuntar archivo",
-    "uploadingVideo": "Subiendo al servidor seguro..."
+    "uploadingVideo": "Subiendo al servidor seguro...",
+    "removeVideo": "Eliminar video",
+    "removeVideoConfirm": "¿Estás seguro de que deseas eliminar el video de esta lección? Esta acción no se puede deshacer.",
+    "removeVideoSuccess": "Video eliminado con éxito",
+    "videoPlaying": "Reproductor de video",
+    "replaceVideo": "Reemplazar video"
   },
   "locale": {
     "en": "English",

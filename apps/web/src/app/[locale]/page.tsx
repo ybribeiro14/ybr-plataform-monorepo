@@ -1,14 +1,5 @@
-import { useTranslations } from 'next-intl'
+import { redirect } from "next/navigation";
 
-const LocaleHomePage = () => {
-  const t = useTranslations('common')
+const LocaleHomePage = () => redirect("/en/login");
 
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
-      <h1 className="font-serif text-4xl text-[var(--color-on-surface)]">YBR Platform</h1>
-      <p className="mt-4 text-[var(--color-on-surface-variant)]">{t('loading')}</p>
-    </main>
-  )
-}
-
-export default LocaleHomePage
+export default LocaleHomePage;

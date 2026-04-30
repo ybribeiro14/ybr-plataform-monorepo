@@ -1,104 +1,206 @@
-import { useTranslations } from "next-intl";
+import type { EnrollmentWithProgress } from "@/lib/api/student";
+import { getEnrollments } from "@/lib/api/student";
+import { Play } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { cookies } from "next/headers";
+import Image from "next/image";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
-const DashboardPage = () => {
-  const t = useTranslations("dashboard");
-  const tMyCourses = useTranslations("myCourses");
-  const tNav = useTranslations("nav");
+interface DashboardPageProps {
+  params: Promise<{ locale: string }>;
+}
+
+const decodeJwtName = (token: string): string => {
+  try {
+    const [, payloadPart] = token.split(".");
+    const decoded = JSON.parse(
+      Buffer.from(payloadPart ?? "", "base64url").toString("utf8"),
+    ) as { name?: string; sub?: string };
+    return decoded.name ?? "Aluno";
+  } catch {
+    return "Aluno";
+  }
+};
+
+const DashboardPage = async ({ params }: DashboardPageProps) => {
+  const { locale } = await params;
+
+  const cookieStore = await cookies();
+  const token = cookieStore.get("ybr_access_token")?.value;
+
+  if (!token) {
+    redirect(`/${locale}/login`);
+  }
+
+  const t = await getTranslations({ locale, namespace: "dashboard" });
+  const tNav = await getTranslations({ locale, namespace: "nav" });
+
+  let enrollments: EnrollmentWithProgress[] = [];
+  try {
+    enrollments = await getEnrollments(token);
+  } catch (error: unknown) {
+    const statusCode = (error as { statusCode?: number }).statusCode;
+    if (statusCode === 401) redirect(`/${locale}/login`);
+  }
+
+  const userName = decodeJwtName(token);
+
+  const continueCourse =
+    enrollments.find((e) => e.progressPercent > 0 && e.progressPercent < 100) ??
+    null;
 
   return (
-    <main className="min-h-screen bg-(--color-background)">
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-12">
-          <h1 className="font-serif text-4xl text-on-surface">
-            {t("subtitle")}
-          </h1>
-          <p className="mt-2 text-on-surface-variant">
+    <main className="p-8 lg:p-10 max-w-350">
+      {/* Welcome section */}
+      <section className="mb-10">
+        <h2 className="font-title-lg text-4xl text-primary mb-2">
+          {t("title", { name: userName })}
+        </h2>
+        <p className="text-body-md text-on-surface-variant">{t("subtitle")}</p>
+      </section>
+
+      {/* Continue watching hero */}
+      {continueCourse && (
+        <section className="mb-12">
+          <h3 className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">
             {t("continueWatching")}
-          </p>
+          </h3>
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-sm flex flex-col md:flex-row max-w-3xl">
+            <div className="md:w-2/5 h-48 md:h-auto relative bg-surface-container shrink-0">
+              {continueCourse.thumbnailUrl ? (
+                <Image
+                  src={continueCourse.thumbnailUrl}
+                  alt={continueCourse.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                  className="object-cover"
+                  priority
+                />
+              ) : (
+                <div className="w-full h-full bg-primary-container flex items-center justify-center">
+                  <Play
+                    className="w-12 h-12 text-primary/30"
+                    aria-hidden="true"
+                  />
+                </div>
+              )}
+              <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex items-end p-4">
+                <span className="bg-primary text-on-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                  Em andamento
+                </span>
+              </div>
+            </div>
+            <div className="flex-1 p-8 flex flex-col justify-center">
+              <h3 className="text-xl font-semibold text-on-surface mb-4 leading-snug">
+                {continueCourse.title}
+              </h3>
+              <div className="mb-6">
+                <div className="flex justify-between text-xs font-semibold text-on-surface-variant mb-2 uppercase tracking-wider">
+                  <span>
+                    {t("progress", {
+                      completed: continueCourse.completedLessons,
+                      total: continueCourse.totalLessons,
+                    })}
+                  </span>
+                  <span>{continueCourse.progressPercent}%</span>
+                </div>
+                <div className="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-primary rounded-full transition-[width] duration-300"
+                    style={{ width: `${continueCourse.progressPercent}%` }}
+                  />
+                </div>
+              </div>
+              <Link
+                href={`/${locale}/cursos/${continueCourse.slug}`}
+                className="w-fit px-8 py-3 bg-primary text-on-primary rounded-full font-semibold text-sm hover:opacity-90 transition-opacity flex items-center gap-2"
+              >
+                {t("continue")}
+                <Play className="w-4 h-4 fill-current" aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Courses grid */}
+      <section>
+        <div className="flex justify-between items-end mb-6">
+          <h3 className="text-2xl font-semibold text-on-surface">
+            {tNav("myCourses")}
+          </h3>
+          <Link
+            href={`/${locale}/meus-cursos`}
+            className="text-primary text-sm font-medium hover:underline"
+          >
+            {t("browseCourses")}
+          </Link>
         </div>
 
-        {/* Placeholder cards */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {/* Meus Cursos */}
-          <div className="rounded-2xl border border-outline-variant bg-(--color-surface-container-lowest) p-6 shadow-sm">
-            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-secondary-container">
-              <svg
-                className="h-5 w-5 text-secondary"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                />
-              </svg>
-            </div>
-            <h2 className="text-lg font-semibold text-on-surface">
-              {tNav("myCourses")}
-            </h2>
-            <p className="mt-1 text-sm text-on-surface-variant">
-              {t("noCourses")}
-            </p>
+        {enrollments.length === 0 ? (
+          <div className="bg-surface-container rounded-xl p-12 text-center border border-outline-variant">
+            <p className="text-on-surface-variant">{t("noCourses")}</p>
           </div>
-
-          {/* Progresso */}
-          <div className="rounded-2xl border border-outline-variant bg-(--color-surface-container-lowest) p-6 shadow-sm">
-            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-secondary-container">
-              <svg
-                className="h-5 w-5 text-secondary"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {enrollments.map((enrollment) => (
+              <div
+                key={enrollment.enrollmentId}
+                className="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm flex flex-col group transition-all hover:-translate-y-1"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                />
-              </svg>
-            </div>
-            <h2 className="text-lg font-semibold text-on-surface">
-              {tMyCourses("title")}
-            </h2>
-            <p className="mt-1 text-sm text-on-surface-variant">
-              {tMyCourses("noCourses")}
-            </p>
+                <div className="aspect-video relative overflow-hidden bg-surface-container">
+                  {enrollment.thumbnailUrl ? (
+                    <Image
+                      src={enrollment.thumbnailUrl}
+                      alt={enrollment.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-primary-container flex items-center justify-center">
+                      <Play
+                        className="w-8 h-8 text-primary/30"
+                        aria-hidden="true"
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className="p-5 flex-1 flex flex-col">
+                  <h4 className="text-on-surface font-semibold mb-1 leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+                    {enrollment.title}
+                  </h4>
+                  <div className="mt-auto pt-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-semibold text-primary">
+                        {enrollment.progressPercent}%
+                      </span>
+                      <span className="text-xs text-on-surface-variant">
+                        {enrollment.completedLessons}/{enrollment.totalLessons}
+                      </span>
+                    </div>
+                    <div className="w-full bg-surface-container h-1.5 rounded-full mb-4">
+                      <div
+                        className="bg-primary h-full rounded-full transition-[width] duration-300"
+                        style={{ width: `${enrollment.progressPercent}%` }}
+                      />
+                    </div>
+                    <Link
+                      href={`/${locale}/cursos/${enrollment.slug}`}
+                      className="w-full py-3 bg-primary text-on-primary rounded-full font-semibold text-sm hover:opacity-90 transition-opacity block text-center"
+                    >
+                      {enrollment.progressPercent === 0
+                        ? t("start")
+                        : t("continue")}
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-
-          {/* Certificados */}
-          <div className="rounded-2xl border border-outline-variant bg-(--color-surface-container-lowest) p-6 shadow-sm">
-            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-secondary-container">
-              <svg
-                className="h-5 w-5 text-secondary"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                />
-              </svg>
-            </div>
-            <h2 className="text-lg font-semibold text-on-surface">
-              {t("certificatesTitle")}
-            </h2>
-            <p className="mt-1 text-sm text-on-surface-variant">
-              {t("noCertificates")}
-            </p>
-          </div>
-        </div>
-      </div>
+        )}
+      </section>
     </main>
   );
 };

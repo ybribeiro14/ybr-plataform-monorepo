@@ -1,4 +1,10 @@
-import { pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  pgTable,
+  text,
+  timestamp,
+  varchar,
+} from "drizzle-orm/pg-core";
 import { uuidv7 } from "uuidv7";
 import { users } from "./users";
 
@@ -19,6 +25,7 @@ export const creators = pgTable("creators", {
   })
     .notNull()
     .default("starter"),
+  isActive: boolean("is_active").notNull().default(true),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

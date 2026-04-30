@@ -149,6 +149,7 @@
     "viewPage": "Ver Página",
     "preview": "Preview",
     "continue": "Continuar",
+    "noContentWarning": "Sem conteúdo",
     "stats": {
       "totalStudents": "Total de Alunos",
       "monthlyRevenue": "Receita Mensal",
@@ -284,7 +285,12 @@
     "proTip": "Dica Pro",
     "proTipText": "Arraste as aulas para reorganizar a jornada do seu aluno de forma fluida.",
     "attachFile": "Anexar arquivo",
-    "uploadingVideo": "Fazendo upload para o servidor seguro..."
+    "uploadingVideo": "Fazendo upload para o servidor seguro...",
+    "removeVideo": "Remover vídeo",
+    "removeVideoConfirm": "Tem certeza que deseja remover o vídeo desta aula? Esta ação não pode ser desfeita.",
+    "removeVideoSuccess": "Vídeo removido com sucesso",
+    "videoPlaying": "Player de vídeo",
+    "replaceVideo": "Substituir vídeo"
   },
   "locale": {
     "en": "English",
@@ -297,5 +303,79 @@
     "notFoundDescription": "A página que você está procurando não existe.",
     "unauthorized": "Você não tem autorização para acessar esta página.",
     "goHome": "Ir para o dashboard"
+  },
+  "invites": {
+    "title": "Links de Convite",
+    "subtitle": "Gere links de convite para matricular alunos manualmente",
+    "createLink": "Gerar novo link",
+    "noLinks": "Nenhum link de convite gerado ainda.",
+    "linkLabel": "Link de convite",
+    "copy": "Copiar",
+    "copied": "Copiado!",
+    "revoke": "Revogar",
+    "revokeConfirm": "Tem certeza que deseja revogar este link? Alunos que ainda não se cadastraram não conseguirão mais usar este link.",
+    "revokeSuccess": "Link revogado com sucesso",
+    "createSuccess": "Link criado com sucesso",
+    "active": "Ativo",
+    "revoked": "Revogado",
+    "expires": "Expira em",
+    "noExpiry": "Sem expiração",
+    "expiryLabel": "Data de expiração (opcional)",
+    "form": {
+      "title": "Novo Link de Convite",
+      "expiryLabel": "Expirar em (opcional)",
+      "submit": "Gerar link"
+    }
+  },
+  "enrollments": {
+    "title": "Matrículas Pendentes",
+    "subtitle": "Alunos aguardando ativação de matrícula",
+    "noPending": "Nenhuma matrícula pendente no momento.",
+    "activate": "Ativar",
+    "revoke": "Rejeitar",
+    "activateConfirm": "Confirmar o recebimento do pagamento e ativar o acesso de",
+    "revokeConfirm": "Tem certeza que deseja rejeitar a matrícula de",
+    "activateSuccess": "Matrícula ativada. O aluno receberá um e-mail de acesso.",
+    "revokeSuccess": "Matrícula rejeitada.",
+    "enrolledAt": "Solicitou acesso em",
+    "studentName": "Aluno",
+    "studentEmail": "E-mail",
+    "course": "Curso"
+  },
+  "ybrAdmin": {
+    "title": "Painel YBR Admin",
+    "subtitle": "Gestão de criadores na plataforma",
+    "creators": "Criadores",
+    "newCreator": "Novo Criador",
+    "noCreators": "Nenhum criador cadastrado ainda.",
+    "activeCourses": "Cursos Ativos",
+    "activeStudents": "Alunos Ativos",
+    "plan": "Plano",
+    "suspend": "Suspender",
+    "activate": "Ativar",
+    "table": {
+      "name": "Nome",
+      "email": "E-mail",
+      "plan": "Plano",
+      "activeCourses": "Cursos",
+      "activeStudents": "Alunos",
+      "status": "Status",
+      "active": "Ativo",
+      "suspended": "Suspenso",
+      "createdAt": "Criado em"
+    },
+    "form": {
+      "title": "Novo Criador",
+      "nameLabel": "Nome completo",
+      "namePlaceholder": "Ex: Maria Silva",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "criador@email.com",
+      "planLabel": "Plano",
+      "planStarter": "Starter",
+      "planGrowth": "Growth",
+      "planPro": "Pro",
+      "planAgency": "Agency",
+      "submit": "Criar conta de criador"
+    }
   }
 }

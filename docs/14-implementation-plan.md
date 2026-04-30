@@ -1,11 +1,33 @@
 # 14 — Complete Implementation Plan
 
 **Date:** 2026-04-24  
-**Last Updated:** 2026-04-27  
-**Status:** 🟢 Phase 0 complete — Phase 0.5 (Swagger) complete — Phase 1.1 backend + auth tests complete — Phase 1.2 backend + admin UI complete — Phase 1.2 backend complete — Phase 1.2 frontend complete — Phase 1.3 backend complete — Phase 1.3 frontend complete  
+**Last Updated:** 2026-04-29  
+**Status:** 🟢 Phase 0 complete — Phase 0.5 (Swagger) complete — Phase 1.1 backend + auth tests complete — Phase 1.2 backend + admin UI complete — Phase 1.2 backend complete — Phase 1.2 frontend complete — Phase 1.3 backend complete — Phase 1.3 frontend complete — Phase 1.4 backend + frontend complete — Phase 1.5 backend + frontend complete — Phase 1.7 backend + frontend complete — Phase 1.8 complete  
 **Monorepo:** `ybr-plataform/platform/`
 
 > ℹ️ **SCOPE NOTE (2026-04-27):** Checkout, payment processing, and the sales/landing page have been removed from this project. Those concerns are handled by a separate project. Enrollments in this platform are managed externally (e.g., via webhook from the payment system) and must not depend on Stripe or any payment gateway here.
+
+> 🔄 **REALIGNMENT NOTE (2026-04-29):** Strategic decisions confirmed in product session:
+>
+> **Architecture:**
+>
+> - `apps/admin` is a unified panel with role-based views: **YBR Admin** (platform management) and **Creator Studio** (course/student management). Single app, areas separated by role.
+> - `apps/web` is exclusively the student area ("sala online do aluno").
+>
+> **Language:** pt-BR only for all UI text in MVP. `en` and `es` message files remain in the codebase but are not actively maintained until Phase 2+.
+>
+> **Enrollment flows — two entry points:**
+>
+> 1. **External webhook** — payment system calls `POST /api/enrollment` with shared secret → enrollment created, welcome email sent.
+> 2. **Invite link** — creator generates a link for a course → sends to students (WhatsApp, etc.) → student registers via invite link → **pending enrollment** created → creator activates manually after confirming payment.
+>
+> **Google Social Login:** Added to Phase 1, restricted to `student` role only.
+>
+> **Minimal YBR Admin panel:** Added to Phase 1 (creators list, status, basic platform metrics).
+>
+> **Infrastructure:** Optimized to ~$8–13/month for MVP (Neon Free, Vercel Hobby, Railway Hobby $5, Cloudflare R2 Free, Bunny Stream). See `docs/research/05-business-model-analysis.md`.
+>
+> **Business model:** Monthly fee by number of active students (Model A). Billing is manual for the first client. Full analysis in `docs/research/05-business-model-analysis.md`.
 
 > ⚠️ **MANDATORY RULE:** Every agent that completes a task MUST immediately mark the corresponding item with `[x]` in this document before finishing. This file is the single source of truth for what has been done.
 
@@ -280,6 +302,8 @@ apps/web/
 - [x] `LocaleSwitcher` component created in both apps
 - [ ] All user-facing strings extracted to message files _(done incrementally as pages are built)_
 
+> ⚠️ **MVP i18n policy (2026-04-29):** Only `pt-BR` messages are actively maintained for MVP. `en.json` and `es.json` files exist in the codebase but are not translated. New strings added to `pt-BR.json` first; other locales receive a placeholder until Phase 2+ internationalization sprint.
+
 ---
 
 ## PHASE 0.5 — API Documentation Standards (Week 2–3)
@@ -397,7 +421,7 @@ schema: {
 
 **Layout reference:** `ybr-plataform/layout/desktop-layout/login_desktop/code.html`
 
-Pages to implement (design: Artisanal Sophistication, all UI text via i18n):
+Pages to implement (design: White-Label Studio — base neutra, theming por criador; all UI text via i18n):
 
 | Page            | Route                | Base layout               |
 | --------------- | -------------------- | ------------------------- |
@@ -416,6 +440,33 @@ Pages to implement (design: Artisanal Sophistication, all UI text via i18n):
 - [x] All UI strings via `next-intl` message keys (no hardcoded text) — pt-BR, en, es
 - [x] Placeholder `/dashboard` page in `apps/web` (avoids 404 on post-login redirect)
 - [x] Placeholder `/dashboard` page in `apps/admin` (avoids 404 on post-login redirect)
+
+#### Google Social Login (Student only) — `nodejs-especialist` + `react-senior-engineer`
+
+> **Added in realignment 2026-04-29.** Reduces friction for student registration. Restricted to `student` role — creators are managed/invited by YBR admin.
+
+**Backend:**
+
+| Method | Route                   | Description                                          |
+| ------ | ----------------------- | ---------------------------------------------------- |
+| `GET`  | `/auth/google`          | Initiates Google OAuth2 flow                         |
+| `GET`  | `/auth/google/callback` | Handles callback, creates/links user, returns tokens |
+
+**Checklist:**
+
+- [x] `@fastify/oauth2` configured for Google provider in `plugins/google-auth.ts`
+- [x] `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` in `.env.example`
+- [x] `users` table: `google_id` nullable field (migration)
+- [x] `linkGoogleAccount` function: if email exists → link Google ID; if new → create student account
+- [x] Routes in `routes/auth/google.ts` with Swagger annotation
+- [ ] Unit tests for OAuth flow (mocked Google response)
+
+**Frontend (`apps/web`):**
+
+- [x] "Entrar com Google" button on login and register pages
+- [x] Handle OAuth redirect callback (`/auth/google/callback`)
+- [x] Store tokens in Zustand auth store after callback
+- [x] Error state for denied Google permission
 
 ---
 
@@ -440,6 +491,7 @@ Pages to implement (design: Artisanal Sophistication, all UI text via i18n):
 | `DELETE` | `/admin/lessons/:lessonId`         | Remove lesson                                 |
 | `POST`   | `/admin/courses/:id/thumbnail`     | Upload thumbnail to R2                        |
 | `POST`   | `/admin/lessons/:id/video`         | Generate upload URL for Bunny Stream          |
+| `DELETE` | `/admin/lessons/:id/video`         | Delete video from Bunny Stream + clear DB     |
 
 **Checklist:**
 
@@ -448,6 +500,8 @@ Pages to implement (design: Artisanal Sophistication, all UI text via i18n):
 - [x] Cloudflare R2 integration for thumbnails — `infrastructure/storage/r2.ts` + `upload-thumbnail.ts`
 - [x] Bunny Stream API integration for video upload — `infrastructure/video/bunny.ts` with TUS credentials + SHA-256 signing
 - [x] CRUD route tests — 31 new tests (142 total, all passing)
+- [x] `DELETE /admin/lessons/:id/video` — Delete video from Bunny + clear `bunnyVideoId` in DB (`2026-04-28`)
+- [x] `DELETE /admin/lessons/:lessonId/video` — `deleteBunnyVideo` in `bunny.ts`, `deleteLessonVideo` function, route in `routes/admin/index.ts`
 
 #### Frontend — `react-senior-engineer`
 
@@ -463,14 +517,14 @@ Pages to implement (design: Artisanal Sophistication, all UI text via i18n):
 
 **Checklist:**
 
-- [x] `apps/admin/src/lib/api/courses.ts` — Full fetch-based API client (courses, modules, lessons, thumbnail)
+- [x] `apps/admin/src/lib/api/courses.ts` — Full fetch-based API client (courses, modules, lessons, thumbnail, video delete)
 - [x] `apps/admin/src/lib/types/courses.ts` — TypeScript interfaces for Course, Module, Lesson, CourseWithModules
 - [x] `apps/admin/src/app/[locale]/(admin)/layout.tsx` — Admin shell with responsive sidebar (lucide-react icons)
 - [x] `apps/admin/src/components/layout/admin-sidebar.tsx` — Sidebar with nav links + logout
 - [x] `/[locale]/(admin)/cursos/page.tsx` — Course list: table, status badges, publish/archive actions, loading/empty states
 - [x] `/[locale]/(admin)/cursos/novo/page.tsx` — Create course form with thumbnail upload preview
 - [x] `/[locale]/(admin)/cursos/[courseId]/editar/page.tsx` — Edit course form (pre-populated)
-- [x] `/[locale]/(admin)/cursos/[courseId]/conteudo/page.tsx` — Module/lesson editor with ↑↓ reorder, inline forms
+- [x] `/[locale]/(admin)/cursos/[courseId]/conteudo/page.tsx` — Module/lesson editor with ↑↓ reorder, inline forms, HLS video player + delete video (`2026-04-28`)
 - [x] All UI strings via `next-intl` message keys (pt-BR, en, es)
 - [x] Admin login page — `apps/admin/src/app/[locale]/login/page.tsx` with role validation (creator/admin only)
 - [x] Admin auth store — `apps/admin/src/stores/auth.ts` (Zustand, cookie + localStorage)
@@ -539,10 +593,11 @@ Pages to implement (design: Artisanal Sophistication, all UI text via i18n):
 
 **Checklist:**
 
-- [ ] All endpoints with Zod validation
-- [ ] `POST /webhooks/enrollment` with shared-secret validation + idempotency key
-- [ ] Enrollment access verification middleware
-- [ ] Aggregated progress calculation
+- [x] All endpoints with Zod validation
+- [x] `POST /webhooks/enrollment` with shared-secret validation + idempotency key
+- [x] Enrollment access verification — enforced per-function (enrollment + active status check before returning any data)
+- [x] Aggregated progress calculation
+- [x] Welcome email (course access email) triggered on successful webhook enrollment
 
 #### Frontend — `react-senior-engineer`
 
@@ -552,51 +607,194 @@ Pages to implement (design: Artisanal Sophistication, all UI text via i18n):
 - `layout/desktop-layout/meus_cursos_desktop/code.html`
 - `layout/desktop-layout/vis_o_geral_do_curso_desktop/code.html`
 
-- [ ] `/[locale]/dashboard` — Welcome, courses in progress, next lesson
-- [ ] `/[locale]/my-courses` — Catalog of enrolled courses
-- [ ] `/[locale]/courses/:slug` — Course overview (modules, overall progress)
-- [ ] `/[locale]/courses/:slug/lessons/:lessonId` — Player + materials + notes
-- [ ] Gold progress bars per module
-- [ ] PDF material downloads
-- [ ] All UI strings via `next-intl` message keys
+- [x] `/[locale]/dashboard` — Welcome, courses in progress, next lesson (`2026-04-28`)
+- [x] `/[locale]/meus-cursos` — Catalog of enrolled courses (`2026-04-28`)
+- [x] `/[locale]/cursos/:slug` — Course overview (modules, overall progress) (`2026-04-28`)
+- [x] `/[locale]/cursos/:slug/aulas/:lessonId` — Player + module sidebar with real data + tabs (`2026-04-28`)
+- [x] Gold progress bars per module
+- [x] `StudentSidebar` navigation component
+- [x] All UI strings via `next-intl` message keys
+- [ ] PDF material downloads _(lesson attachments UI — deferred: requires attachment data in DB)_
 
 ---
 
-### 1.5 — Transactional Emails (Week 5)
+### 1.5 — Enrollment System (Week 5)
+
+> **Owner:** `nodejs-especialist` + `react-senior-engineer`  
+> **Added in realignment 2026-04-29.** Two enrollment entry points must coexist.
+
+#### Enrollment Entry Point A — External Webhook
+
+The external payment system calls our API when a student purchases a course. This is the primary enrollment flow.
+
+| Method | Route             | Description                                                                                                                                               |
+| ------ | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `POST` | `/api/enrollment` | Receive enrollment from external payment system. Validates `X-Enrollment-Secret` header. Creates enrollment with `active` status. Triggers welcome email. |
+
+> **Security:** The shared secret is stored in environment variable `ENROLLMENT_WEBHOOK_SECRET`. Requests without matching header return `401`. Secret is rotated per creator deployment.
+
+**Backend checklist:**
+
+- [x] `X-Enrollment-Secret` header validation (constant-time comparison)
+- [x] Idempotency: if enrollment already exists with same `external_ref` → return 200 without duplicate
+- [ ] Welcome email triggered on successful enrollment (Resend)
+- [x] Swagger annotation with `webhooks` tag
+
+#### Enrollment Entry Point B — Creator Invite Link
+
+Allows creators to onboard students who pay outside the checkout system (e.g., via WhatsApp, PIX, bank transfer).
+
+**Flow:**
+
+```
+Creator generates invite link for course X
+  → Sends link to student via WhatsApp/email
+  → Student opens link, fills in name + email + password
+  → Pre-enrollment created (status: pending)
+  → Creator sees pending enrollment in workstation
+  → Creator activates enrollment after confirming payment received
+  → Student receives welcome email and gains access
+```
+
+**Backend:**
+
+| Method   | Route                                   | Description                                                    |
+| -------- | --------------------------------------- | -------------------------------------------------------------- |
+| `POST`   | `/admin/courses/:courseId/invite-links` | Generate invite link (returns token)                           |
+| `GET`    | `/admin/courses/:courseId/invite-links` | List active invite links for course                            |
+| `DELETE` | `/admin/invite-links/:token`            | Revoke invite link                                             |
+| `GET`    | `/invite/:token`                        | Validate token + return course info (public)                   |
+| `POST`   | `/invite/:token/register`               | Student registers via invite link → creates pending enrollment |
+| `GET`    | `/admin/enrollments/pending`            | List pending enrollments (creator view)                        |
+| `POST`   | `/admin/enrollments/:id/activate`       | Activate pending enrollment → trigger welcome email            |
+| `POST`   | `/admin/enrollments/:id/revoke`         | Revoke enrollment (active or pending)                          |
+
+**Database changes required:**
+
+```sql
+-- enrollments.status: add 'pending' status
+-- 'pending' | 'active' | 'expired' | 'revoked'
+
+-- invite_tokens table (new)
+-- id, course_id FK, creator_id FK, token (unique), expires_at (nullable), is_active, created_at
+```
+
+**Backend checklist:**
+
+- [x] Migration: add `pending` to `enrollments.status` enum
+- [x] Migration: create `invite_tokens` table
+- [x] All CRUD routes for invite tokens
+- [x] `POST /invite/:token/register` — public endpoint, creates user + pending enrollment atomically
+- [x] `POST /admin/enrollments/:id/activate` — sets status to `active`, triggers welcome email
+- [x] All routes with Zod validation + Swagger annotation
+- [ ] Unit tests for invite link lifecycle
+
+**Frontend (`apps/admin`):**
+
+- [x] Invite link generator component on course detail page (`/cursos/:courseId/convites`)
+- [x] Copy-to-clipboard + QR code display
+- [x] Pending enrollments list with student name, email, date (`/matriculas`)
+- [x] "Ativar" and "Rejeitar" actions per pending enrollment
+- [x] All UI strings in pt-BR
+
+**Frontend (`apps/web`):**
+
+- [x] `/invite/:token` — public registration page (student fills name + email + password)
+- [x] Shows course name and creator name from token metadata
+- [x] After submission → shows "Aguardando ativação" state
+- [ ] After creator activates → student receives email with access link
+
+---
+
+### 1.6 — Transactional Emails (Week 5)
 
 > **Owner:** `nodejs-especialist`
 
-- [ ] Template: Welcome on account creation
-- [ ] Template: Course access granted (triggered by enrollment webhook)
-- [ ] Template: Password recovery
-- [ ] Template: Lesson reminder (7 days without login)
+| Template                 | Trigger                                | Via    |
+| ------------------------ | -------------------------------------- | ------ |
+| Boas-vindas (registro)   | `POST /auth/register`                  | Resend |
+| Acesso liberado ao curso | Enrollment ativado (webhook ou invite) | Resend |
+| Recuperação de senha     | `POST /auth/forgot-password`           | Resend |
+| Lembrete de aula         | 7 dias sem login (cron job)            | Resend |
+
+**Checklist:**
+
+- [ ] Welcome email template (HTML + text fallback)
+- [ ] Course access granted template — includes course name, direct access link
+- [ ] Password recovery template (already implemented in 1.1 — validate it uses final design)
+- [ ] Lesson reminder template (requires scheduled job — can use Railway cron)
+- [ ] All email templates branded with creator's logo/colors (passed as template variables)
+- [ ] Resend `from` address uses creator's configured sender (or YBR default while not configured)
 
 ---
 
-### 1.6 — Certificates (Week 6)
+### 1.7 — Certificates (Week 6)
 
 #### Backend — `nodejs-especialist`
 
-- [ ] `POST /certificates/generate` — Generate certificate at 100% completion
-- [ ] `GET /certificates/:id/verify` — Public certificate verification
-- [ ] PDF generation (branded with creator identity)
+- [x] `POST /certificates/generate` — Generate certificate at 100% completion
+- [x] `GET /certificates/:id/verify` — Public certificate verification
+- [x] PDF generation (branded with creator identity — logo, colors, course name)
+- [x] `verification_code` stored in DB (UUID-based, publicly verifiable)
 
 #### Frontend — `react-senior-engineer`
 
-- [ ] `/[locale]/certificate/:id` — Download and sharing page
-- [ ] Public `/[locale]/verify/:code` — Certificate validation page
-- [ ] Direct LinkedIn sharing
-- [ ] All UI strings via `next-intl` message keys
+- [x] `/[locale]/certificado/:courseId` — Download and sharing page (inside student area)
+- [x] Public `/[locale]/verificar/:code` — Certificate validation page
+- [x] Direct LinkedIn sharing link
+- [x] All UI strings in pt-BR
 
 ---
 
-### 1.7 — Testing & Quality (Phase 1)
+### 1.8 — YBR Admin Panel (Minimal) (Week 6)
+
+> **Owner:** `react-senior-engineer` + `nodejs-especialist`  
+> **Added in realignment 2026-04-29.** The YBR team (us) needs a minimal management view.
+
+This is a role-based area inside `apps/admin`, accessible only to users with `role: admin`.
+
+**Backend:**
+
+| Method  | Route                            | Description                                              |
+| ------- | -------------------------------- | -------------------------------------------------------- |
+| `GET`   | `/ybr-admin/creators`            | List all creators with stats (courses, students, status) |
+| `GET`   | `/ybr-admin/creators/:id`        | Creator detail + metrics                                 |
+| `PATCH` | `/ybr-admin/creators/:id/status` | Activate / suspend creator account                       |
+| `POST`  | `/ybr-admin/creators`            | Create new creator account (manual onboarding for now)   |
+
+**Frontend (`apps/admin`) — `/[locale]/(ybr-admin)/` route group:**
+
+- [ ] Creators list: name, email, plan, active students count, active courses count, status badge
+- [ ] Activate / suspend creator toggle
+- [ ] "Novo Criador" form: name, email, plan selection
+- [ ] Route protection: only `admin` role can access these pages
+- [ ] All UI strings in pt-BR
+
+**Checklist:**
+
+- [x] `requireAdmin` middleware already exists in `plugins/auth.ts` — use it
+- [x] Backend routes with Swagger annotation (`ybr-admin` tag)
+- [x] Frontend pages under `(ybr-admin)` route group — `/ybr-admin/criadores`
+- [x] `PATCH /ybr-admin/creators/:id/status` — toggle activate/suspend + frontend button
+- [x] Redirect `admin` role users to `/ybr-admin/criadores` after login
+- [x] Redirect `creator` role users to `/cursos` after login
+
+---
+
+### 1.9 — Testing & Quality (Phase 1)
+
+> **Owner:** `qa-tester`
+
+### 1.9 — Testing & Quality (Phase 1)
 
 > **Owner:** `qa-tester`
 
 - [x] Unit test coverage > 70% for backend — Auth functions: 7 unit test files + 1 integration test file (111 tests total, all passing)
 - [x] Auth route integration tests (POST /register, /login, /refresh, /logout, /forgot-password, /reset-password, GET /me)
-- [ ] E2E tests for critical flows: register → enroll (via webhook) → course access
+- [x] E2E tests for critical flows: register → enroll (via webhook) → course access (`tests/flows/enrollment-webhook.test.ts` — 7 tests)
+- [x] E2E test: invite link flow (create link → student registers → creator activates → student accesses course) (`tests/flows/invite-enrollment.test.ts` — 12 tests)
+- [x] Certificate generation + verification flow tests (`tests/flows/certificate.test.ts` — 8 tests)
+- [x] Google OAuth callback route tests (2 tests in `tests/routes/auth.test.ts`)
 - [ ] Accessibility audit (WCAG 2.1 AA)
 - [ ] Performance: LCP < 2.5s, FID < 100ms, CLS < 0.1
 
@@ -606,50 +804,55 @@ Pages to implement (design: Artisanal Sophistication, all UI text via i18n):
 
 **Status:** 🔲 Not started
 
-### Community (Week 9–10)
+### Billing Automation (Week 9)
+
+> Billing for the first client is manual. Once we have 3+ creators, automate via Stripe Billing.
+
+- [ ] Stripe Billing integration: subscription plans (Starter/Growth/Pro) per creator
+- [ ] `creators.plan` field drives feature limits in the API
+- [ ] Auto upgrade/downgrade when active student count crosses plan threshold
+- [ ] YBR Admin dashboard: payment status per creator, MRR metric
+- [ ] Creator billing page: current plan, usage, upgrade CTA
+
+### Student Management — Creator Workstation (Week 9)
+
+**Layout reference:** `layout/admin-layout/gest_o_de_alunas_desktop/` (read `code.html` + `screen.png` before implementing UI)
+
+- [ ] `GET /admin/students` — List students enrolled in creator's courses
+- [ ] Admin page `/[locale]/(admin)/alunos` — Student list with progress, enrollment status, search/filter
+- [ ] Bulk CSV export of student data
+
+### Community (Week 10–11)
 
 - [ ] Discussion forum per module (Q&A)
 - [ ] Reply notifications via email
 - [ ] Creator moderation (approve/remove posts)
-- [ ] WhatsApp Business API (enrollment → automatic group addition)
 
-### Advanced Analytics (Week 10–11)
+### Advanced Analytics (Week 11–12)
 
 **Layout reference:** `layout/admin-layout/analytics_de_performance_desktop/` (read `code.html` + `screen.png` before implementing UI)
 
 - [ ] Admin analytics page `/[locale]/(admin)/analytics` using the layout reference
-
-- [ ] Admin dashboard: active students, completion rates, engagement metrics
+- [ ] Active students, completion rates, engagement metrics
 - [ ] Completion rate per module (dropout funnel)
-- [ ] Retention cohort analysis
-- [ ] Video engagement heatmap (Bunny Analytics or Mux)
 - [ ] At-risk student alerts (7 days inactive → auto email)
 - [ ] Automatic NPS at end of course
 
-### Mux Video Migration (Week 11–12)
+### Mux Video Migration (Week 12–13)
 
 - [ ] Upload via Mux API (replacing Bunny for premium creators)
 - [ ] Migrate `HLSPlayer` to consume Mux URLs (signed playback IDs)
 - [ ] Auto subtitles via Mux Robots
 - [ ] Per-video engagement analytics (Mux Data)
-- [ ] Hybrid strategy: Mux for paid courses, Bunny for free previews
 
-### Student Management — Admin (Week 11–12)
+### Basic Multi-tenancy (Week 13–15)
 
-**Layout reference:** `layout/admin-layout/gest_o_de_alunas_desktop/` (read `code.html` + `screen.png` before implementing UI)
+- [ ] New creator self-registration (onboarding flow)
+- [ ] Custom subdomain: `creator.ybr-platform.com.br` (automated DNS via Cloudflare API)
+- [ ] Creator-customizable theme (primary color + logo upload)
+- [ ] Data isolation per creator (Row Level Security in Neon)
 
-- [ ] `GET /admin/students` — List students enrolled in creator's courses
-- [ ] Admin page `/[locale]/(admin)/alunas` — Student list with progress, enrollment status, search/filter
-
-### Basic Multi-tenancy (Week 12–14)
-
-- [ ] New creator registration (onboarding flow)
-- [ ] Creator plan tiers (Starter/Growth/Pro/Agency) — billing managed externally
-- [ ] Custom subdomain: `creator.ybr-platform.com`
-- [ ] Creator-customizable theme (primary colors)
-- [ ] Data isolation per creator (RLS in Neon)
-
-### PWA (Week 14–15)
+### PWA (Week 15–16)
 
 - [ ] Service Worker for offline lesson caching
 - [ ] Web App Manifest for app installation
@@ -676,7 +879,7 @@ Pages to implement (design: Artisanal Sophistication, all UI text via i18n):
 - **Monorepo location:** `ybr-plataform/platform/`
 - **API docs (Swagger):** `http://localhost:3002/documentation` (dev only)
 - **Layout references:** `ybr-plataform/layout/`
-- **Design system spec:** `ybr-plataform/layout/desktop-layout/artisanal_sophistication/DESIGN.md`
+- **Design system spec:** `ybr-plataform/platform/docs/architecture/09-design-system.md` + `PRODUCT.md` (workspace root)
 - **HLS Player source:** `ybr-plataform/video-player/index.ts`
 - **Full docs (English):** `ybr-plataform/platform/docs/english/`
 - **Full docs (Portuguese):** `ybr-plataform/platform/docs/pt-br/`

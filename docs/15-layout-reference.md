@@ -23,8 +23,9 @@ All layouts live under:
 
 - Web (desktop): `ybr-plataform/platform/layout/desktop-layout/`
 - Web (mobile): `ybr-plataform/platform/layout/mobile-layout/`
-- **Admin panel: `ybr-plataform/platform/layout/admin-layout/`** ← NEW
-- Design system: `ybr-plataform/platform/layout/desktop-layout/artisanal_sophistication/DESIGN.md`
+- **Admin panel: `ybr-plataform/platform/layout/admin-layout/`**
+- Design system spec: `ybr-plataform/platform/docs/architecture/09-design-system.md`
+- Design context (PRODUCT.md + DESIGN.md): workspace root — load via `node .claude/skills/impeccable/scripts/load-context.mjs`
 
 Each layout folder contains exactly:
 
@@ -100,73 +101,89 @@ Replace hardcoded HTML values with props and data from hooks/server components, 
 
 ---
 
-## Design System Tokens (from `code.html` Tailwind Config)
+## Design System Tokens
 
-These are the **canonical tokens** used across all layouts. Use these exact names in Tailwind classes:
+> **Source of truth:** `ybr-plataform/platform/apps/web/src/app/globals.css`
+> Always use Tailwind token class names — never hardcode hex values.
 
-### Colors
+### Brand Tokens (runtime — set per creator)
 
 ```
-Primary (Terracotta):       primary = #984207
-Primary Container:          primary-container = #b85a21
-On-Primary (White):         on-primary = #ffffff
+/* These are injected by the server layout per creator. Use the token names, not hex. */
+primary            → creator's brand color (e.g. bg-primary, text-primary, border-primary)
+on-primary         → text color on primary backgrounds (e.g. text-on-primary)
+primary-hover      → darker shade, auto-derived
+primary-muted      → 10% opacity of primary on white — subtle hover bg
+primary-container  → 6% opacity of primary on white — very subtle bg
+```
 
-Secondary (Gold):           secondary = #755b00
-Secondary Container:        secondary-container = #fed977
+### Base Neutrals (permanent — same for all creators)
 
-Background (Warm Cream):    background = #fff8f6
-Surface:                    surface = #fff8f6
-Surface Container:          surface-container = #fdeae2
-Surface Container Low:      surface-container-low = #fff1eb
-Surface Container High:     surface-container-high = #f7e4dc
-Surface Container Lowest:   surface-container-lowest = #ffffff
+```
+background                → #fafaf9   (page background — warm stone)
+surface                   → #ffffff   (cards, modals)
+surface-container-lowest  → #ffffff
+surface-container-low     → #f5f5f4   (input backgrounds)
+surface-container         → #e7e5e4   (section backgrounds)
+surface-container-high    → #d6d3d1   (dividers)
+on-surface                → #1c1917   (primary text)
+on-surface-variant        → #78716c   (secondary text, placeholders)
+outline                   → #d6d3d1   (borders)
+outline-variant           → #e7e5e4   (subtle borders)
+```
 
-On-Surface (Deep Brown):    on-surface = #231915
-On-Surface Variant:         on-surface-variant = #56433a
+### Semantic States
 
-Outline:                    outline = #897268
-Outline Variant:            outline-variant = #dcc1b5
-
-Tertiary (Blue):            tertiary = #006480
-Error:                      error = #ba1a1a
+```
+error             → #dc2626
+error-container   → #fee2e2
+success           → #16a34a
+success-container → #dcfce7
+warning           → #d97706
+warning-container → #fef3c7
 ```
 
 ### Typography
 
 ```
-Headings font:  font-display-lg / font-display-md / font-title-lg  → DM Serif Display
-Body font:      font-body-lg / font-body-md / font-label-md / font-button → Inter
+All fonts: Inter (single typeface — neutral, works with any brand)
 
-Sizes:
-  display-lg:  48px, lineHeight 1.1, letterSpacing -0.02em
-  display-md:  36px, lineHeight 1.2
-  title-lg:    28px, lineHeight 1.3
-  body-lg:     18px, lineHeight 1.6
-  body-md:     16px, lineHeight 1.6
-  label-md:    14px, lineHeight 1.2, letterSpacing 0.05em, fontWeight 600
-  button:      16px, lineHeight 1, fontWeight 600
+display-lg:  48px, lineHeight 1.1, letterSpacing -0.02em
+display-md:  36px, lineHeight 1.2
+title-lg:    28px, lineHeight 1.3
+body-lg:     18px, lineHeight 1.6
+body-md:     16px, lineHeight 1.6
+label-md:    14px, lineHeight 1.2
+button:      16px, fontWeight 600, lineHeight 1
+```
+
+### Shadows
+
+```
+shadow-card:       0px 1px 3px rgba(0,0,0,.07), 0px 1px 2px rgba(0,0,0,.05)
+shadow-card-hover: 0px 4px 12px rgba(0,0,0,.08), 0px 2px 4px rgba(0,0,0,.05)
+shadow-modal:      0px 20px 60px rgba(0,0,0,.12), 0px 4px 16px rgba(0,0,0,.06)
 ```
 
 ### Spacing
 
 ```
 unit:          8px
-stack-sm:      8px
-stack-md:      16px
-stack-lg:      32px
-gutter:        24px
-margin-mobile: 16px
 section-gap:   80px
 container-max: 1280px
+mobile-margin: 16px
+gutter:        24px
 ```
 
 ### Border Radius
 
 ```
-DEFAULT: 0.25rem
-lg:      0.5rem  (desktop) / 1rem (mobile inputs)
-xl:      0.75rem (desktop) / 1.5rem (mobile cards)
-full:    9999px  (buttons, avatars)
+radius-sm:   6px   (badges, chips)
+radius-md:   8px   (inputs, small cards)
+radius-lg:   12px  (cards, panels)
+radius-xl:   16px  (larger containers)
+radius-2xl:  24px  (modals, sheets)
+radius-full: 9999px (buttons, avatars, pills)
 ```
 
 ---
@@ -213,20 +230,19 @@ full:    9999px  (buttons, avatars)
 ### Cards
 
 ```html
-<!-- White background, warm border, terracotta shadow -->
+<!-- White background, neutral border -->
 <div
-  class="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg
-            shadow-[0px_4px_20px_rgba(152,66,7,0.06)]"
+  class="bg-surface border border-outline-variant rounded-xl p-stack-lg shadow-card"
 ></div>
 ```
 
 ### Auth Pages Background
 
 ```css
-/* Warm cream with subtle dot grid */
+/* Warm stone with subtle dot grid */
 body {
-  background-color: #fff8f6;
-  background-image: radial-gradient(#fdeae2 1px, transparent 1px);
+  background-color: #fafaf9;
+  background-image: radial-gradient(#e7e5e4 1px, transparent 1px);
   background-size: 40px 40px;
 }
 ```
@@ -247,13 +263,13 @@ body {
 >
 ```
 
-### Progress Bar (Gold)
+### Progress Bar
 
 ```html
-<!-- Thin, gold-colored progress bar -->
-<div class="h-1.5 bg-outline-variant rounded-full overflow-hidden">
+<!-- Thin progress bar, uses creator's primary color -->
+<div class="h-1.5 bg-surface-container rounded-full overflow-hidden">
   <div
-    class="h-full bg-secondary rounded-full transition-all"
+    class="h-full bg-primary rounded-full transition-all"
     style="width: 65%"
   ></div>
 </div>
@@ -277,12 +293,13 @@ body {
 | `style={{ color: 'var(--color-primary)' }}` | `text-primary` (Tailwind token)                                             |
 | `className="text-[#984207]"`                | `className="text-primary"`                                                  |
 | `rounded-md`                                | `rounded-xl` for cards, `rounded-full` for buttons, `rounded-lg` for inputs |
-| `bg-white`                                  | `bg-surface-container-lowest` (white) or `bg-surface` (cream)               |
+| `bg-white`                                  | `bg-surface` (cards) or `bg-background` (page)                              |
 | `font-bold text-2xl`                        | `font-display-md text-display-md` (design system scale)                     |
-| Inline `box-shadow` style                   | `shadow-[0px_4px_20px_rgba(152,66,7,0.06)]` Tailwind arbitrary              |
+| Inline `box-shadow` with color tint         | `shadow-card` or `shadow-card-hover`                                        |
 | `text-gray-500`                             | `text-on-surface-variant`                                                   |
 | `border-gray-200`                           | `border-outline-variant`                                                    |
-| `bg-orange-700`                             | `bg-primary`                                                                |
+| Hardcoded hex like `bg-[#984207]`           | `bg-primary`                                                                |
+| `bg-orange-700`, `bg-amber-500`             | `bg-primary` (creator-set, unknown at build time)                           |
 
 ---
 

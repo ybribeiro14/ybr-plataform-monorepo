@@ -384,4 +384,31 @@ describe("Auth Routes — Integration", () => {
       expect(response.statusCode).toBe(401);
     });
   });
+
+  // ─── GET /auth/google/callback ──────────────────────────────────────────────
+
+  describe("GET /auth/google/callback", () => {
+    it("redirects to frontend with error when googleOAuth2 plugin is not configured", async () => {
+      // In test env GOOGLE_CLIENT_ID/SECRET are not set → plugin skips registration
+      const response = await app.inject({
+        method: "GET",
+        url: "/auth/google/callback?code=test_code",
+      });
+
+      expect(response.statusCode).toBe(302);
+      const location = response.headers.location as string;
+      expect(location).toContain("error=google_not_configured");
+    });
+
+    it("redirects to login with error when query contains error param", async () => {
+      const response = await app.inject({
+        method: "GET",
+        url: "/auth/google/callback?error=access_denied",
+      });
+
+      expect(response.statusCode).toBe(302);
+      const location = response.headers.location as string;
+      expect(location).toContain("error=");
+    });
+  });
 });

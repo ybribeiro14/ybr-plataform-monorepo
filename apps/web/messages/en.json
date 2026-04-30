@@ -22,7 +22,9 @@
     "profile": "Profile",
     "logout": "Sign out",
     "login": "Sign in",
-    "register": "Create account"
+    "register": "Create account",
+    "certificates": "Certificates",
+    "support": "Support"
   },
   "auth": {
     "login": {
@@ -102,7 +104,9 @@
     "progress": "{completed} of {total} lessons completed",
     "nextLesson": "Next lesson: {title}",
     "certificatesTitle": "Certificates",
-    "noCertificates": "Your certificates will appear here when you complete a course."
+    "noCertificates": "Your certificates will appear here when you complete a course.",
+    "continue": "Continue",
+    "start": "Start"
   },
   "myCourses": {
     "title": "My Courses",
@@ -112,7 +116,8 @@
     "progress": "{percent}% complete",
     "lastWatched": "Last watched: {date}",
     "continue": "Continue",
-    "start": "Start"
+    "start": "Start",
+    "lessons": "{completed} of {total} lessons"
   },
   "course": {
     "overview": {
@@ -122,7 +127,15 @@
       "progress": "Your progress",
       "startCourse": "Start course",
       "continueCourse": "Continue course",
-      "completedCourse": "Course completed"
+      "completedCourse": "Course completed",
+      "content": "Content",
+      "materials": "Materials",
+      "community": "Community",
+      "completedLabel": "Completed",
+      "inProgress": "In progress",
+      "notStarted": "Not started",
+      "moduleCompleted": "Completed",
+      "moduleInProgress": "In progress"
     },
     "lesson": {
       "tabs": {

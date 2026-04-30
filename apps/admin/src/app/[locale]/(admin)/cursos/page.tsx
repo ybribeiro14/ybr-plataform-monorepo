@@ -1,9 +1,19 @@
 "use client";
 
 import { coursesApi } from "@/lib/api/courses";
+import { useToast } from "@/lib/hooks/use-toast";
 import type { CourseWithCounts } from "@/lib/types/courses";
 import { ConfirmDialog } from "@ybr/ui";
-import { BookOpen, Eye, Pencil, Plus, Star } from "lucide-react";
+import {
+  AlertTriangle,
+  Archive,
+  BookOpen,
+  Eye,
+  Globe,
+  Pencil,
+  Plus,
+  Star,
+} from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -25,10 +35,10 @@ const CoursesPage = () => {
   const t = useTranslations("courses");
   const tc = useTranslations("common");
   const locale = useLocale();
+  const { toast } = useToast();
 
   const [courses, setCourses] = useState<CourseWithCounts[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<FilterTab>("all");
   const [pendingAction, setPendingAction] = useState<PendingAction | null>(
@@ -38,7 +48,6 @@ const CoursesPage = () => {
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    setError(null);
     coursesApi
       .listCourses()
       .then((data) => {
@@ -46,7 +55,11 @@ const CoursesPage = () => {
       })
       .catch((err) => {
         if (!cancelled)
-          setError(err instanceof Error ? err.message : tc("error"));
+          toast({
+            title: tc("error"),
+            ...(err instanceof Error ? { description: err.message } : {}),
+            variant: "error",
+          });
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -54,7 +67,7 @@ const CoursesPage = () => {
     return () => {
       cancelled = true;
     };
-  }, [tc]);
+  }, [tc, toast]);
 
   const handleArchive = (courseId: string, courseTitle: string) => {
     setPendingAction({ type: "archive", courseId, courseTitle });
@@ -74,7 +87,11 @@ const CoursesPage = () => {
     try {
       if (type === "archive") {
         await coursesApi.deleteCourse(courseId);
-        setCourses((prev) => prev.filter((c) => c.id !== courseId));
+        setCourses((prev) =>
+          prev.map((c) =>
+            c.id === courseId ? { ...c, status: "archived" as const } : c,
+          ),
+        );
       } else {
         const updated = await coursesApi.publishCourse(courseId);
         setCourses((prev) =>
@@ -82,7 +99,11 @@ const CoursesPage = () => {
         );
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : tc("error"));
+      toast({
+        title: tc("error"),
+        ...(err instanceof Error ? { description: err.message } : {}),
+        variant: "error",
+      });
     } finally {
       setActionLoading(null);
     }
@@ -203,15 +224,8 @@ const CoursesPage = () => {
         </div>
       )}
 
-      {/* Error state */}
-      {!loading && error && (
-        <div className="rounded-xl border border-error bg-red-50 p-6 text-sm text-error">
-          {error}
-        </div>
-      )}
-
       {/* Empty state */}
-      {!loading && !error && filteredCourses.length === 0 && (
+      {!loading && filteredCourses.length === 0 && (
         <div className="flex flex-col items-center justify-center rounded-xl border border-outline-variant bg-white py-16 text-center">
           <BookOpen className="mb-4 h-10 w-10 text-outline" />
           <p className="font-serif text-lg text-on-surface">{t("noCourses")}</p>
@@ -226,11 +240,12 @@ const CoursesPage = () => {
       )}
 
       {/* Card grid */}
-      {!loading && !error && filteredCourses.length > 0 && (
+      {!loading && filteredCourses.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {filteredCourses.map((course) => {
             const isPublished = course.status === "published";
             const isDraft = course.status === "draft";
+            const hasNoContent = course.lessonCount === 0;
 
             return (
               <div
@@ -252,20 +267,26 @@ const CoursesPage = () => {
                     </div>
                   )}
                   {/* Status badge */}
-                  <div className="absolute top-4 left-4">
+                  <div className="absolute top-4 left-4 flex flex-col gap-1">
                     {isPublished && (
                       <span className="bg-primary-container/90 backdrop-blur-sm text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
                         {t("status.published")}
                       </span>
                     )}
                     {isDraft && (
-                      <span className="bg-secondary-container/90 backdrop-blur-sm text-on-secondary-container text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+                      <span className="bg-surface-container/90 backdrop-blur-sm text-on-surface-variant text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
                         {t("status.draft")}
                       </span>
                     )}
                     {course.status === "archived" && (
                       <span className="bg-outline/80 backdrop-blur-sm text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
                         {t("status.archived")}
+                      </span>
+                    )}
+                    {hasNoContent && (
+                      <span className="flex items-center gap-1 bg-amber-500/90 backdrop-blur-sm text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+                        <AlertTriangle className="h-3 w-3" />
+                        {t("noContentWarning")}
                       </span>
                     )}
                   </div>
@@ -324,8 +345,8 @@ const CoursesPage = () => {
                           onClick={() => handleArchive(course.id, course.title)}
                           className="flex-1 border border-outline text-outline font-button text-sm h-10 rounded-full hover:bg-surface-container transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                         >
-                          <Eye className="h-4 w-4" />
-                          {t("viewPage")}
+                          <Archive className="h-4 w-4" />
+                          {t("archive")}
                         </button>
                         <Link
                           href={`/${locale}/cursos/${course.id}/editar`}
@@ -351,8 +372,8 @@ const CoursesPage = () => {
                           onClick={() => handlePublish(course.id)}
                           className="flex-1 bg-primary text-on-primary font-button text-sm h-10 rounded-full hover:bg-primary-container transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                         >
-                          <Pencil className="h-4 w-4" />
-                          {t("continue")}
+                          <Globe className="h-4 w-4" />
+                          {tc("publish")}
                         </button>
                       </>
                     )}

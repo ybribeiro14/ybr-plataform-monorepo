@@ -1,24 +1,38 @@
-'use client'
+"use client";
 
-import { Bell, HelpCircle, Search } from 'lucide-react'
-import { useTranslations } from 'next-intl'
+import { Bell, HelpCircle, Menu, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 
-const AdminTopNav = () => {
-  const t = useTranslations('topNav')
+interface AdminTopNavProps {
+  onMenuToggle: () => void;
+  menuOpen: boolean;
+}
+
+const AdminTopNav = ({ onMenuToggle, menuOpen }: AdminTopNavProps) => {
+  const t = useTranslations("topNav");
 
   return (
-    <header className="flex justify-between items-center w-full px-6 py-3 bg-[#FDFBF9] border-b border-outline-variant shadow-sm shadow-primary/5 shrink-0 z-10">
-      {/* Search */}
-      <div className="flex items-center flex-1">
+    <header className="flex justify-between items-center w-full px-4 md:px-6 py-3 bg-surface-container-lowest border-b border-outline-variant shadow-card shrink-0 z-10">
+      {/* Mobile hamburger + Search */}
+      <div className="flex items-center flex-1 gap-3">
+        <button
+          type="button"
+          onClick={onMenuToggle}
+          aria-label="Abrir menu de navegação"
+          aria-expanded={menuOpen}
+          className="md:hidden p-2 -ml-1 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors shrink-0"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
         <div className="relative w-full max-w-md">
           <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-outline pointer-events-none">
             <Search className="h-4 w-4" />
           </span>
           <input
             type="search"
-            className="block w-full pl-10 pr-3 py-2 border border-outline-variant rounded-full bg-white text-sm text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-            placeholder={t('searchPlaceholder')}
-            aria-label={t('searchPlaceholder')}
+            className="block w-full pl-10 pr-3 py-2 border border-outline-variant rounded-full bg-surface text-sm text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+            placeholder={t("searchPlaceholder")}
+            aria-label={t("searchPlaceholder")}
           />
         </div>
       </div>
@@ -27,7 +41,7 @@ const AdminTopNav = () => {
       <div className="flex items-center gap-3">
         <button
           type="button"
-          aria-label={t('notifications')}
+          aria-label={t("notifications")}
           className="relative p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded-full transition-colors"
         >
           <Bell className="h-5 w-5" />
@@ -38,8 +52,8 @@ const AdminTopNav = () => {
         </button>
         <button
           type="button"
-          aria-label={t('help')}
-          className="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded-full transition-colors"
+          aria-label={t("help")}
+          className="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded-full transition-colors hidden md:flex"
         >
           <HelpCircle className="h-5 w-5" />
         </button>
@@ -47,7 +61,9 @@ const AdminTopNav = () => {
         <div className="flex items-center gap-3">
           <div className="text-right hidden sm:block">
             <p className="text-xs font-bold text-on-surface">Admin YBR</p>
-            <p className="text-[10px] text-outline uppercase tracking-tighter">Gestor Master</p>
+            <p className="text-[10px] text-outline uppercase tracking-tighter">
+              Gestor Master
+            </p>
           </div>
           <div
             className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary text-sm font-bold shrink-0"
@@ -58,7 +74,7 @@ const AdminTopNav = () => {
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export { AdminTopNav }
+export { AdminTopNav };

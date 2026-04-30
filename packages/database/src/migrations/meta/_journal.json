@@ -8,6 +8,27 @@
       "when": 1777043632880,
       "tag": "0000_fast_molten_man",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1777474021087,
+      "tag": "0001_natural_mathemanic",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1777477580290,
+      "tag": "0002_shiny_captain_universe",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1777478506386,
+      "tag": "0003_chunky_lester",
+      "breakpoints": true
     }
   ]
 }

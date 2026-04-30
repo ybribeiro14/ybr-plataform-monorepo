@@ -33,6 +33,7 @@
     "fastify-plugin": "^5.1.0",
     "fastify-type-provider-zod": "^4.0.0",
     "ioredis": "^5.10.1",
+    "pdf-lib": "^1.17.1",
     "resend": "^4.0.0",
     "stripe": "^17.0.0",
     "uuidv7": "^1.0.0",

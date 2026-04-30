@@ -2,6 +2,7 @@ import {
   createCourseSchema,
   createLessonSchema,
   createModuleSchema,
+  reorderLessonsSchema,
   reorderModulesSchema,
   updateCourseSchema,
   updateLessonSchema,
@@ -11,17 +12,25 @@ import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import {
+  activateEnrollment,
   createCourse,
+  createInviteLink,
   createLesson,
   createModule,
   createVideoUpload,
   deleteCourse,
   deleteLesson,
+  deleteLessonVideo,
   deleteModule,
   getCourse,
   listCourses,
+  listInviteLinks,
+  listPendingEnrollments,
   publishCourse,
+  reorderLessons,
   reorderModules,
+  revokeEnrollment,
+  revokeInviteLink,
   updateCourse,
   updateLesson,
   updateModule,
@@ -158,7 +167,8 @@ const adminRoutes = async (fastify: FastifyInstance) => {
       return reply.status(201).send({
         status: "success" as const,
         message: "Course created successfully",
-        data: course,
+        // biome-ignore lint/style/noNonNullAssertion: createCourse throws before returning undefined
+        data: course!,
       });
     },
   );
@@ -223,7 +233,8 @@ const adminRoutes = async (fastify: FastifyInstance) => {
       return reply.send({
         status: "success" as const,
         message: "Course updated successfully",
-        data: course,
+        // biome-ignore lint/style/noNonNullAssertion: updateCourse throws before returning undefined
+        data: course!,
       });
     },
   );
@@ -287,7 +298,8 @@ const adminRoutes = async (fastify: FastifyInstance) => {
       return reply.send({
         status: "success" as const,
         message: "Course published successfully",
-        data: course,
+        // biome-ignore lint/style/noNonNullAssertion: publishCourse throws before returning undefined
+        data: course!,
       });
     },
   );
@@ -394,7 +406,8 @@ const adminRoutes = async (fastify: FastifyInstance) => {
       return reply.status(201).send({
         status: "success" as const,
         message: "Module created successfully",
-        data: module,
+        // biome-ignore lint/style/noNonNullAssertion: createModule throws before returning undefined
+        data: module!,
       });
     },
   );
@@ -461,7 +474,8 @@ const adminRoutes = async (fastify: FastifyInstance) => {
       return reply.send({
         status: "success" as const,
         message: "Module updated successfully",
-        data: module,
+        // biome-ignore lint/style/noNonNullAssertion: updateModule throws before returning undefined
+        data: module!,
       });
     },
   );
@@ -499,6 +513,39 @@ const adminRoutes = async (fastify: FastifyInstance) => {
 
   // ─── Lessons ────────────────────────────────────────────────────────────────
 
+  // PATCH /admin/lessons/reorder — must be before /:lessonId to avoid conflict
+  app.patch(
+    "/admin/lessons/reorder",
+    {
+      onRequest: [app.requireCreator],
+      schema: {
+        tags: [SWAGGER_TAGS.ADMIN_LESSONS],
+        summary: "Reorder lessons within a module",
+        security: BEARER_AUTH,
+        body: reorderLessonsSchema,
+        response: {
+          200: successResponse(
+            z.array(z.object({ id: z.string(), position: z.number() })),
+          ),
+          400: errorResponse(),
+          401: RESPONSE_401,
+          403: RESPONSE_403,
+        },
+      },
+    },
+    async (request, reply) => {
+      const result = await reorderLessons({
+        lessons: request.body.lessons,
+        creatorId: request.creatorId,
+      });
+      return reply.send({
+        status: "success" as const,
+        message: "Lessons reordered successfully",
+        data: result,
+      });
+    },
+  );
+
   // POST /admin/modules/:moduleId/lessons
   app.post(
     "/admin/modules/:moduleId/lessons",
@@ -528,7 +575,8 @@ const adminRoutes = async (fastify: FastifyInstance) => {
       return reply.status(201).send({
         status: "success" as const,
         message: "Lesson created successfully",
-        data: lesson,
+        // biome-ignore lint/style/noNonNullAssertion: createLesson throws before returning undefined
+        data: lesson!,
       });
     },
   );
@@ -562,7 +610,8 @@ const adminRoutes = async (fastify: FastifyInstance) => {
       return reply.send({
         status: "success" as const,
         message: "Lesson updated successfully",
-        data: lesson,
+        // biome-ignore lint/style/noNonNullAssertion: updateLesson throws before returning undefined
+        data: lesson!,
       });
     },
   );
@@ -633,6 +682,256 @@ const adminRoutes = async (fastify: FastifyInstance) => {
         status: "success" as const,
         message: "Video upload session created",
         data: credentials,
+      });
+    },
+  );
+
+  // DELETE /admin/lessons/:lessonId/video
+  app.delete(
+    "/admin/lessons/:lessonId/video",
+    {
+      onRequest: [app.requireCreator],
+      schema: {
+        tags: [SWAGGER_TAGS.ADMIN_LESSONS],
+        summary: "Delete the video associated with a lesson",
+        security: BEARER_AUTH,
+        params: z.object({ lessonId: z.string() }),
+        response: {
+          200: successResponse(z.object({ message: z.string() })),
+          401: RESPONSE_401,
+          403: RESPONSE_403,
+          404: RESPONSE_404,
+        },
+      },
+    },
+    async (request, reply) => {
+      await deleteLessonVideo({
+        lessonId: request.params.lessonId,
+        creatorId: request.creatorId,
+      });
+      return reply.send({
+        status: "success" as const,
+        message: "Video deleted successfully",
+        data: { message: "Video has been deleted" },
+      });
+    },
+  );
+
+  // ─── Invite Links ────────────────────────────────────────────────────────────
+
+  const inviteLinkSchema = z.object({
+    id: z.string(),
+    token: z.string(),
+    courseId: z.string(),
+    expiresAt: z.date().or(z.string()).nullable(),
+    isActive: z.boolean(),
+    createdAt: z.date().or(z.string()),
+  });
+
+  const pendingEnrollmentSchema = z.object({
+    id: z.string(),
+    userId: z.string(),
+    studentName: z.string(),
+    studentEmail: z.string(),
+    courseId: z.string(),
+    courseTitle: z.string(),
+    status: z.string(),
+    enrolledAt: z.date().or(z.string()),
+  });
+
+  // POST /admin/courses/:courseId/invite-links
+  app.post(
+    "/admin/courses/:courseId/invite-links",
+    {
+      onRequest: [app.requireCreator],
+      schema: {
+        tags: [SWAGGER_TAGS.ADMIN_COURSES],
+        summary: "Generate an invite link for a course",
+        security: BEARER_AUTH,
+        params: z.object({ courseId: z.string() }),
+        body: z.object({
+          expiresAt: z.string().datetime().optional(),
+        }),
+        response: {
+          201: successResponse(inviteLinkSchema),
+          401: RESPONSE_401,
+          403: RESPONSE_403,
+          404: RESPONSE_404,
+        },
+      },
+    },
+    async (request, reply) => {
+      const link = await createInviteLink({
+        courseId: request.params.courseId,
+        creatorId: request.creatorId,
+        ...(request.body.expiresAt
+          ? { expiresAt: new Date(request.body.expiresAt) }
+          : {}),
+      });
+      return reply.status(201).send({
+        status: "success" as const,
+        message: "Invite link created successfully",
+        data: link,
+      });
+    },
+  );
+
+  // GET /admin/courses/:courseId/invite-links
+  app.get(
+    "/admin/courses/:courseId/invite-links",
+    {
+      onRequest: [app.requireCreator],
+      schema: {
+        tags: [SWAGGER_TAGS.ADMIN_COURSES],
+        summary: "List all invite links for a course",
+        security: BEARER_AUTH,
+        params: z.object({ courseId: z.string() }),
+        response: {
+          200: successResponse(z.array(inviteLinkSchema)),
+          401: RESPONSE_401,
+          403: RESPONSE_403,
+          404: RESPONSE_404,
+        },
+      },
+    },
+    async (request, reply) => {
+      const links = await listInviteLinks({
+        courseId: request.params.courseId,
+        creatorId: request.creatorId,
+      });
+      return reply.send({
+        status: "success" as const,
+        message: "Invite links retrieved successfully",
+        data: links,
+      });
+    },
+  );
+
+  // DELETE /admin/invite-links/:token
+  app.delete(
+    "/admin/invite-links/:token",
+    {
+      onRequest: [app.requireCreator],
+      schema: {
+        tags: [SWAGGER_TAGS.ADMIN_COURSES],
+        summary: "Revoke an invite link",
+        security: BEARER_AUTH,
+        params: z.object({ token: z.string() }),
+        response: {
+          200: successResponse(z.object({ message: z.string() })),
+          401: RESPONSE_401,
+          403: RESPONSE_403,
+          404: RESPONSE_404,
+        },
+      },
+    },
+    async (request, reply) => {
+      await revokeInviteLink({
+        token: request.params.token,
+        creatorId: request.creatorId,
+      });
+      return reply.send({
+        status: "success" as const,
+        message: "Invite link revoked successfully",
+        data: { message: "Invite link has been revoked" },
+      });
+    },
+  );
+
+  // GET /admin/enrollments/pending
+  app.get(
+    "/admin/enrollments/pending",
+    {
+      onRequest: [app.requireCreator],
+      schema: {
+        tags: [SWAGGER_TAGS.ADMIN_COURSES],
+        summary:
+          "List all pending enrollments for courses owned by this creator",
+        security: BEARER_AUTH,
+        response: {
+          200: successResponse(z.array(pendingEnrollmentSchema)),
+          401: RESPONSE_401,
+          403: RESPONSE_403,
+        },
+      },
+    },
+    async (request, reply) => {
+      const pending = await listPendingEnrollments({
+        creatorId: request.creatorId,
+      });
+      return reply.send({
+        status: "success" as const,
+        message: "Pending enrollments retrieved successfully",
+        data: pending,
+      });
+    },
+  );
+
+  // POST /admin/enrollments/:enrollmentId/activate
+  app.post(
+    "/admin/enrollments/:enrollmentId/activate",
+    {
+      onRequest: [app.requireCreator],
+      schema: {
+        tags: [SWAGGER_TAGS.ADMIN_COURSES],
+        summary: "Activate a pending enrollment",
+        security: BEARER_AUTH,
+        params: z.object({ enrollmentId: z.string() }),
+        response: {
+          200: successResponse(
+            z.object({
+              enrollmentId: z.string(),
+              userId: z.string(),
+              courseId: z.string(),
+              status: z.string(),
+            }),
+          ),
+          401: RESPONSE_401,
+          403: RESPONSE_403,
+          404: RESPONSE_404,
+        },
+      },
+    },
+    async (request, reply) => {
+      const result = await activateEnrollment({
+        enrollmentId: request.params.enrollmentId,
+        creatorId: request.creatorId,
+      });
+      return reply.send({
+        status: "success" as const,
+        message: "Enrollment activated successfully",
+        data: result,
+      });
+    },
+  );
+
+  // POST /admin/enrollments/:enrollmentId/revoke
+  app.post(
+    "/admin/enrollments/:enrollmentId/revoke",
+    {
+      onRequest: [app.requireCreator],
+      schema: {
+        tags: [SWAGGER_TAGS.ADMIN_COURSES],
+        summary: "Revoke an enrollment (active or pending)",
+        security: BEARER_AUTH,
+        params: z.object({ enrollmentId: z.string() }),
+        response: {
+          200: successResponse(z.object({ message: z.string() })),
+          401: RESPONSE_401,
+          403: RESPONSE_403,
+          404: RESPONSE_404,
+        },
+      },
+    },
+    async (request, reply) => {
+      await revokeEnrollment({
+        enrollmentId: request.params.enrollmentId,
+        creatorId: request.creatorId,
+      });
+      return reply.send({
+        status: "success" as const,
+        message: "Enrollment revoked successfully",
+        data: { message: "Enrollment has been revoked" },
       });
     },
   );

@@ -1,10 +1,10 @@
-import { courseModules, courses, db } from "@ybr/database";
-import type { CreateModuleInput } from "@ybr/schemas";
-import { and, eq, max } from "drizzle-orm";
+import { courseModules, courses, db } from '@ybr/database'
+import type { CreateModuleInput } from '@ybr/schemas'
+import { and, eq, max } from 'drizzle-orm'
 
 interface CreateModuleParams extends CreateModuleInput {
-  courseId: string;
-  creatorId: string;
+  courseId: string
+  creatorId: string
 }
 
 const createModule = async ({
@@ -18,34 +18,33 @@ const createModule = async ({
     .select({ id: courses.id })
     .from(courses)
     .where(and(eq(courses.id, courseId), eq(courses.creatorId, creatorId)))
-    .limit(1);
+    .limit(1)
 
   if (!course) {
-    const error = new Error("Course not found");
-    (error as Error & { statusCode: number; code: string }).statusCode = 404;
-    (error as Error & { statusCode: number; code: string }).code =
-      "COURSE_NOT_FOUND";
-    throw error;
+    const error = new Error('Course not found')
+    ;(error as Error & { statusCode: number; code: string }).statusCode = 404
+    ;(error as Error & { statusCode: number; code: string }).code = 'COURSE_NOT_FOUND'
+    throw error
   }
 
-  let resolvedPosition = position;
+  let resolvedPosition = position
 
   if (resolvedPosition === undefined) {
     const [maxResult] = await db
       .select({ maxPosition: max(courseModules.position) })
       .from(courseModules)
-      .where(eq(courseModules.courseId, courseId));
+      .where(eq(courseModules.courseId, courseId))
 
-    resolvedPosition = (maxResult?.maxPosition ?? -1) + 1;
+    resolvedPosition = (maxResult?.maxPosition ?? -1) + 1
   }
 
   const [module] = await db
     .insert(courseModules)
     .values({ courseId, title, description, position: resolvedPosition })
-    .returning();
+    .returning()
 
-  return module;
-};
+  return module
+}
 
-export { createModule };
-export type { CreateModuleParams };
+export type { CreateModuleParams }
+export { createModule }

@@ -149,6 +149,7 @@
     "viewPage": "View Page",
     "preview": "Preview",
     "continue": "Continue",
+    "noContentWarning": "No content",
     "stats": {
       "totalStudents": "Total Students",
       "monthlyRevenue": "Monthly Revenue",
@@ -284,7 +285,12 @@
     "proTip": "Pro Tip",
     "proTipText": "Drag lessons to reorganize your student's journey fluidly.",
     "attachFile": "Attach file",
-    "uploadingVideo": "Uploading to secure server..."
+    "uploadingVideo": "Uploading to secure server...",
+    "removeVideo": "Remove video",
+    "removeVideoConfirm": "Are you sure you want to remove the video from this lesson? This action cannot be undone.",
+    "removeVideoSuccess": "Video removed successfully",
+    "videoPlaying": "Video player",
+    "replaceVideo": "Replace video"
   },
   "locale": {
     "en": "English",

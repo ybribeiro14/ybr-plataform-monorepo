@@ -1,39 +1,48 @@
 @import "tailwindcss";
 @source "../../../../packages/ui/src";
 
-/* ═══════════════════════════════════════════════════════════════
-   DESIGN SYSTEM — Artisanal Sophistication (Admin)
-   ═══════════════════════════════════════════════════════════════ */
+/* =================================================================
+   DESIGN SYSTEM - White-Label Studio (Admin)
+   YBR Platform
+
+   Per-creator theming - set on <html> via server layout:
+     --color-primary: #xx;       (creator's brand color)
+     --color-on-primary: #xx;    (text on brand, usually #fff or #000)
+   Hover and muted tints auto-derive via color-mix (see :root below).
+   ================================================================= */
 
 @theme {
-  /* ── Colors ─────────────────────────────────────────────────── */
-  --color-primary: #984207;
-  --color-primary-hover: #b85a21;
-  --color-primary-container: #b85a21;
-  --color-primary-light: #fdeae2;
+  /* -- Brand (default neutral - overridden per creator) ----------- */
+  --color-primary: #18181b;
+  --color-primary-hover: #27272a;
   --color-on-primary: #ffffff;
-  --color-secondary: #755b00;
-  --color-secondary-light: #fed977;
-  --color-secondary-container: #fed977;
-  --color-on-secondary-container: #785d00;
-  --color-tertiary: #006480;
-  --color-on-tertiary: #ffffff;
-  --color-background: #fff8f6;
-  --color-surface: #fff8f6;
-  --color-surface-container: #fdeae2;
-  --color-surface-container-low: #fff1eb;
-  --color-surface-container-high: #f7e4dc;
-  --color-surface-container-highest: #f1dfd7;
-  --color-surface-container-lowest: #ffffff;
-  --color-white: #ffffff;
-  --color-on-surface: #231915;
-  --color-on-surface-variant: #56433a;
-  --color-outline: #897268;
-  --color-outline-variant: #dcc1b5;
-  --color-error: #ba1a1a;
-  --color-success: #1a7a1a;
+  --color-primary-muted: #f4f4f5;
+  --color-primary-container: #fafafa;
 
-  /* ── Font families ───────────────────────────────────────────── */
+  /* -- Base neutrals (warm stone - constant) ---------------------- */
+  --color-background: #fafaf9;
+  --color-surface: #ffffff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f5f5f4;
+  --color-surface-container: #e7e5e4;
+  --color-surface-container-high: #d6d3d1;
+  --color-surface-container-highest: #c7c4c2;
+  --color-white: #ffffff;
+  --color-on-surface: #1c1917;
+  --color-on-surface-variant: #78716c;
+  --color-outline: #d6d3d1;
+  --color-outline-variant: #e7e5e4;
+
+  /* -- Semantic states -------------------------------------------- */
+  --color-error: #dc2626;
+  --color-error-container: #fee2e2;
+  --color-on-error: #ffffff;
+  --color-success: #16a34a;
+  --color-success-container: #dcfce7;
+  --color-warning: #d97706;
+  --color-warning-container: #fef3c7;
+
+  /* -- Font families ---------------------------------------------- */
   --font-sans: var(--font-inter), Inter, ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-inter), Inter, ui-sans-serif, system-ui, sans-serif;
   --font-display-md:
@@ -47,7 +56,7 @@
   --font-label-md: var(--font-inter), Inter, ui-sans-serif, sans-serif;
   --font-button: var(--font-inter), Inter, ui-sans-serif, sans-serif;
 
-  /* ── Font sizes ──────────────────────────────────────────────── */
+  /* -- Font sizes ------------------------------------------------- */
   --text-display-md: 36px;
   --text-display-md--line-height: 1.2;
   --text-display-lg: 48px;
@@ -61,21 +70,59 @@
   --text-body-lg--line-height: 1.6;
   --text-label-md: 14px;
   --text-label-md--line-height: 1.2;
-  --text-label-md--letter-spacing: 0.05em;
+  --text-label-md--letter-spacing: 0.01em;
   --text-button: 16px;
   --text-button--line-height: 1;
 
-  /* ── Shadows ─────────────────────────────────────────────────── */
-  --shadow-card: 0px 4px 20px rgba(152, 66, 7, 0.06);
+  /* -- Shadows (neutral - not tinted to any client color) --------- */
+  --shadow-card:
+    0px 1px 3px rgba(0, 0, 0, 0.07), 0px 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-card-hover:
+    0px 4px 12px rgba(0, 0, 0, 0.08), 0px 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-modal:
+    0px 20px 60px rgba(0, 0, 0, 0.12), 0px 4px 16px rgba(0, 0, 0, 0.06);
 
-  /* ── Radius ──────────────────────────────────────────────────── */
-  --radius-lg: 1rem;
+  /* -- Radius ----------------------------------------------------- */
+  --radius-sm: 0.375rem; /* 6px */
+  --radius-md: 0.5rem; /* 8px */
+  --radius-lg: 0.75rem; /* 12px */
+  --radius-xl: 1rem; /* 16px */
+  --radius-2xl: 1.5rem; /* 24px */
   --radius-full: 9999px;
+}
+
+/* --- Dynamic brand derivations ----------------------------------- */
+/* Creators set just --color-primary + --color-on-primary on <html>.
+   All hover/muted/container tints derive automatically. */
+:root {
+  --color-primary-hover: color-mix(
+    in oklch,
+    var(--color-primary) 82%,
+    oklch(0 0 0)
+  );
+  --color-primary-muted: color-mix(
+    in oklch,
+    var(--color-primary) 10%,
+    oklch(1 0 0)
+  );
+  --color-primary-container: color-mix(
+    in oklch,
+    var(--color-primary) 6%,
+    oklch(1 0 0)
+  );
 }
 
 @layer base {
   * {
     border-color: var(--color-outline-variant);
+  }
+
+  button,
+  [role="button"],
+  a,
+  select,
+  label[for] {
+    cursor: pointer;
   }
 
   body {
@@ -91,5 +138,24 @@
   h5,
   h6 {
     font-family: var(--font-inter), Inter, sans-serif;
+    color: var(--color-on-surface);
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-surface-container-low);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-outline);
+    border-radius: var(--radius-full);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-on-surface-variant);
   }
 }

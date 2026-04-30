@@ -33,7 +33,7 @@ The long-term strategic goal is to **replace Hotmart** as the course hosting and
 - Turborepo monorepo scaffolded with `apps/web`, `apps/admin`, `apps/api`
 - Docker Compose for local development
 - GitHub Actions CI/CD pipeline
-- Design system ("Artisanal Sophistication") configured
+- Design system ("White-Label Studio") configured — base neutra, theming por criador via CSS custom properties
 - i18n set up via next-intl (English default, Portuguese pt-BR, Spanish)
 - 63 automated tests passing with >95% coverage
 
@@ -51,7 +51,7 @@ The long-term strategic goal is to **replace Hotmart** as the course hosting and
 | [architecture/06-payment-processing.md](./06-payment-processing.md)                     | Stripe integration and payment strategy         |
 | [architecture/07-hosting-infrastructure.md](./07-hosting-infrastructure.md)             | Cloud infrastructure decisions                  |
 | [architecture/08-docker-devops.md](./08-docker-devops.md)                               | Docker setup and CI/CD                          |
-| [architecture/09-design-system.md](./09-design-system.md)                               | Artisanal Sophistication design system          |
+| [architecture/09-design-system.md](./09-design-system.md)                               | White-Label Studio design system                |
 | [research/01-market-analysis.md](../research/01-market-analysis.md)                     | Market research and Hotmart comparison          |
 | [research/02-cost-analysis.md](../research/02-cost-analysis.md)                         | Full infrastructure cost analysis               |
 | [research/03-competitive-differentials.md](../research/03-competitive-differentials.md) | Differentials vs Hotmart and competitors        |
