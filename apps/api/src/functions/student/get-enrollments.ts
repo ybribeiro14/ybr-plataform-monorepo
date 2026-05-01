@@ -1,27 +1,20 @@
-import {
-  courseModules,
-  courses,
-  db,
-  enrollments,
-  lessonProgress,
-  lessons,
-} from "@ybr/database";
-import { and, count, eq, isNotNull } from "drizzle-orm";
+import { courseModules, courses, db, enrollments, lessonProgress, lessons } from '@ybr/database'
+import { and, count, eq, isNotNull } from 'drizzle-orm'
 
 interface GetEnrollmentsParams {
-  userId: string;
+  userId: string
 }
 
 interface EnrollmentWithProgress {
-  enrollmentId: string;
-  courseId: string;
-  title: string;
-  slug: string;
-  thumbnailUrl: string | null;
-  totalLessons: number;
-  completedLessons: number;
-  progressPercent: number;
-  enrolledAt: Date;
+  enrollmentId: string
+  courseId: string
+  title: string
+  slug: string
+  thumbnailUrl: string | null
+  totalLessons: number
+  completedLessons: number
+  progressPercent: number
+  enrolledAt: Date
 }
 
 const getEnrollments = async ({
@@ -47,26 +40,23 @@ const getEnrollments = async ({
       and(
         eq(lessonProgress.lessonId, lessons.id),
         eq(lessonProgress.userId, userId),
-        isNotNull(lessonProgress.completedAt),
-      ),
+        isNotNull(lessonProgress.completedAt)
+      )
     )
-    .where(
-      and(eq(enrollments.userId, userId), eq(enrollments.status, "active")),
-    )
+    .where(and(eq(enrollments.userId, userId), eq(enrollments.status, 'active')))
     .groupBy(
       enrollments.id,
       courses.id,
       courses.title,
       courses.slug,
       courses.thumbnailUrl,
-      enrollments.enrolledAt,
-    );
+      enrollments.enrolledAt
+    )
 
-  return rows.map((row) => {
-    const total = row.totalLessons;
-    const completed = row.completedLessons;
-    const progressPercent =
-      total > 0 ? Math.round((completed / total) * 100) : 0;
+  return rows.map(row => {
+    const total = row.totalLessons
+    const completed = row.completedLessons
+    const progressPercent = total > 0 ? Math.round((completed / total) * 100) : 0
 
     return {
       enrollmentId: row.enrollmentId,
@@ -78,9 +68,9 @@ const getEnrollments = async ({
       completedLessons: completed,
       progressPercent,
       enrolledAt: row.enrolledAt,
-    };
-  });
-};
+    }
+  })
+}
 
-export { getEnrollments };
-export type { EnrollmentWithProgress, GetEnrollmentsParams };
+export type { EnrollmentWithProgress, GetEnrollmentsParams }
+export { getEnrollments }

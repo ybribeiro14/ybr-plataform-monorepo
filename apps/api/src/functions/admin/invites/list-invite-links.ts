@@ -1,18 +1,18 @@
-import { courses, creators, db, inviteTokens } from "@ybr/database";
-import { and, eq } from "drizzle-orm";
+import { courses, creators, db, inviteTokens } from '@ybr/database'
+import { and, eq } from 'drizzle-orm'
 
 interface ListInviteLinksParams {
-  courseId: string;
-  creatorId: string;
+  courseId: string
+  creatorId: string
 }
 
 interface InviteLinkItem {
-  id: string;
-  token: string;
-  courseId: string;
-  expiresAt: Date | null;
-  isActive: boolean;
-  createdAt: Date;
+  id: string
+  token: string
+  courseId: string
+  expiresAt: Date | null
+  isActive: boolean
+  createdAt: Date
 }
 
 const listInviteLinks = async ({
@@ -25,37 +25,32 @@ const listInviteLinks = async ({
     .from(courses)
     .innerJoin(creators, eq(courses.creatorId, creators.id))
     .where(and(eq(courses.id, courseId), eq(creators.id, creatorId)))
-    .limit(1);
+    .limit(1)
 
   if (!course) {
-    const error = new Error("Course not found") as Error & {
-      statusCode: number;
-      code: string;
-    };
-    error.statusCode = 404;
-    error.code = "COURSE_NOT_FOUND";
-    throw error;
+    const error = new Error('Course not found') as Error & {
+      statusCode: number
+      code: string
+    }
+    error.statusCode = 404
+    error.code = 'COURSE_NOT_FOUND'
+    throw error
   }
 
   const links = await db
     .select()
     .from(inviteTokens)
-    .where(
-      and(
-        eq(inviteTokens.courseId, courseId),
-        eq(inviteTokens.creatorId, creatorId),
-      ),
-    );
+    .where(and(eq(inviteTokens.courseId, courseId), eq(inviteTokens.creatorId, creatorId)))
 
-  return links.map((l) => ({
+  return links.map(l => ({
     id: l.id,
     token: l.token,
     courseId: l.courseId,
     expiresAt: l.expiresAt,
     isActive: l.isActive,
     createdAt: l.createdAt,
-  }));
-};
+  }))
+}
 
-export { listInviteLinks };
-export type { InviteLinkItem, ListInviteLinksParams };
+export type { InviteLinkItem, ListInviteLinksParams }
+export { listInviteLinks }

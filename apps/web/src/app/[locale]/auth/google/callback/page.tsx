@@ -1,42 +1,42 @@
-"use client";
+'use client'
 
-import { authApi } from "@/lib/api/auth";
-import { useAuthStore } from "@/stores/auth";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useRef } from "react";
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { Suspense, useEffect, useRef } from 'react'
+import { authApi } from '@/lib/api/auth'
+import { useAuthStore } from '@/stores/auth'
 
 const GoogleCallbackContent = () => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const params = useParams();
-  const locale = params.locale as string;
-  const { setAuth } = useAuthStore();
-  const processed = useRef(false);
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const params = useParams()
+  const locale = params.locale as string
+  const { setAuth } = useAuthStore()
+  const processed = useRef(false)
 
   useEffect(() => {
-    if (processed.current) return;
-    processed.current = true;
+    if (processed.current) return
+    processed.current = true
 
-    const accessToken = searchParams.get("access_token");
-    const refreshToken = searchParams.get("refresh_token");
-    const error = searchParams.get("error");
+    const accessToken = searchParams.get('access_token')
+    const refreshToken = searchParams.get('refresh_token')
+    const error = searchParams.get('error')
 
     if (error || !accessToken) {
-      router.replace(`/${locale}/login?error=google_failed`);
-      return;
+      router.replace(`/${locale}/login?error=google_failed`)
+      return
     }
 
     // Fetch user info and store auth state
     authApi
       .getMe(accessToken)
-      .then((user) => {
-        setAuth(user, accessToken, refreshToken ?? undefined);
-        router.replace(`/${locale}/dashboard`);
+      .then(user => {
+        setAuth(user, accessToken, refreshToken ?? undefined)
+        router.replace(`/${locale}/dashboard`)
       })
       .catch(() => {
-        router.replace(`/${locale}/login?error=google_failed`);
-      });
-  }, [searchParams, router, locale, setAuth]);
+        router.replace(`/${locale}/login?error=google_failed`)
+      })
+  }, [searchParams, router, locale, setAuth])
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
@@ -67,8 +67,8 @@ const GoogleCallbackContent = () => {
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const GoogleCallbackPage = () => {
   return (
@@ -81,7 +81,7 @@ const GoogleCallbackPage = () => {
     >
       <GoogleCallbackContent />
     </Suspense>
-  );
-};
+  )
+}
 
-export default GoogleCallbackPage;
+export default GoogleCallbackPage

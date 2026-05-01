@@ -1,16 +1,16 @@
-import { courses, creators, db, inviteTokens, users } from "@ybr/database";
-import { eq } from "drizzle-orm";
+import { courses, creators, db, inviteTokens, users } from '@ybr/database'
+import { eq } from 'drizzle-orm'
 
 interface GetInviteTokenInfoParams {
-  token: string;
+  token: string
 }
 
 interface InviteTokenInfo {
-  token: string;
-  courseId: string;
-  courseTitle: string;
-  creatorName: string;
-  expiresAt: Date | null;
+  token: string
+  courseId: string
+  courseTitle: string
+  creatorName: string
+  expiresAt: Date | null
 }
 
 const getInviteTokenInfo = async ({
@@ -30,36 +30,36 @@ const getInviteTokenInfo = async ({
     .innerJoin(creators, eq(inviteTokens.creatorId, creators.id))
     .innerJoin(users, eq(creators.userId, users.id))
     .where(eq(inviteTokens.token, token))
-    .limit(1);
+    .limit(1)
 
   if (!invite) {
-    const error = new Error("Invite link not found") as Error & {
-      statusCode: number;
-      code: string;
-    };
-    error.statusCode = 404;
-    error.code = "INVITE_NOT_FOUND";
-    throw error;
+    const error = new Error('Invite link not found') as Error & {
+      statusCode: number
+      code: string
+    }
+    error.statusCode = 404
+    error.code = 'INVITE_NOT_FOUND'
+    throw error
   }
 
   if (!invite.isActive) {
-    const error = new Error("Invite link is no longer active") as Error & {
-      statusCode: number;
-      code: string;
-    };
-    error.statusCode = 410;
-    error.code = "INVITE_REVOKED";
-    throw error;
+    const error = new Error('Invite link is no longer active') as Error & {
+      statusCode: number
+      code: string
+    }
+    error.statusCode = 410
+    error.code = 'INVITE_REVOKED'
+    throw error
   }
 
   if (invite.expiresAt && invite.expiresAt < new Date()) {
-    const error = new Error("Invite link has expired") as Error & {
-      statusCode: number;
-      code: string;
-    };
-    error.statusCode = 410;
-    error.code = "INVITE_EXPIRED";
-    throw error;
+    const error = new Error('Invite link has expired') as Error & {
+      statusCode: number
+      code: string
+    }
+    error.statusCode = 410
+    error.code = 'INVITE_EXPIRED'
+    throw error
   }
 
   return {
@@ -68,8 +68,8 @@ const getInviteTokenInfo = async ({
     courseTitle: invite.courseTitle,
     creatorName: invite.creatorName,
     expiresAt: invite.expiresAt,
-  };
-};
+  }
+}
 
-export { getInviteTokenInfo };
-export type { GetInviteTokenInfoParams, InviteTokenInfo };
+export type { GetInviteTokenInfoParams, InviteTokenInfo }
+export { getInviteTokenInfo }

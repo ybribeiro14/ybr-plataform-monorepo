@@ -1,40 +1,40 @@
-"use client";
+'use client'
 
-import { authApi } from "@/lib/api/auth";
-import { useAuthStore } from "@/stores/auth";
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { RegisterInput } from "@ybr/schemas";
-import { registerSchema } from "@ybr/schemas";
-import { Eye, EyeOff } from "lucide-react";
-import { useTranslations } from "next-intl";
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod'
+import type { RegisterInput } from '@ybr/schemas'
+import { registerSchema } from '@ybr/schemas'
+import { Eye, EyeOff } from 'lucide-react'
+import Link from 'next/link'
+import { useParams, useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { authApi } from '@/lib/api/auth'
+import { useAuthStore } from '@/stores/auth'
 
 const registerFormSchema = registerSchema
   .extend({
-    confirmPassword: z.string().min(1, "Confirmação de senha é obrigatória"),
+    confirmPassword: z.string().min(1, 'Confirmação de senha é obrigatória'),
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "As senhas não conferem.",
-    path: ["confirmPassword"],
-  });
+  .refine(data => data.password === data.confirmPassword, {
+    message: 'As senhas não conferem.',
+    path: ['confirmPassword'],
+  })
 
-type RegisterFormInput = z.infer<typeof registerFormSchema>;
+type RegisterFormInput = z.infer<typeof registerFormSchema>
 
 const RegisterPage = () => {
-  const t = useTranslations("auth.register");
-  const router = useRouter();
-  const params = useParams();
-  const locale = params.locale as string;
+  const t = useTranslations('auth.register')
+  const router = useRouter()
+  const params = useParams()
+  const locale = params.locale as string
 
-  const { setAuth } = useAuthStore();
+  const { setAuth } = useAuthStore()
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [serverError, setServerError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [serverError, setServerError] = useState<string | null>(null)
 
   const {
     register,
@@ -42,104 +42,82 @@ const RegisterPage = () => {
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormInput>({
     resolver: zodResolver(registerFormSchema),
-  });
+  })
 
   const handleFormSubmit = async (data: RegisterFormInput) => {
-    setServerError(null);
-    const { confirmPassword: _, ...registerData } = data;
+    setServerError(null)
+    const { confirmPassword: _, ...registerData } = data
     try {
-      await authApi.register(registerData as RegisterInput);
+      await authApi.register(registerData as RegisterInput)
       // Auto-login after successful registration
       const loginResult = await authApi.login({
         email: registerData.email,
         password: registerData.password,
-      });
-      setAuth(
-        loginResult.user,
-        loginResult.accessToken,
-        loginResult.refreshToken,
-      );
-      router.push(`/${locale}/dashboard`);
+      })
+      setAuth(loginResult.user, loginResult.accessToken, loginResult.refreshToken)
+      router.push(`/${locale}/dashboard`)
     } catch (error) {
-      const message = error instanceof Error ? error.message : "";
-      if (message === "EMAIL_ALREADY_EXISTS") {
-        setServerError(t("error.emailTaken"));
+      const message = error instanceof Error ? error.message : ''
+      if (message === 'EMAIL_ALREADY_EXISTS') {
+        setServerError(t('error.emailTaken'))
       } else if (
-        message.toLowerCase().includes("senha") ||
-        message.toLowerCase().includes("password")
+        message.toLowerCase().includes('senha') ||
+        message.toLowerCase().includes('password')
       ) {
-        setServerError(t("error.weakPassword"));
+        setServerError(t('error.weakPassword'))
       } else {
-        setServerError(
-          message || "Ocorreu um erro inesperado. Tente novamente.",
-        );
+        setServerError(message || 'Ocorreu um erro inesperado. Tente novamente.')
       }
     }
-  };
+  }
 
-  const handleTogglePassword = () => setShowPassword((prev) => !prev);
-  const handleToggleConfirmPassword = () =>
-    setShowConfirmPassword((prev) => !prev);
+  const handleTogglePassword = () => setShowPassword(prev => !prev)
+  const handleToggleConfirmPassword = () => setShowConfirmPassword(prev => !prev)
 
   return (
     <div
       className="rounded-xl p-8 shadow-card border"
       style={{
-        backgroundColor: "#ffffff",
-        borderColor: "var(--color-outline-variant)",
+        backgroundColor: '#ffffff',
+        borderColor: 'var(--color-outline-variant)',
       }}
     >
       {/* Header */}
       <div className="mb-8 text-center">
-        <h1
-          className="font-serif text-3xl mb-2"
-          style={{ color: "var(--color-on-surface)" }}
-        >
-          {t("title")}
+        <h1 className="font-serif text-3xl mb-2" style={{ color: 'var(--color-on-surface)' }}>
+          {t('title')}
         </h1>
-        <p
-          className="font-sans text-sm"
-          style={{ color: "var(--color-on-surface-variant)" }}
-        >
-          {t("subtitle")}
+        <p className="font-sans text-sm" style={{ color: 'var(--color-on-surface-variant)' }}>
+          {t('subtitle')}
         </p>
       </div>
 
       {/* Form */}
-      <form
-        onSubmit={handleSubmit(handleFormSubmit)}
-        noValidate
-        className="space-y-4"
-      >
+      <form onSubmit={handleSubmit(handleFormSubmit)} noValidate className="space-y-4">
         {/* Name field */}
         <div className="space-y-1.5">
           <label
             htmlFor="name"
             className="block text-sm font-semibold ml-0.5"
-            style={{ color: "var(--color-on-surface-variant)" }}
+            style={{ color: 'var(--color-on-surface-variant)' }}
           >
-            {t("nameLabel")}
+            {t('nameLabel')}
           </label>
           <input
-            {...register("name")}
+            {...register('name')}
             id="name"
             type="text"
             autoComplete="name"
-            placeholder={t("namePlaceholder")}
+            placeholder={t('namePlaceholder')}
             className="w-full h-12 px-4 rounded-lg border transition-all outline-none placeholder:opacity-50 font-sans text-sm focus:ring-2"
             style={{
-              borderColor: errors.name
-                ? "var(--color-error)"
-                : "var(--color-outline-variant)",
-              backgroundColor: "var(--color-surface-container)",
-              color: "var(--color-on-surface)",
+              borderColor: errors.name ? 'var(--color-error)' : 'var(--color-outline-variant)',
+              backgroundColor: 'var(--color-surface-container)',
+              color: 'var(--color-on-surface)',
             }}
           />
           {errors.name && (
-            <p
-              className="text-xs ml-0.5"
-              style={{ color: "var(--color-error)" }}
-            >
+            <p className="text-xs ml-0.5" style={{ color: 'var(--color-error)' }}>
               {errors.name.message}
             </p>
           )}
@@ -150,30 +128,25 @@ const RegisterPage = () => {
           <label
             htmlFor="email"
             className="block text-sm font-semibold ml-0.5"
-            style={{ color: "var(--color-on-surface-variant)" }}
+            style={{ color: 'var(--color-on-surface-variant)' }}
           >
-            {t("emailLabel")}
+            {t('emailLabel')}
           </label>
           <input
-            {...register("email")}
+            {...register('email')}
             id="email"
             type="email"
             autoComplete="email"
-            placeholder={t("emailPlaceholder")}
+            placeholder={t('emailPlaceholder')}
             className="w-full h-12 px-4 rounded-lg border transition-all outline-none placeholder:opacity-50 font-sans text-sm focus:ring-2"
             style={{
-              borderColor: errors.email
-                ? "var(--color-error)"
-                : "var(--color-outline-variant)",
-              backgroundColor: "var(--color-surface-container)",
-              color: "var(--color-on-surface)",
+              borderColor: errors.email ? 'var(--color-error)' : 'var(--color-outline-variant)',
+              backgroundColor: 'var(--color-surface-container)',
+              color: 'var(--color-on-surface)',
             }}
           />
           {errors.email && (
-            <p
-              className="text-xs ml-0.5"
-              style={{ color: "var(--color-error)" }}
-            >
+            <p className="text-xs ml-0.5" style={{ color: 'var(--color-error)' }}>
               {errors.email.message}
             </p>
           )}
@@ -184,41 +157,38 @@ const RegisterPage = () => {
           <label
             htmlFor="password"
             className="block text-sm font-semibold ml-0.5"
-            style={{ color: "var(--color-on-surface-variant)" }}
+            style={{ color: 'var(--color-on-surface-variant)' }}
           >
-            {t("passwordLabel")}
+            {t('passwordLabel')}
           </label>
           <div className="relative">
             <input
-              {...register("password")}
+              {...register('password')}
               id="password"
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               autoComplete="new-password"
-              placeholder={t("passwordPlaceholder")}
+              placeholder={t('passwordPlaceholder')}
               className="w-full h-12 px-4 pr-11 rounded-lg border transition-all outline-none placeholder:opacity-50 font-sans text-sm focus:ring-2"
               style={{
                 borderColor: errors.password
-                  ? "var(--color-error)"
-                  : "var(--color-outline-variant)",
-                backgroundColor: "var(--color-surface-container)",
-                color: "var(--color-on-surface)",
+                  ? 'var(--color-error)'
+                  : 'var(--color-outline-variant)',
+                backgroundColor: 'var(--color-surface-container)',
+                color: 'var(--color-on-surface)',
               }}
             />
             <button
               type="button"
               onClick={handleTogglePassword}
-              aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+              aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
               className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
-              style={{ color: "var(--color-outline)" }}
+              style={{ color: 'var(--color-outline)' }}
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
           {errors.password && (
-            <p
-              className="text-xs ml-0.5"
-              style={{ color: "var(--color-error)" }}
-            >
+            <p className="text-xs ml-0.5" style={{ color: 'var(--color-error)' }}>
               {errors.password.message}
             </p>
           )}
@@ -229,24 +199,24 @@ const RegisterPage = () => {
           <label
             htmlFor="confirmPassword"
             className="block text-sm font-semibold ml-0.5"
-            style={{ color: "var(--color-on-surface-variant)" }}
+            style={{ color: 'var(--color-on-surface-variant)' }}
           >
-            {t("confirmPasswordLabel")}
+            {t('confirmPasswordLabel')}
           </label>
           <div className="relative">
             <input
-              {...register("confirmPassword")}
+              {...register('confirmPassword')}
               id="confirmPassword"
-              type={showConfirmPassword ? "text" : "password"}
+              type={showConfirmPassword ? 'text' : 'password'}
               autoComplete="new-password"
-              placeholder={t("confirmPasswordPlaceholder")}
+              placeholder={t('confirmPasswordPlaceholder')}
               className="w-full h-12 px-4 pr-11 rounded-lg border transition-all outline-none placeholder:opacity-50 font-sans text-sm focus:ring-2"
               style={{
                 borderColor: errors.confirmPassword
-                  ? "var(--color-error)"
-                  : "var(--color-outline-variant)",
-                backgroundColor: "var(--color-surface-container)",
-                color: "var(--color-on-surface)",
+                  ? 'var(--color-error)'
+                  : 'var(--color-outline-variant)',
+                backgroundColor: 'var(--color-surface-container)',
+                color: 'var(--color-on-surface)',
               }}
             />
             <button
@@ -254,20 +224,17 @@ const RegisterPage = () => {
               onClick={handleToggleConfirmPassword}
               aria-label={
                 showConfirmPassword
-                  ? "Ocultar confirmação de senha"
-                  : "Mostrar confirmação de senha"
+                  ? 'Ocultar confirmação de senha'
+                  : 'Mostrar confirmação de senha'
               }
               className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
-              style={{ color: "var(--color-outline)" }}
+              style={{ color: 'var(--color-outline)' }}
             >
               {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
           {errors.confirmPassword && (
-            <p
-              className="text-xs ml-0.5"
-              style={{ color: "var(--color-error)" }}
-            >
+            <p className="text-xs ml-0.5" style={{ color: 'var(--color-error)' }}>
               {errors.confirmPassword.message}
             </p>
           )}
@@ -278,8 +245,8 @@ const RegisterPage = () => {
           <p
             className="text-sm text-center py-2 px-3 rounded-lg"
             style={{
-              color: "var(--color-error)",
-              backgroundColor: "var(--color-error-container)",
+              color: 'var(--color-error)',
+              backgroundColor: 'var(--color-error-container)',
             }}
           >
             {serverError}
@@ -293,11 +260,11 @@ const RegisterPage = () => {
             disabled={isSubmitting}
             className="w-full h-12 rounded-full font-sans font-semibold text-base transition-all active:scale-95 shadow-md disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100"
             style={{
-              backgroundColor: "var(--color-primary)",
-              color: "var(--color-on-primary)",
+              backgroundColor: 'var(--color-primary)',
+              color: 'var(--color-on-primary)',
             }}
           >
-            {isSubmitting ? "..." : t("submitButton")}
+            {isSubmitting ? '...' : t('submitButton')}
           </button>
         </div>
 
@@ -306,18 +273,18 @@ const RegisterPage = () => {
           <div className="absolute inset-0 flex items-center">
             <div
               className="w-full border-t"
-              style={{ borderColor: "var(--color-outline-variant)" }}
+              style={{ borderColor: 'var(--color-outline-variant)' }}
             />
           </div>
           <div className="relative flex justify-center text-xs uppercase tracking-widest">
             <span
               className="px-4 font-medium"
               style={{
-                backgroundColor: "var(--color-surface)",
-                color: "var(--color-outline)",
+                backgroundColor: 'var(--color-surface)',
+                color: 'var(--color-outline)',
               }}
             >
-              {t("orContinueWith")}
+              {t('orContinueWith')}
             </span>
           </div>
         </div>
@@ -326,22 +293,17 @@ const RegisterPage = () => {
         <button
           type="button"
           onClick={() => {
-            const apiUrl =
-              process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
-            window.location.href = `${apiUrl}/auth/google`;
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3002'
+            window.location.href = `${apiUrl}/auth/google`
           }}
           className="w-full h-12 rounded-full font-sans font-semibold text-base flex items-center justify-center gap-2 transition-colors active:scale-95 border"
           style={{
-            borderColor: "var(--color-outline-variant)",
-            backgroundColor: "var(--color-surface)",
-            color: "var(--color-on-surface)",
+            borderColor: 'var(--color-outline-variant)',
+            backgroundColor: 'var(--color-surface)',
+            color: 'var(--color-on-surface)',
           }}
         >
-          <svg
-            className="w-5 h-5 shrink-0"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
+          <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
             <path
               d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
               fill="#4285F4"
@@ -359,28 +321,25 @@ const RegisterPage = () => {
               fill="#EA4335"
             />
           </svg>
-          {t("googleButton")}
+          {t('googleButton')}
         </button>
       </form>
 
       {/* Footer */}
       <div className="mt-6 text-center">
-        <p
-          className="font-sans text-sm"
-          style={{ color: "var(--color-on-surface-variant)" }}
-        >
-          {t("hasAccount")}{" "}
+        <p className="font-sans text-sm" style={{ color: 'var(--color-on-surface-variant)' }}>
+          {t('hasAccount')}{' '}
           <Link
             href={`/${locale}/login`}
             className="font-semibold hover:underline transition-all"
-            style={{ color: "var(--color-primary)" }}
+            style={{ color: 'var(--color-primary)' }}
           >
-            {t("loginLink")}
+            {t('loginLink')}
           </Link>
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RegisterPage;
+export default RegisterPage

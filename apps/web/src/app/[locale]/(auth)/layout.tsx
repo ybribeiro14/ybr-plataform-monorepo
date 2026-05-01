@@ -1,12 +1,12 @@
-import Link from "next/link";
-import type { ReactNode } from "react";
+import Link from 'next/link'
+import type { ReactNode } from 'react'
 
 interface AuthLayoutProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
-  const currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear()
 
   return (
     <div className="min-h-screen flex flex-col font-body-md text-on-surface bg-background">
@@ -44,7 +44,7 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
         </div>
       </footer>
     </div>
-  );
-};
+  )
+}
 
-export default AuthLayout;
+export default AuthLayout

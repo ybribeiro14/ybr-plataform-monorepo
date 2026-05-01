@@ -22,6 +22,7 @@ const CertificatePage = () => {
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: handleGenerate is stable for the mount-only effect
   useEffect(() => {
     // Auto-generate on mount (idempotent)
     if (accessToken) {
@@ -53,7 +54,7 @@ const CertificatePage = () => {
 
   const handleCopyLink = async () => {
     if (!certificate) return;
-    const url = `${window.location.origin}/${locale}/verificar/${certificate.verificationCode}`;
+    const url = `${window.location.origin}/${locale}/verify/${certificate.verificationCode}`;
     await navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -61,7 +62,7 @@ const CertificatePage = () => {
 
   const handleLinkedIn = () => {
     if (!certificate) return;
-    const url = `${window.location.origin}/${locale}/verificar/${certificate.verificationCode}`;
+    const url = `${window.location.origin}/${locale}/verify/${certificate.verificationCode}`;
     const linkedInUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}&title=${encodeURIComponent(`Certificado: ${certificate.courseTitle}`)}&summary=${encodeURIComponent(`Conclui o curso ${certificate.courseTitle} na YBR Platform!`)}`;
     window.open(linkedInUrl, "_blank", "noopener,noreferrer");
   };
@@ -89,7 +90,7 @@ const CertificatePage = () => {
     <div className="max-w-2xl mx-auto px-4 py-12">
       {/* Back link */}
       <Link
-        href={`/${locale}/meus-cursos`}
+        href={`/${locale}/my-courses`}
         className="text-sm text-on-surface-variant hover:text-on-surface flex items-center gap-1 mb-8"
       >
         ← {t("backToCourses")}
@@ -191,7 +192,7 @@ const CertificatePage = () => {
             {t("notCompleted")}
           </p>
           <Link
-            href={`/${locale}/meus-cursos`}
+            href={`/${locale}/my-courses`}
             className="text-primary text-sm underline"
           >
             {t("backToCourses")}

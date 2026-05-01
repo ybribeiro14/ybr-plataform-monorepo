@@ -88,7 +88,11 @@ const CourseOverviewPage = async ({ params }: CourseOverviewPageProps) => {
   } catch (error: unknown) {
     const statusCode = (error as { statusCode?: number }).statusCode;
     if (statusCode === 401) redirect(`/${locale}/login`);
-    redirect(`/${locale}/meus-cursos`);
+    const errors = (error as { errors?: Array<{ code: string }> }).errors;
+    if (errors?.some((e) => e.code === "PROFILE_INCOMPLETE")) {
+      redirect(`/${locale}/profile?returnTo=/${locale}/courses/${slug}`);
+    }
+    redirect(`/${locale}/my-courses`);
   }
 
   const nextLessonId = findNextLessonId(courseDetails.modules);
@@ -101,8 +105,8 @@ const CourseOverviewPage = async ({ params }: CourseOverviewPageProps) => {
       : t("continueCourse");
 
   const ctaHref = nextLessonId
-    ? `/${locale}/cursos/${slug}/aulas/${nextLessonId}`
-    : `/${locale}/meus-cursos`;
+    ? `/${locale}/courses/${slug}/lessons/${nextLessonId}`
+    : `/${locale}/my-courses`;
 
   return (
     <div className="min-h-screen">
@@ -272,7 +276,7 @@ const CourseOverviewPage = async ({ params }: CourseOverviewPageProps) => {
                         .map((lesson) => {
                           const status = getLessonStatus(lesson);
                           const lessonHref = lesson.hasVideo
-                            ? `/${locale}/cursos/${slug}/aulas/${lesson.lessonId}`
+                            ? `/${locale}/courses/${slug}/lessons/${lesson.lessonId}`
                             : undefined;
 
                           return (

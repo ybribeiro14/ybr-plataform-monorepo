@@ -1,2 +1,2 @@
-export * from "./generate-certificate";
-export * from "./verify-certificate";
+export * from './generate-certificate'
+export * from './verify-certificate'

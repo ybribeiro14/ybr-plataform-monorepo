@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation'
 
-const LocaleHomePage = () => redirect("/en/login");
+const LocaleHomePage = () => redirect('/en/login')
 
-export default LocaleHomePage;
+export default LocaleHomePage

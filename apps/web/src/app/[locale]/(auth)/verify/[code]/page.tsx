@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const VerificarPage = () => {
+const VerifyPage = () => {
   const t = useTranslations("verify");
   const params = useParams();
   const code = params.code as string;
@@ -126,4 +126,4 @@ const VerificarPage = () => {
   );
 };
 
-export default VerificarPage;
+export default VerifyPage;

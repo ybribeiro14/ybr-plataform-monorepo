@@ -99,7 +99,7 @@ const LessonSidebar = ({
                 {/* Lessons */}
                 {module.lessons.map((lesson) => {
                   const isActive = lesson.id === currentLessonId;
-                  const href = `/${locale}/cursos/${courseSlug}/aulas/${lesson.id}`;
+                  const href = `/${locale}/courses/${courseSlug}/lessons/${lesson.id}`;
 
                   return (
                     <Link

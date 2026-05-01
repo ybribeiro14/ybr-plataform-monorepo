@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
-import { getLessonStream } from '../../functions/student'
+import { getLessonStream, getStudentProfile } from '../../functions/student'
 import { RESPONSE_401, RESPONSE_403, RESPONSE_404, successResponse } from '../../swagger/responses'
 import { BEARER_AUTH } from '../../swagger/security'
 import { SWAGGER_TAGS } from '../../swagger/tags'
@@ -54,6 +54,20 @@ const streamRoutes = async (fastify: FastifyInstance) => {
     async (request, reply) => {
       const { sub: userId } = request.user as JWTPayload
       const { lessonId } = request.params
+
+      const profile = await getStudentProfile(userId)
+      if (!profile.isProfileComplete) {
+        return reply.code(403).send({
+          status: 'error' as const,
+          message: 'Complete seu perfil para acessar as aulas',
+          errors: [
+            {
+              code: 'PROFILE_INCOMPLETE',
+              detail: 'Student profile is not complete',
+            },
+          ],
+        })
+      }
 
       const data = await getLessonStream({ lessonId, userId })
 

@@ -1,7 +1,7 @@
 "use client";
 
 import type { LucideIcon } from "lucide-react";
-import { Award, BookOpen, HelpCircle, LayoutDashboard } from "lucide-react";
+import { Award, BookOpen, LayoutDashboard, UserCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -26,13 +26,13 @@ const StudentBottomNav = ({ locale }: StudentBottomNavProps) => {
       label: t("dashboard"),
       href: `/${locale}/dashboard`,
     },
-    { icon: BookOpen, label: t("myCourses"), href: `/${locale}/meus-cursos` },
+    { icon: BookOpen, label: t("myCourses"), href: `/${locale}/my-courses` },
     {
       icon: Award,
       label: t("certificates"),
-      href: `/${locale}/certificados`,
+      href: `/${locale}/certificates`,
     },
-    { icon: HelpCircle, label: t("support"), href: `/${locale}/suporte` },
+    { icon: UserCircle, label: t("profile"), href: `/${locale}/profile` },
   ];
 
   return (

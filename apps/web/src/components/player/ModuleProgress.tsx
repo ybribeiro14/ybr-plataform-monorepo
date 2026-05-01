@@ -1,9 +1,9 @@
 interface ModuleProgressProps {
-  percent: number;
+  percent: number
 }
 
 const ModuleProgress = ({ percent }: ModuleProgressProps) => {
-  const clamped = Math.min(100, Math.max(0, percent));
+  const clamped = Math.min(100, Math.max(0, percent))
 
   return (
     <div className="h-1.5 bg-outline-variant rounded-full overflow-hidden">
@@ -16,8 +16,8 @@ const ModuleProgress = ({ percent }: ModuleProgressProps) => {
         aria-valuemax={100}
       />
     </div>
-  );
-};
+  )
+}
 
-export { ModuleProgress };
-export type { ModuleProgressProps };
+export type { ModuleProgressProps }
+export { ModuleProgress }

@@ -1,4 +1,8 @@
-import type { ApiResponse } from "@ybr/types";
+import type {
+  ApiResponse,
+  StudentProfile,
+  UpdateProfileInput,
+} from "@ybr/types";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
 
@@ -86,3 +90,51 @@ export type {
   StudentLesson,
   StudentModule,
 };
+
+// ─── Profile ─────────────────────────────────────────────────
+
+const getProfile = async (token: string): Promise<StudentProfile> => {
+  const response = await fetch(`${BASE_URL}/student/profile`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+  return handleResponse<StudentProfile>(response);
+};
+
+const updateProfile = async (
+  token: string,
+  body: UpdateProfileInput,
+): Promise<StudentProfile> => {
+  const response = await fetch(`${BASE_URL}/student/profile`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  return handleResponse<StudentProfile>(response);
+};
+
+const uploadAvatar = async (token: string, file: File): Promise<string> => {
+  const formData = new FormData();
+  formData.append("file", file);
+  const response = await fetch(`${BASE_URL}/student/profile/avatar`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+    body: formData,
+  });
+  const data = await handleResponse<{ avatarUrl: string }>(response);
+  return data.avatarUrl;
+};
+
+const deleteAvatar = async (token: string): Promise<void> => {
+  const response = await fetch(`${BASE_URL}/student/profile/avatar`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  await handleResponse<{ message: string }>(response);
+};
+
+export { deleteAvatar, getProfile, updateProfile, uploadAvatar };
+export type { StudentProfile, UpdateProfileInput };

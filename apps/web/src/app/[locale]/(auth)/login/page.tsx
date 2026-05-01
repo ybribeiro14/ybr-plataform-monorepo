@@ -5,7 +5,7 @@ import { useAuthStore } from "@/stores/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { LoginInput } from "@ybr/schemas";
 import { loginSchema } from "@ybr/schemas";
-import { Eye, EyeOff, Lock, Utensils } from "lucide-react";
+import { Eye, EyeOff, GraduationCap, Lock } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
@@ -57,7 +57,11 @@ const LoginPage = () => {
       {/* ─── Logo section — mobile only (above card) ─── */}
       <div className="mb-stack-lg flex flex-col items-center md:hidden">
         <div className="w-16 h-16 rounded-full bg-primary-container flex items-center justify-center mb-stack-sm shadow-sm">
-          <Utensils className="text-on-primary" size={24} aria-hidden="true" />
+          <GraduationCap
+            className="text-primary"
+            size={28}
+            aria-hidden="true"
+          />
         </div>
         <span className="font-display-md text-display-md text-primary italic">
           YBR
@@ -69,7 +73,7 @@ const LoginPage = () => {
         {/* Logo section — desktop only (inside card) */}
         <div className="mb-stack-lg text-center hidden md:flex md:flex-col md:items-center">
           <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-stack-md mx-auto shadow-sm">
-            <Utensils
+            <GraduationCap
               className="text-on-primary"
               size={28}
               aria-hidden="true"

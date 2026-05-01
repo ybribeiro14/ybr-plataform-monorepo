@@ -1,64 +1,53 @@
-import {
-  courseModules,
-  courses,
-  db,
-  enrollments,
-  lessonProgress,
-  lessons,
-} from "@ybr/database";
-import { and, eq } from "drizzle-orm";
+import { courseModules, courses, db, enrollments, lessonProgress, lessons } from '@ybr/database'
+import { and, eq } from 'drizzle-orm'
 
 interface GetStudentCourseParams {
-  courseId: string;
-  userId: string;
+  courseId: string
+  userId: string
 }
 
 interface LessonProgress {
-  watchedSeconds: number;
-  completed: boolean;
+  watchedSeconds: number
+  completed: boolean
 }
 
 interface StudentLesson {
-  lessonId: string;
-  title: string;
-  position: number;
-  durationSeconds: number | null;
-  hasVideo: boolean;
-  progress: LessonProgress | null;
+  lessonId: string
+  title: string
+  position: number
+  durationSeconds: number | null
+  hasVideo: boolean
+  progress: LessonProgress | null
 }
 
 interface StudentModule {
-  moduleId: string;
-  title: string;
-  position: number;
-  lessons: StudentLesson[];
+  moduleId: string
+  title: string
+  position: number
+  lessons: StudentLesson[]
 }
 
 interface StudentCourseDetails {
-  courseId: string;
-  title: string;
-  slug: string;
-  description: string | null;
-  thumbnailUrl: string | null;
-  totalLessons: number;
-  completedLessons: number;
-  progressPercent: number;
-  modules: StudentModule[];
+  courseId: string
+  title: string
+  slug: string
+  description: string | null
+  thumbnailUrl: string | null
+  totalLessons: number
+  completedLessons: number
+  progressPercent: number
+  modules: StudentModule[]
 }
 
-const throwError = (
-  message: string,
-  statusCode: number,
-  code: string,
-): never => {
+const throwError = (message: string, statusCode: number, code: string): never => {
   const error = new Error(message) as Error & {
-    statusCode: number;
-    code: string;
-  };
-  error.statusCode = statusCode;
-  error.code = code;
-  throw error;
-};
+    statusCode: number
+    code: string
+  }
+  error.statusCode = statusCode
+  error.code = code
+  throw error
+}
 
 const getStudentCourse = async ({
   courseId,
@@ -71,13 +60,13 @@ const getStudentCourse = async ({
       and(
         eq(enrollments.userId, userId),
         eq(enrollments.courseId, courseId),
-        eq(enrollments.status, "active"),
-      ),
+        eq(enrollments.status, 'active')
+      )
     )
-    .limit(1);
+    .limit(1)
 
   if (!enrollment) {
-    throwError("Not enrolled in this course", 403, "NOT_ENROLLED");
+    throwError('Not enrolled in this course', 403, 'NOT_ENROLLED')
   }
 
   const [course] = await db
@@ -90,10 +79,10 @@ const getStudentCourse = async ({
     })
     .from(courses)
     .where(eq(courses.id, courseId))
-    .limit(1);
+    .limit(1)
 
   if (!course) {
-    return throwError("Course not found", 404, "COURSE_NOT_FOUND");
+    return throwError('Course not found', 404, 'COURSE_NOT_FOUND')
   }
 
   const rows = await db
@@ -114,15 +103,12 @@ const getStudentCourse = async ({
     .innerJoin(lessons, eq(lessons.moduleId, courseModules.id))
     .leftJoin(
       lessonProgress,
-      and(
-        eq(lessonProgress.lessonId, lessons.id),
-        eq(lessonProgress.userId, userId),
-      ),
+      and(eq(lessonProgress.lessonId, lessons.id), eq(lessonProgress.userId, userId))
     )
     .where(eq(courseModules.courseId, courseId))
-    .orderBy(courseModules.position, lessons.position);
+    .orderBy(courseModules.position, lessons.position)
 
-  const modulesMap = new Map<string, StudentModule>();
+  const modulesMap = new Map<string, StudentModule>()
 
   for (const row of rows) {
     if (!modulesMap.has(row.moduleId)) {
@@ -131,11 +117,11 @@ const getStudentCourse = async ({
         title: row.moduleTitle,
         position: row.modulePosition,
         lessons: [],
-      });
+      })
     }
 
-    const mod = modulesMap.get(row.moduleId);
-    if (!mod) continue;
+    const mod = modulesMap.get(row.moduleId)
+    if (!mod) continue
     mod.lessons.push({
       lessonId: row.lessonId,
       title: row.lessonTitle,
@@ -149,14 +135,13 @@ const getStudentCourse = async ({
               completed: row.completedAt !== null,
             }
           : null,
-    });
+    })
   }
 
-  const modules = Array.from(modulesMap.values());
-  const totalLessons = rows.length;
-  const completedLessons = rows.filter((r) => r.completedAt !== null).length;
-  const progressPercent =
-    totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+  const modules = Array.from(modulesMap.values())
+  const totalLessons = rows.length
+  const completedLessons = rows.filter(r => r.completedAt !== null).length
+  const progressPercent = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0
 
   return {
     courseId: course.id,
@@ -168,8 +153,8 @@ const getStudentCourse = async ({
     completedLessons,
     progressPercent,
     modules,
-  };
-};
+  }
+}
 
-export { getStudentCourse };
-export type { GetStudentCourseParams, StudentCourseDetails };
+export type { GetStudentCourseParams, StudentCourseDetails }
+export { getStudentCourse }

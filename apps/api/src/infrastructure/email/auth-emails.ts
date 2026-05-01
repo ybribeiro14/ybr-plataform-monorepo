@@ -1,16 +1,10 @@
-import { FROM_EMAIL, resend } from "./client";
+import { FROM_EMAIL, resend } from './client'
 
 const sendWelcomeEmail = async (to: string, name: string): Promise<void> => {
-  if (!resend) {
-    // biome-ignore lint/suspicious/noConsole: intentional dev-mode logging
-    console.log(`[Email DEV] would send welcome email to: ${to} (${name})`);
-    return;
-  }
-
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: FROM_EMAIL,
     to,
-    subject: "Bem-vindo(a) à YBR Platform!",
+    subject: 'Bem-vindo(a) à YBR Platform!',
     html: `
       <!DOCTYPE html>
       <html>
@@ -21,7 +15,7 @@ const sendWelcomeEmail = async (to: string, name: string): Promise<void> => {
             Sua conta foi criada com sucesso. Você já pode acessar a plataforma e explorar os cursos disponíveis.
           </p>
           <a
-            href="${process.env.WEB_URL ?? "http://localhost:3000"}/login"
+            href="${process.env.WEB_URL ?? 'http://localhost:3000'}/login"
             style="display: inline-block; margin-top: 24px; padding: 12px 24px; background: #000; color: #fff; text-decoration: none; border-radius: 6px; font-size: 14px;"
           >
             Acessar a plataforma
@@ -32,27 +26,22 @@ const sendWelcomeEmail = async (to: string, name: string): Promise<void> => {
         </body>
       </html>
     `,
-    text: `Bem-vindo(a), ${name}! Sua conta foi criada com sucesso. Acesse: ${process.env.WEB_URL ?? "http://localhost:3000"}/login`,
-  });
-};
+    text: `Bem-vindo(a), ${name}! Sua conta foi criada com sucesso. Acesse: ${process.env.WEB_URL ?? 'http://localhost:3000'}/login`,
+  })
 
-const sendPasswordResetEmail = async (
-  to: string,
-  name: string,
-  token: string,
-): Promise<void> => {
-  if (!resend) {
-    // biome-ignore lint/suspicious/noConsole: intentional dev-mode logging
-    console.log(
-      `[Email DEV] would send password reset email to: ${to} (${name}) — token: ${token}`,
-    );
-    return;
+  if (error) {
+    throw new Error(`Resend failed to send welcome email: ${error.message}`)
   }
+}
 
-  await resend.emails.send({
+const sendPasswordResetEmail = async (to: string, name: string, token: string): Promise<void> => {
+  const webUrl = process.env.WEB_URL ?? 'http://localhost:3000'
+  const resetUrl = `${webUrl}/en/reset-password?token=${token}`
+
+  const { error } = await resend.emails.send({
     from: FROM_EMAIL,
     to,
-    subject: "Redefinir senha — YBR Platform",
+    subject: 'Redefinir senha — YBR Platform',
     html: `
       <!DOCTYPE html>
       <html>
@@ -61,20 +50,31 @@ const sendPasswordResetEmail = async (
           <h1 style="font-size: 24px; margin-bottom: 16px;">Redefinição de Senha</h1>
           <p style="font-size: 16px; line-height: 1.6; color: #444;">
             Olá ${name}, recebemos uma solicitação para redefinir sua senha.
-            Use o código abaixo para continuar. Ele expira em 1 hora.
+            Clique no botão abaixo para criar uma nova senha. O link expira em 1 hora.
           </p>
-          <div style="margin: 24px 0; padding: 16px; background: #f5f5f5; border-radius: 8px; text-align: center;">
-            <span style="font-size: 28px; font-weight: bold; letter-spacing: 6px; font-family: monospace;">${token}</span>
-          </div>
-          <p style="font-size: 14px; color: #666; line-height: 1.5;">
+          <a
+            href="${resetUrl}"
+            style="display: inline-block; margin-top: 24px; padding: 12px 24px; background: #984207; color: #fff; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: bold;"
+          >
+            Redefinir minha senha
+          </a>
+          <p style="margin-top: 24px; font-size: 14px; color: #666; line-height: 1.5;">
+            Se o botão não funcionar, copie e cole este link no seu navegador:
+          </p>
+          <p style="font-size: 13px; color: #984207; word-break: break-all;">${resetUrl}</p>
+          <p style="margin-top: 24px; font-size: 14px; color: #666; line-height: 1.5;">
             Se você não solicitou a redefinição de senha, ignore este e-mail.
             Sua senha continuará a mesma.
           </p>
         </body>
       </html>
     `,
-    text: `Olá ${name}! Seu código de redefinição de senha é: ${token}. Ele expira em 1 hora.`,
-  });
-};
+    text: `Olá ${name}! Acesse o link abaixo para redefinir sua senha (expira em 1 hora):\n\n${resetUrl}\n\nSe você não solicitou isto, ignore este e-mail.`,
+  })
 
-export { sendPasswordResetEmail, sendWelcomeEmail };
+  if (error) {
+    throw new Error(`Resend failed to send password reset email: ${error.message}`)
+  }
+}
+
+export { sendPasswordResetEmail, sendWelcomeEmail }

@@ -9,4 +9,5 @@ export * from "./lessons";
 export * from "./modules";
 export * from "./payments";
 export * from "./progress";
+export * from "./student-profiles";
 export * from "./users";

@@ -68,6 +68,12 @@ const LessonPage = async ({ params }: LessonPageProps) => {
   } catch (error: unknown) {
     const statusCode = (error as { statusCode?: number }).statusCode;
     if (statusCode === 401) redirect(`/${locale}/login`);
+    const errors = (error as { errors?: Array<{ code: string }> }).errors;
+    if (errors?.some((e) => e.code === "PROFILE_INCOMPLETE")) {
+      redirect(
+        `/${locale}/profile?returnTo=/${locale}/courses/${slug}/lessons/${lessonId}`,
+      );
+    }
     if (statusCode === 403) redirect(`/${locale}/dashboard`);
     throw error;
   }
@@ -82,7 +88,7 @@ const LessonPage = async ({ params }: LessonPageProps) => {
           aria-label="breadcrumb"
         >
           <Link
-            href={`/${locale}/meus-cursos`}
+            href={`/${locale}/my-courses`}
             className="hover:text-primary transition-colors"
           >
             {tNav("myCourses")}
@@ -91,7 +97,7 @@ const LessonPage = async ({ params }: LessonPageProps) => {
             ›
           </span>
           <Link
-            href={`/${locale}/cursos/${slug}`}
+            href={`/${locale}/courses/${slug}`}
             className="hover:text-primary transition-colors capitalize"
           >
             {slug.replace(/-/g, " ")}

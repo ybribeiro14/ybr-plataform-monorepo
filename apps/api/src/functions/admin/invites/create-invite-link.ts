@@ -1,20 +1,20 @@
-import { courses, creators, db, inviteTokens } from "@ybr/database";
-import { and, eq } from "drizzle-orm";
-import crypto from "node:crypto";
+import crypto from 'node:crypto'
+import { courses, creators, db, inviteTokens } from '@ybr/database'
+import { and, eq } from 'drizzle-orm'
 
 interface CreateInviteLinkParams {
-  courseId: string;
-  creatorId: string;
-  expiresAt?: Date;
+  courseId: string
+  creatorId: string
+  expiresAt?: Date
 }
 
 interface InviteLinkResult {
-  id: string;
-  token: string;
-  courseId: string;
-  expiresAt: Date | null;
-  isActive: boolean;
-  createdAt: Date;
+  id: string
+  token: string
+  courseId: string
+  expiresAt: Date | null
+  isActive: boolean
+  createdAt: Date
 }
 
 const createInviteLink = async ({
@@ -28,19 +28,19 @@ const createInviteLink = async ({
     .from(courses)
     .innerJoin(creators, eq(courses.creatorId, creators.id))
     .where(and(eq(courses.id, courseId), eq(creators.id, creatorId)))
-    .limit(1);
+    .limit(1)
 
   if (!course) {
-    const error = new Error("Course not found") as Error & {
-      statusCode: number;
-      code: string;
-    };
-    error.statusCode = 404;
-    error.code = "COURSE_NOT_FOUND";
-    throw error;
+    const error = new Error('Course not found') as Error & {
+      statusCode: number
+      code: string
+    }
+    error.statusCode = 404
+    error.code = 'COURSE_NOT_FOUND'
+    throw error
   }
 
-  const token = crypto.randomBytes(32).toString("hex");
+  const token = crypto.randomBytes(32).toString('hex')
 
   const [created] = await db
     .insert(inviteTokens)
@@ -51,10 +51,10 @@ const createInviteLink = async ({
       expiresAt: expiresAt ?? null,
       isActive: true,
     })
-    .returning();
+    .returning()
 
   if (!created) {
-    throw new Error("Failed to create invite link");
+    throw new Error('Failed to create invite link')
   }
 
   return {
@@ -64,8 +64,8 @@ const createInviteLink = async ({
     expiresAt: created.expiresAt,
     isActive: created.isActive,
     createdAt: created.createdAt,
-  };
-};
+  }
+}
 
-export { createInviteLink };
-export type { CreateInviteLinkParams, InviteLinkResult };
+export type { CreateInviteLinkParams, InviteLinkResult }
+export { createInviteLink }

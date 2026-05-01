@@ -107,7 +107,7 @@ const MeusCoursosPage = async ({ params }: MeusCoursosPageProps) => {
                     />
                   </div>
                   <Link
-                    href={`/${locale}/cursos/${enrollment.slug}`}
+                    href={`/${locale}/courses/${enrollment.slug}`}
                     className="w-full py-3 bg-primary text-on-primary rounded-full font-semibold text-sm hover:opacity-90 transition-opacity block text-center"
                   >
                     {enrollment.progressPercent === 0

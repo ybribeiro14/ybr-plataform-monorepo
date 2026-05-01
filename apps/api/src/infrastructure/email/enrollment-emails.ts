@@ -1,21 +1,13 @@
-import { FROM_EMAIL, resend } from "./client";
+import { FROM_EMAIL, resend } from './client'
 
 const sendCourseAccessEmail = async (
   to: string,
   name: string,
-  courseTitle: string,
+  courseTitle: string
 ): Promise<void> => {
-  const platformUrl = process.env.WEB_URL ?? "http://localhost:3000";
+  const platformUrl = process.env.WEB_URL ?? 'http://localhost:3000'
 
-  if (!resend) {
-    // biome-ignore lint/suspicious/noConsole: intentional dev-mode logging
-    console.log(
-      `[Email DEV] would send course access email to: ${to} (${name}) — course: ${courseTitle}`,
-    );
-    return;
-  }
-
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: FROM_EMAIL,
     to,
     subject: `Seu acesso ao curso "${courseTitle}" foi liberado!`,
@@ -41,7 +33,11 @@ const sendCourseAccessEmail = async (
       </html>
     `,
     text: `Parabéns, ${name}! Seu acesso ao curso "${courseTitle}" foi ativado. Acesse: ${platformUrl}/meus-cursos`,
-  });
-};
+  })
 
-export { sendCourseAccessEmail };
+  if (error) {
+    throw new Error(`Resend failed to send course access email: ${error.message}`)
+  }
+}
+
+export { sendCourseAccessEmail }

@@ -1,6 +1,6 @@
 import type { EnrollmentWithProgress } from "@/lib/api/student";
-import { getEnrollments } from "@/lib/api/student";
-import { Play } from "lucide-react";
+import { getEnrollments, getProfile } from "@/lib/api/student";
+import { AlertCircle, Play } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { cookies } from "next/headers";
 import Image from "next/image";
@@ -16,7 +16,10 @@ const decodeJwtName = (token: string): string => {
     const [, payloadPart] = token.split(".");
     const decoded = JSON.parse(
       Buffer.from(payloadPart ?? "", "base64url").toString("utf8"),
-    ) as { name?: string; sub?: string };
+    ) as {
+      name?: string;
+      sub?: string;
+    };
     return decoded.name ?? "Aluno";
   } catch {
     return "Aluno";
@@ -37,11 +40,18 @@ const DashboardPage = async ({ params }: DashboardPageProps) => {
   const tNav = await getTranslations({ locale, namespace: "nav" });
 
   let enrollments: EnrollmentWithProgress[] = [];
+  let isProfileComplete = true;
   try {
     enrollments = await getEnrollments(token);
   } catch (error: unknown) {
     const statusCode = (error as { statusCode?: number }).statusCode;
     if (statusCode === 401) redirect(`/${locale}/login`);
+  }
+  try {
+    const profile = await getProfile(token);
+    isProfileComplete = profile.isProfileComplete;
+  } catch {
+    // non-critical — assume complete to avoid blocking dashboard
   }
 
   const userName = decodeJwtName(token);
@@ -59,6 +69,30 @@ const DashboardPage = async ({ params }: DashboardPageProps) => {
         </h2>
         <p className="text-body-md text-on-surface-variant">{t("subtitle")}</p>
       </section>
+
+      {/* Profile incomplete alert */}
+      {!isProfileComplete && (
+        <div className="mb-8 flex items-start gap-3 p-4 rounded-xl bg-amber-50 border border-amber-200">
+          <AlertCircle
+            className="w-5 h-5 text-amber-600 shrink-0 mt-0.5"
+            aria-hidden="true"
+          />
+          <div className="flex-1">
+            <p className="text-sm font-semibold text-amber-900">
+              {t("profileIncompleteTitle")}
+            </p>
+            <p className="text-sm text-amber-700 mt-0.5">
+              {t("profileIncompleteDescription")}
+            </p>
+          </div>
+          <Link
+            href={`/${locale}/profile`}
+            className="shrink-0 px-4 py-1.5 rounded-full bg-amber-600 text-white text-xs font-semibold hover:bg-amber-700 transition"
+          >
+            {t("profileIncompleteCta")}
+          </Link>
+        </div>
+      )}
 
       {/* Continue watching hero */}
       {continueCourse && (
@@ -113,7 +147,7 @@ const DashboardPage = async ({ params }: DashboardPageProps) => {
                 </div>
               </div>
               <Link
-                href={`/${locale}/cursos/${continueCourse.slug}`}
+                href={`/${locale}/courses/${continueCourse.slug}`}
                 className="w-fit px-8 py-3 bg-primary text-on-primary rounded-full font-semibold text-sm hover:opacity-90 transition-opacity flex items-center gap-2"
               >
                 {t("continue")}
@@ -131,7 +165,7 @@ const DashboardPage = async ({ params }: DashboardPageProps) => {
             {tNav("myCourses")}
           </h3>
           <Link
-            href={`/${locale}/meus-cursos`}
+            href={`/${locale}/my-courses`}
             className="text-primary text-sm font-medium hover:underline"
           >
             {t("browseCourses")}
@@ -187,7 +221,7 @@ const DashboardPage = async ({ params }: DashboardPageProps) => {
                       />
                     </div>
                     <Link
-                      href={`/${locale}/cursos/${enrollment.slug}`}
+                      href={`/${locale}/courses/${enrollment.slug}`}
                       className="w-full py-3 bg-primary text-on-primary rounded-full font-semibold text-sm hover:opacity-90 transition-opacity block text-center"
                     >
                       {enrollment.progressPercent === 0

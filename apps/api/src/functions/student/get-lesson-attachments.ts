@@ -1,24 +1,17 @@
-import {
-  courseModules,
-  courses,
-  db,
-  enrollments,
-  lessonAttachments,
-  lessons,
-} from "@ybr/database";
-import { and, eq } from "drizzle-orm";
+import { courseModules, courses, db, enrollments, lessonAttachments, lessons } from '@ybr/database'
+import { and, eq } from 'drizzle-orm'
 
 interface GetLessonAttachmentsParams {
-  lessonId: string;
-  userId: string;
+  lessonId: string
+  userId: string
 }
 
 interface LessonAttachment {
-  id: string;
-  title: string;
-  fileUrl: string;
-  fileType: string;
-  fileSizeBytes: number | null;
+  id: string
+  title: string
+  fileUrl: string
+  fileType: string
+  fileSizeBytes: number | null
 }
 
 const getLessonAttachments = async ({
@@ -31,16 +24,16 @@ const getLessonAttachments = async ({
     .innerJoin(courseModules, eq(courseModules.id, lessons.moduleId))
     .innerJoin(courses, eq(courses.id, courseModules.courseId))
     .where(eq(lessons.id, lessonId))
-    .limit(1);
+    .limit(1)
 
   if (!lessonRow) {
-    const error = new Error("Lesson not found") as Error & {
-      statusCode: number;
-      code: string;
-    };
-    error.statusCode = 404;
-    error.code = "LESSON_NOT_FOUND";
-    throw error;
+    const error = new Error('Lesson not found') as Error & {
+      statusCode: number
+      code: string
+    }
+    error.statusCode = 404
+    error.code = 'LESSON_NOT_FOUND'
+    throw error
   }
 
   const [enrollment] = await db
@@ -50,19 +43,19 @@ const getLessonAttachments = async ({
       and(
         eq(enrollments.userId, userId),
         eq(enrollments.courseId, lessonRow.courseId),
-        eq(enrollments.status, "active"),
-      ),
+        eq(enrollments.status, 'active')
+      )
     )
-    .limit(1);
+    .limit(1)
 
   if (!enrollment) {
-    const error = new Error("Not enrolled in this course") as Error & {
-      statusCode: number;
-      code: string;
-    };
-    error.statusCode = 403;
-    error.code = "NOT_ENROLLED";
-    throw error;
+    const error = new Error('Not enrolled in this course') as Error & {
+      statusCode: number
+      code: string
+    }
+    error.statusCode = 403
+    error.code = 'NOT_ENROLLED'
+    throw error
   }
 
   const attachments = await db
@@ -74,10 +67,10 @@ const getLessonAttachments = async ({
       fileSizeBytes: lessonAttachments.fileSizeBytes,
     })
     .from(lessonAttachments)
-    .where(eq(lessonAttachments.lessonId, lessonId));
+    .where(eq(lessonAttachments.lessonId, lessonId))
 
-  return attachments;
-};
+  return attachments
+}
 
-export { getLessonAttachments };
-export type { GetLessonAttachmentsParams, LessonAttachment };
+export type { GetLessonAttachmentsParams, LessonAttachment }
+export { getLessonAttachments }

@@ -1,19 +1,19 @@
-import { courses, creators, db, enrollments, users } from "@ybr/database";
-import { and, eq } from "drizzle-orm";
+import { courses, creators, db, enrollments, users } from '@ybr/database'
+import { and, eq } from 'drizzle-orm'
 
 interface ListPendingEnrollmentsParams {
-  creatorId: string;
+  creatorId: string
 }
 
 interface PendingEnrollmentItem {
-  id: string;
-  userId: string;
-  studentName: string;
-  studentEmail: string;
-  courseId: string;
-  courseTitle: string;
-  status: string;
-  enrolledAt: Date;
+  id: string
+  userId: string
+  studentName: string
+  studentEmail: string
+  courseId: string
+  courseTitle: string
+  status: string
+  enrolledAt: Date
 }
 
 const listPendingEnrollments = async ({
@@ -34,9 +34,9 @@ const listPendingEnrollments = async ({
     .innerJoin(users, eq(enrollments.userId, users.id))
     .innerJoin(courses, eq(enrollments.courseId, courses.id))
     .innerJoin(creators, eq(courses.creatorId, creators.id))
-    .where(and(eq(creators.id, creatorId), eq(enrollments.status, "pending")));
+    .where(and(eq(creators.id, creatorId), eq(enrollments.status, 'pending')))
 
-  return results.map((r) => ({
+  return results.map(r => ({
     id: r.id,
     userId: r.userId,
     studentName: r.studentName,
@@ -45,8 +45,8 @@ const listPendingEnrollments = async ({
     courseTitle: r.courseTitle,
     status: r.status,
     enrolledAt: r.enrolledAt,
-  }));
-};
+  }))
+}
 
-export { listPendingEnrollments };
-export type { ListPendingEnrollmentsParams, PendingEnrollmentItem };
+export type { ListPendingEnrollmentsParams, PendingEnrollmentItem }
+export { listPendingEnrollments }
