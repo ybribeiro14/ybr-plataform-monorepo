@@ -1,11 +1,11 @@
-import { FROM_EMAIL, resend } from './client'
+import { FROM_EMAIL, resend } from "./client";
 
 const sendCourseAccessEmail = async (
   to: string,
   name: string,
-  courseTitle: string
+  courseTitle: string,
 ): Promise<void> => {
-  const platformUrl = process.env.WEB_URL ?? 'http://localhost:3000'
+  const platformUrl = process.env.WEB_URL ?? "http://localhost:3000";
 
   const { error } = await resend.emails.send({
     from: FROM_EMAIL,
@@ -33,11 +33,13 @@ const sendCourseAccessEmail = async (
       </html>
     `,
     text: `Parabéns, ${name}! Seu acesso ao curso "${courseTitle}" foi ativado. Acesse: ${platformUrl}/meus-cursos`,
-  })
+  });
 
   if (error) {
-    throw new Error(`Resend failed to send course access email: ${error.message}`)
+    throw new Error(
+      `Resend failed to send course access email: ${error.message}`,
+    );
   }
-}
+};
 
-export { sendCourseAccessEmail }
+export { sendCourseAccessEmail };
