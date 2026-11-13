@@ -13,6 +13,12 @@ export const users = pgTable("users", {
   role: varchar("role", { length: 20, enum: ["student", "creator", "admin"] })
     .notNull()
     .default("student"),
+  preferredLocale: varchar("preferred_locale", {
+    length: 10,
+    enum: ["pt-BR", "en"],
+  })
+    .notNull()
+    .default("pt-BR"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

@@ -33,7 +33,9 @@
     "settings": "Settings",
     "suporte": "Support",
     "logout": "Sign out",
-    "profile": "My Profile"
+    "profile": "My Profile",
+    "branding": "Brand Identity",
+    "creators": "Creators"
   },
   "topNav": {
     "searchPlaceholder": "Search for students or courses...",
@@ -42,8 +44,8 @@
   },
   "auth": {
     "login": {
-      "title": "Creator Panel",
-      "subtitle": "Sign in to manage your courses",
+      "title": "YBR Platform",
+      "subtitle": "Sign in to manage the platform",
       "emailLabel": "Email address",
       "emailPlaceholder": "your@email.com",
       "passwordLabel": "Password",

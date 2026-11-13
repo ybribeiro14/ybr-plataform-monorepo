@@ -1,7 +1,5 @@
-import { redirect } from 'next/navigation'
+import { redirect } from "next/navigation";
 
-// Redirect root path to default locale.
-// next-intl middleware handles this at runtime; this is a fallback for SSR.
-const RootPage = () => redirect('/en')
+const RootPage = () => redirect("/login");
 
-export default RootPage
+export default RootPage;

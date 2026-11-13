@@ -6,17 +6,13 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-interface StudentBottomNavProps {
-  locale: string;
-}
-
 interface NavItem {
   icon: LucideIcon;
   label: string;
   href: string;
 }
 
-const StudentBottomNav = ({ locale }: StudentBottomNavProps) => {
+const StudentBottomNav = () => {
   const pathname = usePathname();
   const t = useTranslations("nav");
 
@@ -24,15 +20,15 @@ const StudentBottomNav = ({ locale }: StudentBottomNavProps) => {
     {
       icon: LayoutDashboard,
       label: t("dashboard"),
-      href: `/${locale}/dashboard`,
+      href: "/dashboard",
     },
-    { icon: BookOpen, label: t("myCourses"), href: `/${locale}/my-courses` },
+    { icon: BookOpen, label: t("myCourses"), href: "/my-courses" },
     {
       icon: Award,
       label: t("certificates"),
-      href: `/${locale}/certificates`,
+      href: "/certificates",
     },
-    { icon: UserCircle, label: t("profile"), href: `/${locale}/profile` },
+    { icon: UserCircle, label: t("profile"), href: "/profile" },
   ];
 
   return (

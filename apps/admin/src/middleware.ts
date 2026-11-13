@@ -1,45 +1,93 @@
-import type { NextRequest } from 'next/server'
-import { NextResponse } from 'next/server'
-import createMiddleware from 'next-intl/middleware'
-import { routing } from '@/i18n/routing'
+import { routing } from "@/i18n/routing";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
-const intlMiddleware = createMiddleware(routing)
+// Paths protegidos por auth (qualquer role autenticado)
+const PROTECTED_PATHS = [
+  "/dashboard",
+  "/courses",
+  "/students",
+  "/enrollments",
+  "/settings",
+  "/finance",
+  "/ybr-admin",
+];
 
-// Admin paths requiring authentication (without locale prefix)
-const PROTECTED_PATHS = ['/dashboard', '/cursos', '/alunos', '/analises', '/configuracoes']
+// Paths SOMENTE admin YBR
+const ADMIN_ONLY_PATHS = ["/ybr-admin"];
 
-// Auth-only paths — redirect to dashboard when already logged in
-const AUTH_PATHS = ['/login']
+// Paths SOMENTE creator
+const CREATOR_ONLY_PATHS = [
+  "/courses",
+  "/students",
+  "/enrollments",
+  "/settings",
+  "/finance",
+];
+
+// Paths de auth — redirecionar para dashboard se já logado
+const AUTH_PATHS = ["/login"];
+
+const SUPPORTED_LOCALES = routing.locales as readonly string[];
 
 const middleware = (request: NextRequest) => {
-  const { pathname } = request.nextUrl
+  const { pathname } = request.nextUrl;
+  const token = request.cookies.get("ybr_access_token")?.value;
+  const role = request.cookies.get("ybr_user_role")?.value;
 
-  // Strip the locale segment from the pathname for route matching
-  const pathnameWithoutLocale = pathname.replace(/^\/(en|pt-BR|es)/, '') || '/'
+  const isProtectedPath = PROTECTED_PATHS.some((path) =>
+    pathname.startsWith(path),
+  );
+  const isAdminOnlyPath = ADMIN_ONLY_PATHS.some((path) =>
+    pathname.startsWith(path),
+  );
+  const isCreatorOnlyPath = CREATOR_ONLY_PATHS.some((path) =>
+    pathname.startsWith(path),
+  );
+  const isAuthPath = AUTH_PATHS.some((path) => pathname.startsWith(path));
 
-  const token = request.cookies.get('ybr_access_token')?.value
-  const isProtectedPath = PROTECTED_PATHS.some(path => pathnameWithoutLocale.startsWith(path))
-  const isAuthPath = AUTH_PATHS.some(path => pathnameWithoutLocale.startsWith(path))
-
-  // Detect active locale for constructing redirect URLs
-  const localeMatch = pathname.match(/^\/(en|pt-BR|es)/)
-  const locale = localeMatch ? localeMatch[1] : routing.defaultLocale
-
+  // Não autenticado tentando acessar rota protegida
   if (isProtectedPath && !token) {
-    const loginUrl = new URL(`/${locale}/login`, request.url)
-    loginUrl.searchParams.set('redirect', pathname)
-    return NextResponse.redirect(loginUrl)
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
+  // Já logado tentando acessar página de auth
   if (isAuthPath && token) {
-    return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url))
+    if (role === "admin") {
+      return NextResponse.redirect(new URL("/ybr-admin/creators", request.url));
+    }
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  return intlMiddleware(request)
-}
+  // Creator tentando acessar área admin
+  if (isAdminOnlyPath && token && role && role !== "admin") {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
+  // Admin YBR tentando acessar área de creator
+  if (isCreatorOnlyPath && token && role === "admin") {
+    return NextResponse.redirect(new URL("/ybr-admin/creators", request.url));
+  }
+
+  const response = NextResponse.next();
+
+  // Garantir que o cookie ybr_locale esteja definido com um valor suportado
+  const cookieLocale = request.cookies.get("ybr_locale")?.value;
+  if (!cookieLocale || !SUPPORTED_LOCALES.includes(cookieLocale)) {
+    response.cookies.set("ybr_locale", routing.defaultLocale, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 365,
+      sameSite: "lax",
+    });
+  }
+
+  return response;
+};
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|public).*)'],
-}
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|public).*)"],
+};
 
-export default middleware
+export default middleware;

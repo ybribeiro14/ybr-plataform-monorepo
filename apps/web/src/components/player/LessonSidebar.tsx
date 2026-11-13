@@ -25,7 +25,6 @@ interface LessonSidebarProps {
   modules: ModuleItem[];
   currentLessonId: string;
   courseSlug: string;
-  locale: string;
 }
 
 const formatDuration = (seconds: number | null): string => {
@@ -39,7 +38,6 @@ const LessonSidebar = ({
   modules,
   currentLessonId,
   courseSlug,
-  locale,
 }: LessonSidebarProps) => {
   const t = useTranslations("course.lesson");
   const tOverview = useTranslations("course.overview");
@@ -99,7 +97,7 @@ const LessonSidebar = ({
                 {/* Lessons */}
                 {module.lessons.map((lesson) => {
                   const isActive = lesson.id === currentLessonId;
-                  const href = `/${locale}/courses/${courseSlug}/lessons/${lesson.id}`;
+                  const href = `/courses/${courseSlug}/lessons/${lesson.id}`;
 
                   return (
                     <Link

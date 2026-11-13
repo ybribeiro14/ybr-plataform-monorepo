@@ -1,8 +1,10 @@
-export { forgotPassword } from './forgot-password'
-export { getCurrentUser } from './get-current-user'
-export { loginOrRegisterWithGoogle } from './google-auth'
-export { loginUser } from './login-user'
-export { logoutUser } from './logout-user'
-export { refreshAccessToken } from './refresh-token'
-export { registerUser } from './register-user'
-export { resetPassword } from './reset-password'
+export { forgotPassword } from "./forgot-password";
+export { getCurrentUser } from "./get-current-user";
+export { loginOrRegisterWithGoogle } from "./google-auth";
+export { loginUser } from "./login-user";
+export { logoutUser } from "./logout-user";
+export { refreshAccessToken } from "./refresh-token";
+export { registerUser } from "./register-user";
+export { resetPassword } from "./reset-password";
+export { updatePreferredLocale } from "./update-preferred-locale";
+export type { UpdatePreferredLocaleInput } from "./update-preferred-locale";

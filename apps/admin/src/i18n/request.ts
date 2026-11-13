@@ -1,15 +1,20 @@
-import { getRequestConfig } from 'next-intl/server'
-import { routing } from './routing'
+import { getRequestConfig } from "next-intl/server";
+import { cookies } from "next/headers";
+import { routing } from "./routing";
 
-export default getRequestConfig(async ({ requestLocale }) => {
-  let locale = await requestLocale
+const SUPPORTED_LOCALES = routing.locales as readonly string[];
 
-  if (!locale || !routing.locales.includes(locale as (typeof routing.locales)[number])) {
-    locale = routing.defaultLocale
-  }
+export default getRequestConfig(async () => {
+  const cookieStore = await cookies();
+  const cookieLocale = cookieStore.get("ybr_locale")?.value;
+
+  const locale =
+    cookieLocale && SUPPORTED_LOCALES.includes(cookieLocale)
+      ? cookieLocale
+      : routing.defaultLocale;
 
   return {
     locale,
     messages: (await import(`../../messages/${locale}.json`)).default,
-  }
-})
+  };
+});

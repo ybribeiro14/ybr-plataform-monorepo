@@ -29,3 +29,18 @@
   - [apps/api/src/infrastructure/email/enrollment-emails.ts](../../apps/api/src/infrastructure/email/enrollment-emails.ts)
 - **Test**: Trigger registration or forgot-password — check API server logs for `[Email] Failed to send ...` if domain is unverified, or confirm email arrives in inbox if domain is verified in Resend dashboard.
 - **Action required**: Verify domain `ybr-platform.com` in [Resend dashboard](https://resend.com/domains) OR change `RESEND_FROM_EMAIL` to `onboarding@resend.dev` for local testing.
+
+---
+
+### [003] GET /admin/profile returns INTERNAL_ERROR — migration 0006 not applied
+
+- **Date**: 2026-05-06
+- **Category**: Database / Migration
+- **Severity**: Critical
+- **Description**: Admin profile page showed "Não foi possível carregar o perfil." API responded with `{ status: "error", message: "Failed query: select \"users\".\"id\", ...", errors: [{ code: "INTERNAL_ERROR" }] }`.
+- **Root Cause**: Migration `0006_creator_profile_branding.sql` was created manually but never added to `_journal.json`. Because Drizzle Kit reads the journal to determine which migrations to apply, migration 0006 was never run against the database. The columns added by that migration (`users.preferred_locale`, `creators.phone`, `creators.cpf`, `creators.birth_date`, `creators.gender`, plus all address and branding fields) did not exist in the DB, causing the `getCreatorProfile` query to fail.
+- **Root Cause (secondary)**: The migration file was missing from `meta/_journal.json` at `idx: 6`.
+- **Solution**: Added entry `{ idx: 6, version: "7", when: 1746576000000, tag: "0006_creator_profile_branding", breakpoints: true }` to `_journal.json`, then ran `pnpm --filter @ybr/database migrate` to apply the migration.
+- **Files Affected**:
+  - [packages/database/src/migrations/meta/_journal.json](../../packages/database/src/migrations/meta/_journal.json)
+- **Test**: Load admin profile page — should return 200 with creator profile data instead of INTERNAL_ERROR.

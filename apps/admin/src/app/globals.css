@@ -89,6 +89,16 @@
   --radius-xl: 1rem; /* 16px */
   --radius-2xl: 1.5rem; /* 24px */
   --radius-full: 9999px;
+
+  /* -- YBR Admin Identity (dark navy + teal — fixo para admin role) --- */
+  --ybr-primary: #1ab5ad;
+  --ybr-primary-hover: #17a099;
+  --ybr-primary-muted: #e6f7f6;
+  --ybr-navy: #0d2233;
+  --ybr-navy-surface: #132d42;
+  --ybr-navy-border: #1e3a4f;
+  --ybr-text: #e2e8f0;
+  --ybr-text-muted: #94a3b8;
 }
 
 /* --- Dynamic brand derivations ----------------------------------- */

@@ -1,5 +1,5 @@
-import { db, users } from '@ybr/database'
-import { eq } from 'drizzle-orm'
+import { db, users } from "@ybr/database";
+import { eq } from "drizzle-orm";
 
 const getCurrentUser = async ({ userId }: { userId: string }) => {
   const user = await db.query.users.findFirst({
@@ -10,17 +10,18 @@ const getCurrentUser = async ({ userId }: { userId: string }) => {
       name: true,
       role: true,
       avatarUrl: true,
+      preferredLocale: true,
       createdAt: true,
     },
-  })
+  });
 
   if (!user) {
-    const error = new Error('User not found')
-    ;(error as Error & { statusCode: number }).statusCode = 404
-    throw error
+    const error = new Error("User not found");
+    (error as Error & { statusCode: number }).statusCode = 404;
+    throw error;
   }
 
-  return user
-}
+  return user;
+};
 
-export { getCurrentUser }
+export { getCurrentUser };

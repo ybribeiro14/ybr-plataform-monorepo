@@ -33,7 +33,9 @@
     "settings": "Configurações",
     "suporte": "Suporte",
     "logout": "Sair",
-    "profile": "Meu Perfil"
+    "profile": "Meu Perfil",
+    "branding": "Identidade Visual",
+    "creators": "Criadores"
   },
   "topNav": {
     "searchPlaceholder": "Buscar por alunos ou cursos...",
@@ -42,8 +44,8 @@
   },
   "auth": {
     "login": {
-      "title": "Painel do Criador",
-      "subtitle": "Entre para gerenciar seus cursos",
+      "title": "YBR Plataforma",
+      "subtitle": "Entre para gerenciar a plataforma",
       "emailLabel": "E-mail",
       "emailPlaceholder": "seu@email.com",
       "passwordLabel": "Senha",

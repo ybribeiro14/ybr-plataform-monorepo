@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "**.r2.cloudflarestorage.com" },
+      { protocol: "https", hostname: "**.r2.dev" },
       { protocol: "https", hostname: "**.b-cdn.net" }, // Bunny Stream CDN
       { protocol: "https", hostname: "image.mux.com" }, // Mux thumbnails
     ],

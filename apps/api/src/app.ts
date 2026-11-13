@@ -19,6 +19,7 @@ import { authRoutes } from './routes/auth'
 import { googleAuthRoutes } from './routes/auth/google'
 import { certificateRoutes } from './routes/certificates'
 import { inviteRoutes } from './routes/invites'
+import { publicRoutes } from './routes/public/branding'
 import { studentRoutes } from './routes/student'
 import { webhookRoutes } from './routes/webhooks'
 import { ybrAdminRoutes } from './routes/ybr-admin'
@@ -230,6 +231,7 @@ const buildApp = async () => {
   await app.register(certificateRoutes)
   await app.register(inviteRoutes)
   await app.register(studentRoutes)
+  await app.register(publicRoutes)
   await app.register(webhookRoutes)
   await app.register(ybrAdminRoutes)
 

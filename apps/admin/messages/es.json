@@ -33,7 +33,8 @@
     "settings": "Configuración",
     "suporte": "Soporte",
     "logout": "Cerrar sesión",
-    "profile": "Mi Perfil"
+    "profile": "Mi Perfil",
+    "creators": "Creadores"
   },
   "topNav": {
     "searchPlaceholder": "Buscar estudiantes o cursos...",
@@ -42,8 +43,8 @@
   },
   "auth": {
     "login": {
-      "title": "Panel del Creador",
-      "subtitle": "Inicia sesión para gestionar tus cursos",
+      "title": "YBR Plataforma",
+      "subtitle": "Inicia sesión para gestionar la plataforma",
       "emailLabel": "Correo electrónico",
       "emailPlaceholder": "tu@correo.com",
       "passwordLabel": "Contraseña",

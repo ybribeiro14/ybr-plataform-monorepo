@@ -1,5 +1,6 @@
 "use client";
 
+import { useAdminAuthStore } from "@/stores/auth";
 import { Bell, HelpCircle, Menu, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -10,6 +11,8 @@ interface AdminTopNavProps {
 
 const AdminTopNav = ({ onMenuToggle, menuOpen }: AdminTopNavProps) => {
   const t = useTranslations("topNav");
+  const { user } = useAdminAuthStore();
+  const isAdmin = user?.role === "admin";
 
   return (
     <header className="flex justify-between items-center w-full px-4 md:px-6 py-3 bg-surface-container-lowest border-b border-outline-variant shadow-card shrink-0 z-10">
@@ -60,16 +63,20 @@ const AdminTopNav = ({ onMenuToggle, menuOpen }: AdminTopNavProps) => {
         <div className="h-6 w-px bg-outline-variant mx-1" aria-hidden="true" />
         <div className="flex items-center gap-3">
           <div className="text-right hidden sm:block">
-            <p className="text-xs font-bold text-on-surface">Admin YBR</p>
+            <p className="text-xs font-bold text-on-surface">
+              {user?.name ?? "—"}
+            </p>
             <p className="text-[10px] text-outline uppercase tracking-tighter">
-              Gestor Master
+              {isAdmin ? "YBR Admin" : "Criador"}
             </p>
           </div>
           <div
-            className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary text-sm font-bold shrink-0"
+            className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
+              isAdmin ? "bg-[#1ab5ad] text-white" : "bg-primary text-on-primary"
+            }`}
             aria-hidden="true"
           >
-            A
+            {user?.name?.charAt(0).toUpperCase() ?? "U"}
           </div>
         </div>
       </div>

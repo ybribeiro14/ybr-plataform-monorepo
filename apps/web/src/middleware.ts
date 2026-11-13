@@ -1,45 +1,47 @@
 import { routing } from "@/i18n/routing";
-import createMiddleware from "next-intl/middleware";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-const intlMiddleware = createMiddleware(routing);
-
-// Paths requiring authentication (without locale prefix)
+// Paths protegidos por auth
 const PROTECTED_PATHS = ["/dashboard", "/my-courses", "/courses", "/profile"];
 
-// Auth-only paths — redirect to dashboard when already logged in (without locale prefix)
+// Paths de auth — redirecionar para dashboard se já logado
 const AUTH_PATHS = ["/login", "/register", "/forgot-password"];
+
+const SUPPORTED_LOCALES = routing.locales as readonly string[];
 
 const middleware = (request: NextRequest) => {
   const { pathname } = request.nextUrl;
-
-  // Strip the locale segment from the pathname for route matching
-  const pathnameWithoutLocale = pathname.replace(/^\/(en|pt-BR|es)/, "") || "/";
-
   const token = request.cookies.get("ybr_access_token")?.value;
-  const isProtectedPath = PROTECTED_PATHS.some((path) =>
-    pathnameWithoutLocale.startsWith(path),
-  );
-  const isAuthPath = AUTH_PATHS.some((path) =>
-    pathnameWithoutLocale.startsWith(path),
-  );
 
-  // Detect active locale for constructing redirect URLs
-  const localeMatch = pathname.match(/^\/(en|pt-BR|es)/);
-  const locale = localeMatch ? localeMatch[1] : routing.defaultLocale;
+  const isProtectedPath = PROTECTED_PATHS.some((path) =>
+    pathname.startsWith(path),
+  );
+  const isAuthPath = AUTH_PATHS.some((path) => pathname.startsWith(path));
 
   if (isProtectedPath && !token) {
-    const loginUrl = new URL(`/${locale}/login`, request.url);
+    const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
   if (isAuthPath && token) {
-    return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url));
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  return intlMiddleware(request);
+  const response = NextResponse.next();
+
+  // Garantir que o cookie ybr_locale esteja definido com um valor suportado
+  const cookieLocale = request.cookies.get("ybr_locale")?.value;
+  if (!cookieLocale || !SUPPORTED_LOCALES.includes(cookieLocale)) {
+    response.cookies.set("ybr_locale", routing.defaultLocale, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 365,
+      sameSite: "lax",
+    });
+  }
+
+  return response;
 };
 
 export const config = {
